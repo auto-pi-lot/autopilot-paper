@@ -1,0 +1,46 @@
+.DS_Store
+
+# latex aux files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# bibliography aux files
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# hyperref
+*.brf
+
+# makeidx
+*.idx
+*.ilg
+*.ind
+
+# minted
+_minted*
+*.pyg
+
+# xcolor
+*.xcp

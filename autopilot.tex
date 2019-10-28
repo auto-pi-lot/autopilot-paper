@@ -1,0 +1,1323 @@
+% !TEX options=--shell-escape
+\documentclass[nohyper, justified, notitlepage, marginals=raggedright,twoside=false,debug]{tufte-autopilot}
+
+%% Package imports
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{units}
+\usepackage{makeidx}
+\usepackage[framemethod=tikz]{mdframed}% http://ctan.org/pkg/mdframed
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{minted}
+%\usepackage[usenames, svgnames]{xcolor}
+\usepackage[colorlinks = true,
+            urlcolor = DarkOrchid,
+            citecolor = DarkOrchid,
+            backref= section]{hyperref}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage{tabularx}
+\usepackage{enumitem} % pause itemize env
+\usepackage[font=footnotesize, labelfont=bf]{caption}
+\usepackage{ulem}     % strikeouts
+%\usepackage[english]{babel}
+\usepackage[autostyle, english=american]{csquotes} % styling smart quotes
+\usepackage[titletoc]{appendix} % add appendices
+%\usepackage{scrextend}
+%\usepackage{etoolbox}
+%\usepackage[toc, automake=true]{glossaries}
+\usepackage{listliketab}
+%\usepackage{authblk}
+%\usepackage{abstract} % to get saythanks
+\usepackage{ fontawesome }
+
+\usetikzlibrary{tikzmark}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usetikzlibrary{decorations.pathreplacing}
+
+%% Imports with customizations
+% For graphics / images
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+\titlespacing*{\chapter}{0pt}{-10pt}{0pt}
+%\titlespacing{\section}{0pt}{30pt}{0pt}
+
+
+%% Import extra shit from overleaf doc - see what's necessary.
+\usepackage{extra}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% adding colon to appendix
+% don't ask me what's going on
+% https://tex.stackexchange.com/a/201328
+%\apptocmd{\appendices}{\apptocmd{\thechapter}{: }{}{}}{}{}
+
+\renewcommand\appendixname{Appendix: }
+
+% Environment for logo
+
+
+
+
+% restyle captions
+\setcaptionfont{\footnotesize\raggedright}
+\setsidenotefont{\footnotesize}
+\setmarginnotefont{\footnotesize}
+
+
+% style captions, including adding more space after figures
+\captionsetup{justification=raggedright, singlelinecheck=false}
+%\captionsetup[figure]{belowskip=24pt, position=below}
+%\captionsetup[table]{aboveskip=12pt, position=above}
+
+\setlength{\abovecaptionskip}{3pt plus 2pt minus 3pt}
+
+% format smart quotes
+\MakeOuterQuote{"}
+
+
+% Styling for code blocks
+\usemintedstyle{colorful}
+%\setminted{fontsize=\small}
+
+% set escape chars in listing
+\lstset{
+    language = Python,
+    breaklines=true,
+    escapeinside=||
+}
+
+\definecolor{aliceblue}{rgb}{0.98, 0.98, 0.99}
+
+
+%\renewcommand{\theFancyVerbLine}{%
+%\textt\small\arabic{FancyVerbLine}}
+
+% right aligned tabularx
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{1}
+
+\newminted{python}{linenos=true,
+               frame=single,
+               framerule = 1pt,
+               labelposition = topline,
+               bgcolor=aliceblue,
+               escapeinside=||}
+
+\newminted{matlab}{linenos=true,
+frame=single,
+framerule = 1pt,
+labelposition = topline,
+bgcolor=aliceblue,
+escapeinside=||}
+
+
+\geometry{
+%  left=1in, % left margin
+%  textwidth=27pc, % main text block
+  marginparsep=1pc, % gutter between main text block and margin notes
+%  marginparwidth=12pc % width of margin notes
+}
+
+\newenvironment{abstract}{%
+\vspace{1em}
+\begin{mdframed}[
+     linewidth=1pt,
+     linecolor=black,
+     bottomline=false,topline=false,rightline=false,
+     innerrightmargin=0pt,innertopmargin=0pt,innerbottommargin=0pt,
+     innerleftmargin=1em,% Distance between vertical rule & proof content
+     skipabove=.5\baselineskip
+   ]
+}{%
+\end{mdframed}
+}
+
+\newenvironment{thintab}%
+{\begin{itemize}%
+\setlength{\itemsep}{0pt}%
+\setlength{\parskip}{0pt}}%
+{\end{itemize}}
+
+% Define symbols
+% https://tex.stackexchange.com/a/132790
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+
+
+% Generates the index
+
+% environment to center figures
+\newcommand{\linkfigure}[3]{\begingroup
+\setbox0=\hbox{\includegraphics[height=0.75cm,keepaspectratio]{#1}}%
+\parbox{\wd0}{\box0}\endgroup \hspace{6pt} \href{#3}{\sffamily\large\textcolor{red}{\allcaps{#2}}}}
+
+
+
+\definecolor{RED}{HTML}{FF0000}
+%%
+% Book metadata
+\title{Auto\textcolor{RED}{pi}lot\\
+\large Automating behavioral experiments with lots of Raspberry Pis}
+\author{JONNY L. SAUNDERS, MICHAEL WEHR \href{mailto:wehr@uoregon.edu}{\faAt}}
+% filthy hack putting the affiliations in the tufte-common.cls file. 
+% goddamn hate latex.
+% what in holy hell...
+
+
+
+
+\begin{document}
+% r.3 full title page
+\maketitle%
+
+\begin{abstract}
+
+Neuroscience needs behavior, and behavioral experiments require the coordination of large numbers of heterogeneous hardware components and data streams. Currently available tools strongly limit the complexity and reproducibility of experiments. Here we introduce Autopilot, a complete,  open-source Python framework for behavioral neuroscience that distributes experiments over networked swarms of Raspberry Pis. Autopilot enables qualitatively greater experimental flexibility by allowing arbitrary numbers of hardware components to be combined in arbitrary experimental designs. Research is made reproducible by documenting all data and task design parameters in a human-readable and publishable format at the time of collection. Autopilot provides an order-of-magnitude performance improvement over existing tools while also being an order of magnitude less costly to implement. Autopilot's flexible, scalable architecture allows neuroscientists to design the next generation of experiments to investigate the behaving brain.
+
+\end{abstract}%
+
+
+
+\vspace{20pt}
+
+\linkfigure{figures/autopilot_logo_small_notext.pdf}{Homepage}{https://auto-pi-lot.com} 
+
+\linkfigure{figures/gh_logo.pdf}{Repository}{https://github.com/wehr-lab/autopilot}
+
+\linkfigure{figures/question-circle-solid.pdf}{Documentation}{https://docs.auto-pi-lot.com}
+
+%
+% r.5 contents
+\tableofcontents%
+%
+\mainmatter%
+%
+\chapter{Introduction}
+
+\newthought{Animal behavior} experiments require precision and repetition, which can best be achieved by computer automation. The complexity of contemporary behavioral experiments, however, presents a stiff methodological challenge. For example, researchers might wish to measure pupil dilation\citep{reimerPupilFluctuationsTrack2016, reimerPupilFluctuationsTrack2016}, respiration\citep{parabuckiOdorConcentrationChange2019}, and running speed\citep{niellModulationVisualResponses2010}, while tracking the positions of body parts in 3 dimensions\citep{nathUsingDeepLabCut3D2019} and recording the activity of large ensembles of neurons\citep{junFullyIntegratedSilicon2017}, as subjects perform tasks with custom input devices such as a steering wheel\citep{burgessHighYieldMethodsAccurate2017} while immersed in virtual reality environments using stimuli synthesized in real time\citep{thurleyVirtualRealitySystems2017,chambersOnlineStimulusOptimization2014}. Coordinating the array of necessary hardware into a coherent experimental design---with the millisecond precision required to study the brain---can be daunting.
+
+Historically, researchers have developed software to automate behavior experiments as-needed within their lab or relied on purchasing proprietary software (eg. \citep{elliottNationalInstrumentsLabVIEW2007}). Open-source alternatives have emerged recently, often developed in tandem with hardware peripherals available for purchase \citep{ephysPyControl2019,sandersSanworksBPod}. However, the diverse hardware and software requirements for behavioral experiments often lead researchers to cobble together multiple tools to perform even moderately complex experiments. Indeed, most software packages do not attempt to simultaneously support custom hardware operation, behavioral task logic, stimulus generation, and data acquisition. Idiosyncratic systems can hinder reproducibility, especially if the level of detail reported in a methods section is sparse\citep{wallReliabilityStartsExperimental2019}. Additionally, development time and proprietary software are expensive, as are the custom hardware peripherals that are required to use most available open-source behavior software.
+\vspace{12pt}
+
+Here we present Autopilot, a complete open-source software and hardware framework for behavioral experiments. We leverage the power of distributed computing using the surprisingly capable Raspberry Pi 4\sidenote{See Table \ref{hwtab}} to allow researchers to coordinate arbitrary numbers of heterogeneous hardware components in arbitrary experimental designs.
+
+Autopilot takes a different approach than existing systems to overcome the technical challenges of behavioral research: \textit{just use more computers}. Specifically, the advent of inexpensive single-board computers (ie. the Raspberry Pi) that are powerful enough to run a full Linux operating system allows a unified platform to run on every Pi or other computer in the system so that they can work together seamlessly. At the core of its architecture is a networking protocol (Section \ref{sec:networking}) that is fast enough to stream electrophysiological or imaging data and flexible enough to make the mutual coordination of hardware straightforward. 
+
+This distributed design also makes Autopilot extremely scalable, as the Raspberry Pi's \$35 price tag makes it an order of magnitude less costly than comparable systems (Section \ref{sec:expense}). Its low cost doesn't come at the expense of performance or useability: Autopilot also has an order of magnitude greater measurement precision and an order of magnitude lower latency than comparable systems (Sections \ref{sec:lowlevel} and \ref{sec:tests}).
+
+Autopilot balances experimental flexibility with support. Its task design infrastructure is flexible enough to perform arbitrary experiments, but also provides support for data management, plotting task progress, and custom training regimens. We provide a set of modular tools for users to easily build common tasks (such as the two-alternative forced choice task described in Section \ref{sec:tasks}), and have also written complete low-level API documentation to facilitate any tinkering needed to make Autopilot do whatever is needed. Rather than relying on costly proprietary hardware modules, users can take advantage of the wide array of peripherals and extensive community support available for the Raspberry Pi. 
+
+Finally, we have designed Autopilot to do reproducible research. Experiments are not written as scripts that are reliant on the particularities of each researcher's hardware configuration. Instead, we have designed the system to encourage users to write reusable, portable experiments that are incorporated into a public central library. Every parameter that defines an experiment is automatically saved in  publication-ready format, removing ambiguity in reported methods and facilitating exact replication with a single file.
+
+\vspace{12pt}
+
+We\marginnote{We would like to acknowledge and thank Lucas Ott for doing much of the behavioral training, Brynna Paros and Nick Sattler for their help with constructing our behavioral boxes, Matt Smear and Reese Findley for loaning us their Bpod for far longer than they intended to, Erik Flister whose Ratrix software inspired some of the design features of Autopilot \citep{meierCollinearFeaturesImpair2011}, several artists on \url{flaticon.com} (\href{https://www.flaticon.com/authors/freepik}{Freepik}, \href{https://www.flaticon.com/authors/nikita-golubev}{Nikita Golubev}, \href{https://www.flaticon.com/authors/those-icons}{Those Icons}) whose work served as stems for many of the figures, and the Janet Smith House for the endless support and relentless criticism of the figures. This material is based on work supported by NIH NIDCD R01 DC-015828, NSF Graduate Research Fellowship No. 1309047, and a University of Oregon Incubating Interdisciplinary Initiatives award.} begin by defining the requirements of a complete behavioral system and evaluating two current examples (Sections \ref{sec:existing} and \ref{sec:limitations}). We then describe Autopilot's design principles (Section \ref{sec:design}) and how they are implemented in the program's structure (Section \ref{sec:structure}). We close with a demonstration of its current capabilities and our plans to expand them (Sections \ref{sec:tests} and \ref{sec:future}).
+
+
+\clearpage
+
+\section{Existing Systems for Behavioral Experiments}
+\label{sec:existing}
+
+A complete system to automate behavioral experiments has 6 requirements:
+
+\begin{enumerate}
+
+\item \hyperref[sec:hardware]{Hardware}\marginnote{\includegraphics[]{figures/side_2_hw.pdf}} to interact with the experimental subject, including \textbf{sensors} (eg. photodiodes, cameras, rotary encoders) to receive input and \textbf{actuators} (eg. lights, motors, solenoids) to provide feedback.
+\item Some\marginnote{\includegraphics[]{figures/side_3_stim.pdf}} capability to synthesize and present sensory \hyperref[sec:stim]{stimuli}. Ideally both discrete stimuli, like individual tone pips or grating patches, and continuous stimuli, like those used in virtual reality experiments, should be possible.
+\item A \marginnote{\includegraphics[]{figures/side_4_task.pdf}} framework to coordinate hardware and stimuli as a \hyperref[sec:tasks]{task}. Task definition should be flexible such that it facilitates rather than constrains experimental design.
+\item A \hyperref[sec:data]{data management}\marginnote{\includegraphics[]{figures/side_5_data.pdf}} system that allows fine control of data collection and format. Data should be human readable and include complete metadata that allows independent analysis and reproduction.
+\item Some\marginnote{\includegraphics[]{figures/side_6_viz.pdf}} means of \hyperref[sec:plotting]{visualizing data} as it is collected in order to  observe task status. It should be possible to customize visualization to the needs and structure of the task.
+\item Finally,\marginnote{\includegraphics[]{figures/side_7_ui.pdf}} a \hyperref[sec:ui]{user interface} to control task operation. The UI should make it possible for someone who does not program to operate the system.
+\end{enumerate}
+
+We\marginnote[-0.6cm]{\includegraphics[]{figures/side_8_checks.pdf}} will briefly describe two other systems that are "complete" as described above: pyControl and Bpod.
+
+%\vspace{16pt}
+%\sffamily{\textbf{\Large{pyControl}}}\normalfont
+\subsection{pyControl}
+
+\href{https://pycontrol.readthedocs.io/en/latest/}{pyControl}\marginnote[0cm]{\includegraphics[]{figures/side_9_pyc.pdf}} is a behavioral framework built in Python by the Champalimaud Foundation. It uses the \href{https://micropython.org/}{micropython microcontroller} ("pyboard") as its primary hardware device along with several extension boards \href{http://www.open-ephys.org/store/pycontrol}{sold by openephys}. The pyboard has four I/O ports, or eight with a multiplexing expander board. Schematics are available for many other hardware components like solenoid valve drivers and rotary encoders. Multiple pyboards can be connected to a computer via USB and run independent tasks simultaneously with a GUI.
+
+There is limited support for some parametrically defined sound stimuli, presented from a separate amplifier connected using the I2C protocol. Visual stimuli are unsupported.
+
+Like most behavioral software, pyControl uses a finite-state machine formalism to define its tasks. A task is a set of discrete states, each of which has a set of events that transition the task from one state to another. pyControl also allows timed transitions between states, and one function that is called on every event for a rough sort of parallelism.
+
+\begin{marginfigure}[-0.4cm]
+\begin{minted}[frame=lines,fontsize=\small]{python}
+D 0 2
+D 8976 3
+D 8976 1
+P 8976 Print Statement
+D 10162 3
+D 10163 2
+\end{minted}
+\caption{pyControl data is stored as plain text, each line having a type (\textbf{D}ata or \textbf{P}rint), timestamp, and state}
+\label{fig:pycdata}
+\end{marginfigure}
+
+The facility for data management is limited. All events and states are stored alongside timestamps as a plain text log file, one file per subject per session (Figure \ref{fig:pycdata}).
+
+There is only one plot type available in the GUI, a raster plot of events, and no facility for varying the plot by task type. The GUI is otherwise quite capable, including the ability to batch run subjects, redefine task variables, and configure hardware.\\
+
+%\sffamily{\textbf{\Large{Bpod}}}\normalfont
+\subsection{Bpod}
+
+Bpod\marginnote{\includegraphics[]{figures/side_10_bpod.pdf}} is primarily a collection of hardware designs and an assembly service run by \href{https://www.sanworks.io/about/about.php}{Sanworks LLC.} Similar to pyControl, each Bpod behavior box is based on a finite-state machine microcontroller with four I/O ports. Additional hardware modules provide extended functionality.
+
+The software that runs Bpod is a \href{https://sites.google.com/site/bpoddocumentation/bpod-user-guide/function-reference-beta}{sparsely documented} MATLAB package. A task is implemented as a MATLAB script that constructs a new state machine for each trial, uploads it to the Bpod, and waits for the trial to finish. As a result, only one Bpod can be used per host computer, or at least per MATLAB session. Data are stored as trial-split events in a MATLAB structure.
+
+There are a few basic plots for two-alternative forced choice tasks, but any plotting is done in the main loop so the MATLAB graphics engine blocks the program between trials. Bpod has a reasonably complete GUI for managing the hardware and running tasks, but it is error-prone and highly technical (Figure \ref{fig:bpodgui}).
+
+\begin{marginfigure}
+\noindent\includegraphics[]{figures/side_11_bplot.jpg}
+\includegraphics[]{figures/Bconsole.jpg}
+\caption{A Bpod event plot (above) showing the results of individual behavioral trials, and the Bpod GUI (below).} 
+\label{fig:bpodgui}
+\end{marginfigure}
+
+
+\vspace{16pt}
+
+For brevity we have omitted many other excellent tools that perform some subset of the operations of a complete behavioral system.\sidenote[][1cm]{\textbf{Other tools:}\\
+- Expyriment\citep{krauseExpyrimentPythonLibrary2014} - \href{https://www.expyriment.org/}{site}, \href{https://github.com/expyriment/expyriment.git}{git}\\
+- PsychoPy\citep{peircePsychoPy2ExperimentsBehavior2019} - \href{https://www.psychopy.org/}{site}, \href{https://github.com/psychopy/psychopy}{git}\\
+- OpenSesame\citep{mathotOpenSesameOpensourceGraphical2012} - \href{https://osdoc.cogsci.nl/}{site}, \href{https://github.com/smathot/OpenSesame}{git}\\
+- SMiLE - \href{https://smile-docs.readthedocs.io/en/latest/}{docs}\\
+- ArControl\citep{chenArControlArduinoBasedComprehensive2017} - \href{https://github.com/chenxinfeng4/ArControl}{git}\\
+- and see \href{http://openbehavior.com/}{OpenBehavior}
+}
+
+\section{Limitations of Existing Systems}
+\label{sec:limitations}
+
+We see several limitations with these and other behavioral systems:
+
+\begin{itemize}[after=\vspace{-\topsep}]
+    \item \textbf{Hardware} - Both Pycontrol and Bpod strongly encourage users to purchase a limited set of hardware modules and add-ons from their particular hardware ecosystem. If a required part is not available for purchase, neither system provides a clear means of interacting with custom hardware, requiring the user to 'tack on' loosely-integrated components---we found \href{https://github.com/erlichlab/BpodSoundModule}{one such lab} using a Raspberry Pi to deliver sounds in their Bpod task.   There is also a hard limit on the \textit{number} of hardware peripherals that can be used in any given task, as there is no ability to use additional pyboards or Bpod state machines. The microcontrollers used in these systems also impose strong limits on their software: neither run a full, high-level programming language\sidenote{Bpod runs \href{https://github.com/sanworks/Bpod_StateMachine_Firmware}{custom firmware} written in C++ on a \href{https://www.pjrc.com/store/teensy36.html}{Teensy 3.6} microcontroller. pyControl's pyboard implements \href{https://micropython.org/}{micropython}, a subset of Python that excludes canonical libraries like numpy\citep{waltNumPyArrayStructure2011} or scipy\citep{jonesSciPyOpenSource2001}}. We will discuss this further in \hyperref[sec:singlelanguage]{section \ref*{sec:singlelanguage}}. A broader  limitation of existing systems is the difficulty of flexibly integrating the diverse hardware and analytical tools necessary to perform the next generation of behavioral neuroscience experiments that study "naturalistic, unrestrained, and minimally shaped behavior"\citep{dattaComputationalNeuroethologyCall2019}.
+    \item \textbf{Stimuli} - Stimuli are not tightly integrated into either of these systems, requiring the user to write custom routines for their synthesis, presentation, and description in the resulting data. Neither are capable of delivering visual stimuli. Bpod only supports raw audio waveforms presented with either a proprietary analog output hardware module or using PsychToolbox from the host computer. Some parametric audio stimuli are included in the \href{https://bitbucket.org/takam/pycontrol/src/default/pyControl/audio.py}{pyControl source code} but we were unable to find any documentation or examples of their use. %
+\end{itemize}\nobreak%
+\begin{marginfigure}[0.35cm]
+\begin{minted}[frame=lines,fontsize=\small]{matlab}
+for currentTrial = 1:MaxTrials
+% new state matrix every trial
+sma = NewStateMatrix();
+
+% add states and transitions
+sma = AddState(sma, 
+    'Name', 'Wait', ...
+    'Timer', 0,...
+    'StateChangeConditions', ...
+    {'Port2In', 'Delay'}, ...
+    'OutputActions', ...
+    {'AudioPlayer1','*'});
+% add more states...
+
+% upload and run task
+SendStateMatrix(sma);
+RawEvents = RunStateMatrix;
+
+% manually gather data and params
+BpodSystem.Data = AddTrialEvents(
+    BpodSystem.Data, RawEvents);
+    
+% plotting in the main loop
+UpdateSideOutcomePlot(...);
+UpdateTotalRewardDisplay(...);
+
+% manually save data
+SaveBpodSessionData;
+end
+\end{minted}
+\caption{\href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/AnalogSound2AFC/AnalogSound2AFC.m}{Bpod's general task structure.}}
+\label{fig:bpodtask}
+\end{marginfigure}\nobreak
+\begin{itemize}[resume*, before=\vspace{0pt}, after=\vspace{\baselineskip}]%
+    \item \textbf{Tasks} - Tasks in both systems require a large amount of code and effort duplication. Neither system has a notion of reusable tasks or task 'templates,' so every user needs to rewrite every task from scratch. Bpod's structure in particular tends to encourage users to write long \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/AnalogSound2AFC/AnalogSound2AFC.m}{task scripts} that are difficult to read (Figure \ref{fig:bpodtask}) because much of its codebase is 'backend' code for compiling and communicating with the state machine, so users have to write basic routines like stimulus creation themselves. Another factor that contributes to the difficulty of task design in these systems is the need to work around the limitations of finite state machines, which we discuss further in section \ref{sec:fsmlimits}.
+    \item \textbf{Data} - Data storage and formatting is basic, requiring extensive additional processing to make it human readable. For example, to determine whether a subject got a trial correct in an \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/Light/Light2AFC/Light2AFC.m}{example} Bpod experiment, one would use the following code:
+    
+    \mintinline{matlab}{SessionData.RawEvents.Trial{1,1}.States.Punish(1) ~= NaN}
+    
+    As a result, data format is idiosyncratic to each user, making data sharing dependent on manual annotation and metadata curation from investigators. Additionally, since the parameters of experiments are not saved by default---and the GUIs of both systems allow parameters to be changed at will---critical data could be lost and experiments could be made unreproducible unless the user writes custom code to save them.
+    \clearpage
+    \item \textbf{Visualization \& GUI} - The GUIs of each of these systems are highly technical, and are not designed to be easily used by non-programmers. Visualization of task progress is quite rigid in both systems, either a timeseries of task states or plots specific to two-alternative forced choice tasks. There is no obvious way to adapt plots to specific tasks.
+\end{itemize}
+
+In short, existing systems for behavioral experiments are limited by the hardware they can use, the tasks they can implement, and the ease with which they can be implemented. Some of these limitations are cosmetic---fixable with additional code or hardware---but several of the most crucial are intrinsic to the design of these systems.
+
+These systems, among others, have pioneered the development of modern behavioral hardware and software, and are to be commended for being open-source and highly functional. One need look no further for evidence of their usefulness than to their adoption by many labs worldwide. At the time that these systems were developed, a general-purpose single-board computer with performance like the Raspberry Pi 4 was not widely available. The above two systems are not unique in their limitations, but are reflective of broader constraints of developing experimental tools. We are only able to articulate the design principles that differentiate Autopilot by building on their work. 
+
+
+\chapter{Design}
+\label{sec:design}
+
+\newthought{Autopilot distributes experiments} across a network of Raspberry Pis,\sidenote{\href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/}{Raspberry Pi model 4B}, see \hyperref[hwtab]{Table \ref*{hwtab}}} a type of inexpensive single-board computer. 
+
+\vspace{12pt}
+
+\textbf{Autopilot has three primary design principles:}
+
+\begin{enumerate}
+    \item \hyperref[sec:efficiency]{\textbf{Efficiency}} - Autopilot should minimize computational overhead and maximize use of hardware resources.
+    \item \hyperref[sec:flexibility]{\textbf{Flexibility}} - Autopilot should be transparent in all its operations so that users can expand it to fit their use-case.
+    \item \hyperref[sec:reproducibility]{\textbf{Reproducibility}} - Autopilot should maximize standardization and minimize the potential for the black-box of local reprogramming. Autopilot should maximize the information it stores about its operation as part of normal data collection.
+\end{enumerate}
+
+
+\section{Efficiency}
+\label{sec:efficiency}
+
+Though it is a single board, the Raspberry Pi operates more like a computer than an integrated circuit. It most commonly runs a custom Linux distribution, Raspbian, allowing Autopilot to use Python across the whole system. Using an interpreted language like Python running on Linux has inherent performance drawbacks compared to compiled languages running on embedded microprocessors. While Python's overhead is negligible on modern processors, Autopilot is nevertheless designed to maximize computational efficiency.
+
+\subsection{Concurrency}
+
+\begin{marginfigure}[3.5cm]
+\includegraphics[]{figures/side_12_onethread.pdf}
+\caption{A single-threaded program executes all operations sequentially, using a single process and cpu core.}
+\label{fig:singlethread}
+\end{marginfigure}
+
+Most behavioral software is single-threaded (Figure \ref{fig:singlethread}), meaning the program will only perform a single operation at a time. If the program is busy or waiting for an input, other operations are blocked until it is finished.
+
+Autopilot distributes computation across multiple processes and threads to take advantage of the Raspberry Pi's four CPU cores. Every object in Autopilot does its work in separate \textbf{threads}. Specifically, Autopilot spawns separate threads to process messages and events, an architecture described more fully in \hyperref[sec:networking]{section \ref*{sec:networking}}. Threading does not offer true concurrency\sidenote{See David Beazley's  \href{http://www.dabeaz.com/python/UnderstandingGIL.pdf}{'Understanding the Global Interpreter Lock'} and associated \href{http://www.dabeaz.com/GIL/gilvis/index.html}{visualizations}.}, but does allow Python to distribute computational time between operations so that, for example, waiting for an event does not block the rest of the program, and events are not missed because the program is busy (Figure \ref{fig:multithread}).
+
+\begin{marginfigure}
+\includegraphics[]{figures/side_13_multithread.pdf}
+\caption{A multi-threaded program divides computation time of a single process and cpu core across multiple operations so that, for example, waiting for input doesn't block other operations.}
+\label{fig:multithread}
+\end{marginfigure}
+
+Critical operations that are computationally intensive or cannot be interrupted are given their own dedicated \textbf{processes}. Linux allows individual cores of a processor to be reserved for single processes, so individual Raspberry Pis are capable of running four truly parallel processing streams. For example, all Raspberry Pis in an Autopilot swarm create a messaging client to handle communication between devices which runs on its own processor core so no messages are missed. Similarly, if an experiment requires sound delivery, a realtime \hyperref[sec:stim]{sound engine} in a separate process (Figure \ref{fig:multiprocess}) also runs on its own core.
+
+\begin{marginfigure}[0.1cm]
+ \includegraphics[]{figures/side_14_multiprocess.pdf}
+ \caption{A multi-process program is truly concurrent, allowing multiple cpu cores to operate in parallel.}
+ \label{fig:multiprocess}
+\end{marginfigure}
+
+\subsection{Leveraging Low-Level Libraries}
+\label{sec:lowlevel}
+
+Autopilot uses Python as a "glue" language, where it wraps and coordinates faster low-level compiled code\citep{vanrossumGlueItAll1998}.  
+Performance-critical components of Autopilot are thin wrappers around fast C libraries (Table \ref{tab:libraries}).
+
+\begin{margintable}[0.1cm]
+\caption{A few libraries Autopilot uses}
+\label{tab:libraries}
+\noindent\begin{tabularx}{\linewidth}{Rl}
+\toprule
+ \textbf{\href{http://jackaudio.org/}{jack}} & realtime audio \\
+ \textbf{\href{http://abyz.me.uk/rpi/pigpio/index.html}{pigpio}} & GPIO control \\
+ \textbf{\href{http://zeromq.org/}{ZeroMQ}} & networking \\
+ \textbf{\href{https://www.qt.io/}{Qt}} & GUI \\
+ \bottomrule
+\end{tabularx}
+
+\end{margintable}
+
+Since Autopilot coordinates its low-level components in parallel rather putting everything inside one "main loop," Autopilot actually has \textit{better} temporal resolution than  single-threaded systems like Bpod or pyControl, despite the realtime nature of their dedicated processors (Table \ref{tab:precision}).
+
+\begin{margintable}
+\caption{Using pigpio as a dedicated I/O process gives autopilot greater measurement precision}
+\label{tab:precision}
+\noindent\begin{tabularx}{\linewidth}{rR}\toprule
+& Precision \\
+\midrule
+Autopilot (\href{http://abyz.me.uk/rpi/pigpio/pigpiod.html}{pigpio}) & $5\mu s$ \\
+\href{https://github.com/sanworks/Bpod_StateMachine_Firmware/blob/059d1e9195f5bb7d0d5cd7b33f56342eb5a3a55c/Dev/StateMachineFirmware/StateMachineFirmware.ino\#L196}{Bpod} & $100\mu s$ \\
+\href{https://bitbucket.org/takam/pycontrol/src/c678552ac57be2108a5461e0c5f8051ce7d3816a/pyControl/framework.py?at=default\&fileviewer=file-view-default\#framework.py-278}{pyControl} & $1000\mu s$ \\
+\bottomrule
+\end{tabularx}
+
+\end{margintable}
+
+\subsection{Caching}
+
+Finite-state machines are only aware of the current state and the events that transition it to future states. They are thus incapable of exploiting the often predictable structure of behavioral tasks to precompute future states and precache stimuli. Further, to change task parameters between trials (eg. changing the rewarded side in a two-alternative forced-choice task), state machines need to be fully reconstructed and reuploaded to the device that runs them each time.
+
+Autopilot precomputes and caches as much as possible. Rather than wait "inside" a state, Autopilot prepares each of the next possible events and saves them for immediate execution when the appropriate trigger is received. Static stimuli are prepared once at the beginning of a behavioral session and stored in memory. Before their presentation, they are buffered to minimize latency.
+
+\vspace{16pt}
+
+Autopilot's efficient design lets it access the best of both worlds---the speed and responsiveness of compiled code on dedicated microprocessors and the accessibility and flexibility of interpreted code.
+
+\clearpage
+
+\section{Flexibility}
+\label{sec:flexibility}
+
+\subsection{Single-language}
+\label{sec:singlelanguage}
+
+Behavior software that uses dedicated microprocessors like Bpod must have some routine for compiling the high-level abstraction of the experiment into machine code. This gives those systems a theoretical advantage in processing speed, but the compiler becomes the bottleneck of complexity: only those things that can be compiled can be included in the experiment. This may in part contribute to the ubiquity of state-machine formalisms in behavior software.
+
+Because Python is used throughout the system, extending Autopilot's functionality is straightforward. Task design (see section \hyperref[sec:tasks]{\ref*{sec:tasks}}) is effectively arbitrary---anything that can be expressed in Python is a valid task. Hardware can also be implemented arbitrarily, including hardware that makes use of external libraries (eg. ACQ4\citep{campagnolaACQ4OpensourceSoftware2014} and our \hyperref[item:othertools]{planned} integration with OpenEphys).
+
+
+\subsection{Modularity}
+
+Although Autopilot deeply integrates with the Raspberry Pi's hardware, we have also worked to make its components modular. Modularity has 3 primary advantages:
+\begin{enumerate}
+    \item \textbf{Modularity} \marginnote{\includegraphics[]{figures/side_modularity_1_alt.pdf}}\textbf{makes code more flexible} by reducing the constraints imposed by unstructured code interdependencies
+    \item \textbf{Modularity} \marginnote{\includegraphics[]{figures/side_modularity_2.pdf}}\textbf{makes code more intelligible} by logically distributing tasks to discrete classes
+    \item \textbf{Modularity} \marginnote{\includegraphics[]{figures/side_modularity_3.pdf}}\textbf{reduces effort-duplication} by allowing multiple, similar classes to be created with inheritance rather than copying and pasting.
+\end{enumerate}
+
+There is no such thing as "incompatible hardware" with Autopilot because the classes that control hardware are independent from the code that provides other core functionality. In systems without modular design, hardware implementation is spread across the codebase; for example to add a new type of hardware output to a Bpod system, one would need to write \href{https://github.com/sanworks/Bpod_Gen2/blob/master/FIRMWARE\%20README.txt}{new firmware for it in C}, \href{https://github.com/sanworks/Bpod_StateMachine_Firmware/blob/v22/Preconfigured/StateMachine-Bpod2_0/StateMachine-Bpod2_0.ino}{modify Bpod's existing firmware}, hunt through the code to modify how \href{https://github.com/sanworks/Bpod_Gen2/blob/71f3a256b68926b65eae71e10fd747bd28e7ba7d/Functions/State\%20Machine\%20Assembler/AddState.m#L170}{states are added} and \href{https://github.com/sanworks/Bpod_Gen2/blob/71f3a256b68926b65eae71e10fd747bd28e7ba7d/Functions/\%40BpodObject/SetupStateMachine.m#L123}{state machines are assembled}, add its controls explicitly \href{https://github.com/sanworks/Bpod_Gen2/blob/71f3a256b68926b65eae71e10fd747bd28e7ba7d/Functions/Override\%20Panels/StateMachinePanel_2_0_0.m}{to the GUI}, and so on. 
+
+Tasks specify what type of hardware is needed to run them, but are agnostic about the way the hardware is implemented, making their descriptions more portable. Tasks that have the same structure but differ in hardware (eg. a freely moving two-alternative forced choice task in which a mouse visits several IR sensors, or a head-fixed two-alternative forced choice task in which a mouse runs on a wheel to indicate its choice) can be implemented by a trivial subclass that modifies  the hardware description rather than completely rewriting the task.
+
+\subsection{Structured Expansion \& Code Transparency}
+\label{sec:expansion}
+
+We call Autopilot a software framework because in addition to providing classes and methods to run experiments out of the box, it also provides explicit structure that scaffolds any additional code that is needed by the user. Our goal is to clearly articulate in the documentation how modules should interact so that anyone can write code that works on any apparatus. 
+
+Autopilot is designed for users with a range of programming expertise, from those who only want to interact with a GUI, to those who wish to fundamentally rewrite core operations for their particular experiment. As such, it is extensively documented: this paper provides a high-level introduction to its design and structure, its user guide describes how to use the program and provides examples, and its API-level documentation describes in granular detail how the program actually works\sidenote{The user guide and API documentation are available at \url{docs.auto-pi-lot.com}}. Nothing is "off-limits" to the user---there isn't any hidden, undocumented hardware code behind the curtain. We want users to be able to understand how and why everything works the way it does so that Autopilot can be adapted and expanded to any use-case.
+
+A broader goal of Autopilot is to build a library of flexible task prototypes that can be tweaked and adapted, hopefully reducing the number of times the wheel is reinvented. We have attempted to nudge users to write reusable tasks by designing Autopilot such that rather than writing separate task scripts that are loaded and run by the program, tasks are written into a fork\sidenote{Autopilot is version controlled using \href{https://git-scm.com/}{git}. Users develop tasks in a copy, or 'fork' of the library that keeps track of their changes so that they can later be re-integrated, or 'pulled', into the main library.} of the library itself. When publishing research that uses a particular task, users are incentivized to pull the changes they have made in their fork back into the central library because doing so makes that task available to anyone using Autopilot. Autopilot's documentation is automatically generated from structured comments\sidenote{using \href{http://www.sphinx-doc.org/en/master/}{Sphinx}}, which naturally establishes a minimal level of documentation that we will require to have a task accepted into the main library. We hope the combination of these design nudges and explicit development instructions in the user guide encourages users to make contributing well-documented, reusable tasks a normal part of using Autopilot.
+
+
+\subsection{Message Handling}
+
+Modular software needs a well-defined protocol to communicate between modules, and Autopilot's is heavily influenced by the concurrency philosophy\sidenote{"ZeroMQ [...] has a subversive effect on how you develop network-capable applications. [...] message processing rapidly becomes the central loop, and your application soon breaks down into a set of message processing tasks."\\"If there's one lesson we've learned from 30+ years of concurrent programming, it is: \textit{just don't share state.}"\\\vspace{6pt}\hspace*{\fill} -\href{http://zguide.zeromq.org/}{The ZeroMQ Guide}} of ZeroMQ\citep{hintjensZeroMQMessagingMany2013}. All communication between computers and modules happens with ZeroMQ messages, and handling those messages is the main way that Autopilot handles events. A key design principle is that Autopilot components should not "share state"---they can communicate, but they are not \textit{dependent} on one another. While this may seem like a trivial detail, having networking and message-handling at its core has three advantages that make Autopilot a fundamental departure from previous behavioral software.
+
+First, new software modules can be added to any system by simply dropping in a standalone networking object. There is no need to dramatically reorganize existing code to make room for new functionality. Instead new modules can receive, process, and send information by just connecting to a parent module in the swarm. For example, each \hyperref[sec:plotting]{plot} opens a network connection to stream incoming task data independently from the stream that is saving the data.
+
+Second, Autopilot can be made to interact with other software libraries that use ZeroMQ. For example, The OpenEphys GUI for electrophysiology \href{https://open-ephys.atlassian.net/wiki/spaces/OEW/pages/23265310/Network+Events}{can send and receive ZMQ messages} to execute actions such as starting or stopping recordings. Interaction with other software is also useful in the case that some expensive computation needs to happen mid-task. For example, one could send frames captured from a video camera on a Raspberry Pi to a GPU computing cluster for tracking the position of the animal. Since ZeroMQ messages are just TCP packets it is also possible to communicate over the internet for remote control or to communicate with a data server.
+
+Third, making every component network-capable allows tasks to be distributed over multiple Raspberry Pis. Chaining multiple Pis distributes the computational load, allowing, for example, one Raspberry Pi to record and process video while another runs a sound server and delivers rewards. Autopilot expands with the complexity of your task, simultaneously eliminating limitations on quantity of hardware peripherals while ensuring latency is minimal. More interestingly, distributing tasks allows the arbitrary construction of what we call "behavioral topologies," which we describe in \hyperref[sec:topology]{section \ref*{sec:topology}}.
+
+\clearpage
+
+\section{Reproducibility}
+\label{sec:reproducibility}
+
+\subsection{Standardized task descriptions}
+
+\begin{marginfigure}[1.75cm]
+\includegraphics[]{figures/calibration_warning.pdf}
+\caption{\textbf{"Minor" details have major effects.} Proportion of mice (each point, n=4) that were successful learning the first stage of the speech task described in \citep{saundersMiceCanLearn2019} across 10 behavior boxes with variable reward sizes. A $2 \mu L$ difference in reward size had a surprisingly large effect on success rate.}
+\label{fig:calibration}
+\end{marginfigure}
+
+The implementation and fine details of a behavioral experiment matter. Seemingly trivial details like milliseconds of delay between trial phases and microliters of reward volume can be the difference between a successful and unsuccessful task (Figure \ref{fig:calibration}). \textit{Reporting} those details can thus be the difference between a reproducible and unreproducible result.  Researchers also often use "auxiliary" logic in tasks---such as methods for correcting response bias---that are never completely neutral to the interpretation of results. These too can be easily omitted due to brevity or memory in plain-English descriptions of a task, such as those found in Methods sections. Even if all details of an experiment were faithfully reported, the balkanization of behavioral software into systems peculiar to each lab (or even to individuals within a lab) makes actually performing a replication of a behavior result expensive and technically challenging. Widespread use of experimental tools that are not explicitly designed to preserve every detail of their operation presents a formidable barrier to rigorous and reproducible science\citep{wallReliabilityStartsExperimental2019}.
+
+%
+\begin{marginfigure}[1.1cm]
+\begin{minted}[frame=lines,fontsize=\small]{json}
+{
+"step_name"    : "tone_discrim",
+"task_type"    : "2AFC",
+"bias_mode"    : 0,
+"punish_sound" : false,
+"stim" : {
+  "sounds" : {
+    "L": {
+      "duration"  : 100,
+      "frequency" : 10000,
+      "type"      : "tone",
+      "amplitude" : 0.01},
+    "R": {"...":"..."}}},
+"reward": {
+  "type"     : "volume",
+  "volume"   : 20},
+"graduation" : {
+    "type"      : "accuracy",
+    "threshold" : 0.75,
+    "window"    : 400},
+}
+\end{minted}
+\caption{Task parameters are stored as portable JSON, formatting has been abbreviated for clarity.}
+\label{fig:params}
+\end{marginfigure}%
+%
+%
+Autopilot splits experiments into a) the \textbf{code} that runs the experiment, which is intended to be standardized and shared across implementations, and b) the \textbf{parameters} (Figure \ref{fig:params}) that define your particular experiment. For example, two-alternative forced choice tasks have a shared structure regardless of the stimulus modality, but only your task plays pitch-shifted national anthems. Critically, this division of labor enables the possibility of developing a shared library of tasks as described in \hyperref[sec:expansion]{section \ref{sec:expansion}}%
+
+The practice of reporting exactly the parameter description used by the software to run the experiment removes any chance for incompleteness in reporting. Because all task parameters are included in the produced data files, tasks are fully portable and can be reimplemented exactly by anyone that has comparable hardware to yours. 
+
+\subsection{Self-Documenting Data}
+\label{sec:data}
+
+A major goal of the open science movement is to normalize publishing well-documented and clearly-formatted data alongside every paper. Typically, data are acquired and stored in formats that are lab-idiosyncratic or ad-hoc. Making data publishable then requires a laborious cleaning process. In the worst-case scenario, this cleaning process unearths some critically missing information about the experiment, requiring awkward caveats in the Methods section. Moreover, without careful version control, any changes made to the task code or parameters can be lost, making it difficult to compare last week's data to last month's.
+
+\begin{marginfigure}[0.5cm]
+\includegraphics[]{figures/side_16_data.pdf}
+\caption{Example data structure. All information necessary to reconstruct an experiment is automatically stored in a human-readable HDF5 file.}
+\label{fig:datastx}
+\end{marginfigure}
+
+The best way to make data publishable is to avoid cleaning data altogether and \textit{design good data hygiene practices into the data acquisition process.} Autopilot automatically stores all the information required to fully reconstruct an experiment, including any changes in task parameters or code version that happen throughout training as the task is refined.
+
+Autopilot data is stored in \href{https://support.hdfgroup.org/HDF5/whatishdf5.html}{HDF5} files, a hierarchical, high-performance file format. HDF5 files support metadata throughout the file hierarchy, allowing annotations to natively accompany data. Because HDF5 files can store nearly all commonly used data types, data from all collection modalities---trialwise behavioral data, continuous electrophysiological data, imaging data, etc.---can be stored together from the time of its acquisition. Data is always stored with the conditions of its collection, and is ready to analyze and publish immediately (Figure \ref{fig:datastx}). No Autopilot-specific scripts are needed to import data into your analysis tool of choice---anything that can read HDF5 files can read Autopilot data. 
+
+In future versions we will implement the Neurodata Without Borders standard\citep{rubelNWBAccessibleData2019}, further enabling Autopilot data to be immediately incorporated into existing processing pipelines (see section \ref{sec:future}).
+
+\subsection{Expense}
+\label{sec:expense}
+
+\begin{marginfigure}[2.6cm]
+\includegraphics[]{figures/fpr.pdf}
+\caption{When comparing a value across groups, eg. a genetic knockout vs. wildtype, even a modest intra-animal (or, more generally, intra-cluster) correlation (ICC) causes the false positive rate to be far above the nominal $\alpha = 0.05$. Shown are false positive rates for simulated data with various numbers of "cells" recorded for comparisons between two groups of 5 animals each with a real effect size of 0. We note that 741 simultaneously recorded cells were reported in \citep{junFullyIntegratedSilicon2017} and a mean ICC of 0.19 across 18 neuroscientific datasets was reported in \citep{aartsSolutionDependencyUsing2014}}
+\label{fig:icc}
+\end{marginfigure}
+
+Autopilot is an order of magnitude less expensive than comparable behavioral systems (Table \ref{tab:cost}). We think the expense of a system is important for two reasons: scientific equity and statistical power. 
+
+The distribution of scientific funding is highly skewed, with a large proportion of research funding concentrated in relatively few labs\citep{katzBiomedicalEliteInequality2017}. Lower research costs benefit all scientists, but lower instrumentation costs directly increase the accessibility of state-of-the-art experiments to labs with less funding. Since well-funded labs also tend to be concentrated at a few (well-funded) institutions, lower research costs also broaden the base of scientists outside traditional research institutions that can stay at the cutting edge\citep{ashkenasEvenAffirmativeAction2017,clausetSystematicInequalityHierarchy2015,pearceExpandingEquitableAccess2019}.
+
+
+
+Neuroscience also stands to benefit from the lessons learned from the replication crisis in Psychology\citep{shroutPsychologyScienceKnowledge2018}. In neuroscience, underpowered experiments are the rule, rather than the exception\citep{buttonPowerFailureWhy2013}. Statistical power in neuroscience is arguably even worse than it appears, because large numbers of observations (eg. neural recordings) from a small number of animals are typically pooled, ignoring the nested structure of observations collected within individual animals. Increasing the number of cells recorded from a small number of animals dramatically increases the likelihood of Type I errors (Figure \ref{fig:icc})---indeed, for values of within-animal correlation typical of neuroscientific data, high numbers of observations make Type I errors more likely than not\citep{aartsSolutionDependencyUsing2014}. For this reason, perhaps paradoxically, recent technical advances in multiphoton imaging and silicon-probe recordings will actually make statistical rigor in neuroscience \textit{worse} if we don't use analyses that account for the multilevel structure of the data and correspondingly record from the increased number of animals that they require.
+
+
+
+
+Although the expense of multi-photon imaging and high-density electrophysiology will always impose an experimental bottleneck, behavioral training time is often the greater determinant of study sample size. Typical behavioral experiments require daily training sessions often carried out over weeks and months, while far fewer imaging or electrophysiology sessions are carried out per animal.  Training large cohorts of animals in parallel is thus the necessary basis of a well-powered imaging or electrophysiology experiment.
+
+
+\begin{table}
+\caption{\textbf{Cost for Basic 2AFC System}\\
+\noindent"Nosepoke" includes a solenoid valve, IR sensor, water tube, LED, housing, and any necessary driver PCBs.}
+\label{tab:cost}
+\noindent\begin{tabularx}{\linewidth}{XRRR}\toprule
+& Autopilot & pyControl & Bpod  \\
+\midrule
+Behavior CPU & \href{https://www.adafruit.com/product/3775?src=raspberrypi}{\texttt{\$35}} & \href{http://www.open-ephys.org/store/pycontrol}{\texttt{\$284}} & \href{https://sanworks.io/shop/viewproduct?productID=1024}{\texttt{\$745}}\\
+Nosepoke (3x) & \texttt{\$216} & \href{http://www.open-ephys.org/store/pycontrol-peripherals}{\texttt{\$579}} & \href{https://sanworks.io/shop/viewproduct?productID=1009}{\texttt{\$735}} \\
+\textbf{Total for One} & \textbf{\texttt{\$251}} & \textbf{\texttt{\$920}} & \textbf{\texttt{\$1480}}\\
+\midrule
+Five Systems & \texttt{\$1255} & \texttt{\$4600} & \texttt{\$7400} \\
+Host CPU(s) & \texttt{\$1000} & \texttt{\$5000} & \texttt{\$5000} \\
+\textbf{Total for Five} & \textbf{\texttt{\$2255}} & \textbf{\texttt{\$9600}} & \textbf{\texttt{\$12400}} \\
+\midrule
+\textbf{Total for Ten} & \textbf{\texttt{\$3510}} & \textbf{\texttt{\$19200}} & \textbf{\texttt{\$24800}} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\chapter{Program Structure}
+\label{sec:structure}
+
+\begin{figure*}
+\includegraphics[]{figures/whole_system_black.pdf}
+\caption{Overview of major Autopilot components}
+\end{figure*}
+
+\newthought{Autopilot consists of software and hardware modules} that are configured to create a behavioral \hyperref[sec:topology]{topology}. Independent \hyperref[sec:agents]{agents} linked by flexible \hyperref[sec:networking]{networking} objects fill different roles within a topology, such as hosting the \hyperref[sec:ui]{user interface}, controlling \hyperref[sec:hardware]{hardware}, or delivering \hyperref[sec:stim]{stimuli}. This infrastructure is ultimately organized to perform a behavioral \hyperref[sec:tasks]{task}.
+
+\section{Tasks}
+\label{sec:tasks}
+\begin{marginfigure}[5.9cm]
+\includegraphics[]{figures/side_17_protocol.pdf}
+\caption{Protocols consist of one or multiple tasks, tasks consist of one or multiple stages. Completion of all of a task's stages constitutes a trial, and meeting some graduation criterion like accuracy progresses a subject between tasks.}
+\label{fig:taskstx}
+\end{marginfigure}
+
+Behavioral experiments in Autopilot are centered around \textbf{tasks}. Tasks are Python classes that describe the parameters, coordinate the hardware, and perform the logic of the experiment. Tasks may consist of one or multiple \textbf{stages}, completion of which constitutes a \textbf{trial} (Figure \ref{fig:taskstx}). Stages are analogous to states in the finite state machine formalism. 
+
+Multiple tasks are combined to make \textbf{protocols}, in which animals move between tasks according to "graduation" criteria like accuracy or number of trials. Training an animal to perform a task typically requires some period of shaping where they are familiarized to the apparatus and the structure of the task. For example, to teach animals about the availability of water from "nosepoke" sensors, we typically begin with a "free water" task that simply gives them water for poking their nose in them. Having a structured protocol system prevents shaping from relying on intuition or ad hoc criteria.
+
+\subsection{Task Components}
+\label{sec:taskcomponents}
+
+The following is a basic two-alternative choice (2AFC) task---a sound is played and an animal is rewarded for poking its nose in a designated target nosepoke. While simple, it is included here in full to show how one can program a task, including an explicit data and plotting structure, in roughly 60 lines of generously spaced Python.
+
+\vspace{12pt}
+
+Every task begins by describing four elements: 
+
+1) the task's parameters, 2) the data that will be collected, 3) how to plot the data, and 4) the hardware that is needed to run the task.
+
+\begin{pythoncode*}{label = \texttt{\textbf{task - parameters}}}
+class Nafc(Task):
+    PARAMS = {} |$\tikzmark{params}$|
+    PARAMS['stim']   = {'tag'  : 'Sound Stimuli', |$\tikzmark{tag}$|
+                        'type' : 'sounds'}
+    PARAMS['reward'] = {'tag'  : 'Reward Duration (ms)',
+                        'type' : 'int'} |$\tikzmark{type}$|
+
+    class TrialData(tables.IsDescription): |$\tikzmark{data}$|
+        target = tables.StringCol(1)
+        correct = tables.BoolCol()
+
+    PLOT = {} |$\tikzmark{plot}$|
+    PLOT['data']  =  {'target'  : 'point',
+                      'correct' : 'rollmean'},
+    # n trials to roll window over
+    PLOT['params'] = {'roll_window' : 50}
+
+    HARDWARE = { |$\tikzmark{hardware}$|
+        'POKES':{
+            'L': hardware.Beambreak,
+            'R': hardware.Beambreak
+        },
+        'PORTS':{
+            'C': hardware.Solenoid, |$\tikzmark{hwdetail}$|
+        }
+    }
+\end{pythoncode*}
+%
+\begin{tikzpicture}[overlay, remember picture]
+\draw[<-] (pic cs:params) ++(0,0.1) to[left] ++(8.1,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \textcolor{red}{1) A \texttt{PARAMS} dictionary} defines what parameters are needed to run the task.};
+\draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:tag)+(0,11pt)$) -- ($(pic cs:tag)-(0,14pt)$) coordinate[midway](midWay);
+\draw[-] (midWay)++(.15,0) --++(1.7,0) --++(0,-0.75) --++(.2,0)node[below right, yshift=8pt, text width=2.4in]{A human readable tag and a data type describe each parameter.};
+\draw[<-] (pic cs:data) ++(0,0.1) to[left] ++(3.3,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{2) A (PyTables\citep{francescPyTablesHierarchicalDatasets2002}) \texttt{Data} descriptor} defines what data will be returned from the task. };
+\draw[<-] (pic cs:plot) ++(0,0.1) to[left] ++(8.5,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{3) A \texttt{PLOT} dictionary} that maps the data output to graphical elements in the GUI.};
+\draw[<-] (pic cs:hardware) ++(0,0.1) to[left] ++(8.0,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{4) A \texttt{HARDWARE} dictionary} that describes what hardware will be needed to run the task.};
+\draw[<-] (pic cs:hwdetail) ++(0,0.1) to[left] ++(4.6,0)node[below right, yshift=8pt, text width=2.4in]{The specific implementation of the hardware (eg. where it is connected, how to interact with it) is independent of the task. The task just knows about a PORT named C that is a Solenoid.};
+\end{tikzpicture}
+
+Created tasks receive some common methods, like input/trigger handling and networking, from an inherited metaclass. Python inheritance can also be used to make small alterations to existing tasks\sidenote{An example of subclassing a generic 'Task' class is included in Autopilot's \href{http://docs.auto-pi-lot.com/guide.task.html}{user guide}} rather than rewriting the whole thing.
+
+\subsection{Stage Methods}
+
+The logic of tasks is described in one or a series of methods (stages). The order of stages can be cyclical, as in this example, or can have arbitrary logic governing the transition between stages.
+\vspace{10pt}
+
+\begin{pythoncode*}{label = \texttt{\textbf{task - methods}}, firstnumber=last}
+    def __init__(self, stim, reward=10): |$\tikzmark{init}$|
+        self.stim_mgr = Stim_Manager(stim)
+        self.reward   = Reward_Manager(reward) |$\tikzmark{mgrs}$|
+
+        stage_list  = [self.discrim, self.reinforcement] |$\tikzmark{stages}$|
+        self.stages = itertools.cycle(stage_list)
+
+        self.init_hardware()
+        self.stages.next()() |$\tikzmark{start}$|
+
+    def discrim(self):
+        target, wrong, stim = self.stim_mgr.next() |$\tikzmark{stim_mgr_2}$|
+        self.target = target
+
+        self.triggers[target] = [
+            self.hardware['PORTS']['C'].open, |$\tikzmark{triggerset}$|
+            self.stages.next()]
+        self.triggers[wrong] = self.stages.next()
+
+        self.node.send('DATA', {'target':target}) |$\tikzmark{data1}$|
+
+        stim.play()
+
+    def reinforcement(self, response): |$\tikzmark{args}$|
+        if response == self.target: |$\tikzmark{data2}$|
+            self.node.send('DATA', {'correct':True})
+        else:
+            self.node.send('DATA', {'correct':False})
+
+        self.stages.next()() |$\tikzmark{callagain}$|
+\end{pythoncode*}
+
+\begin{tikzpicture}[overlay, remember picture]
+\draw[<-] (pic cs:init) ++(0,0.1) to[left] ++(3.53,0) --++(0,1.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{In Python, \mintinline{python}{def} defines new methods. The \mintinline{python}{__init__} method is called when a new object is initialized};
+\draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:mgrs)+(0,22pt)$) -- ($(pic cs:mgrs)-(0,3pt)$) coordinate[midway](midWay);
+\draw[-] (midWay)++(.15,0) --++(2.3,0) --++(0,0.6) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\hyperref[sec:managers]{Managers} control stimulus and reward delivery, so users can, for example, continually synthesize new stimuli or implement adaptive rewards};
+\draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:stages)+(0,8pt)$) -- ($(pic cs:stages)-(0,18pt)$) coordinate[midway](midWay);
+\draw[-] (midWay)++(.15,0) --++(0.5,0) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{Stages are combined into an object that (in this case) continually cycles through them when its \mintinline{python}{next()} method is called.};
+\draw[<-] (pic cs:start) ++(0,0.1) --++(5.7,0) --++(0,-0.4) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{This starts the task by retrieving the first stage and then calling it.};
+\draw[<-] (pic cs:stim_mgr_2) ++(0,0.1) to[left] ++(1.95,0)node[below right, yshift=8pt, text width=2.4in]{The stimulus manager returns which port will be the target and the sound to be played.};
+\draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:triggerset)+(0,22pt)$) -- ($(pic cs:triggerset)-(0,20pt)$) coordinate[midway](midWay);
+\draw[-] (midWay)++(.15,0) --++(2.5,0) --++(0,0.4) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{A sequence of triggers is set: if the target port is poked, a reward will be delivered and the next stage will be called.};
+\draw[<-] (pic cs:data1) ++(0,0.1) to[left] ++(2.1,0)node[below right, yshift=8pt, text width=2.4in]{The task has a networking object that asynchronously streams data back to the user-facing terminal};
+\draw[<-] (pic cs:args) ++(0,0.1) to[left] ++(4.10,0)node[below right, yshift=8pt, text width=2.4in]{In this example, the response port is passed from the trigger handling function. If it matches the stored target variable, the animal answered correctly.};
+\draw[<-] (pic cs:callagain) ++(0,0.1) to[left] ++(5.9,0)node[below right, yshift=8pt, text width=2.4in]{Finally, the task is repeated by calling the next stage.};
+\end{tikzpicture}
+\clearpage
+
+Autopilot is not prescriptive about how tasks are written. The same task could have two separate methods for correct and incorrect answers rather than a single reinforcement method, or only a single stage that blocks the program while it waits for a response.
+
+Publishing data from this task requires no additional effort: a hash that uniquely identifies the code version (as well as any local changes) is automatically stored at the time of collection, as is the parameter dictionary (Figure \ref{sample_params}). If this task was incorporated into the central task library, anyone using Autopilot would be able to exactly replicate the experiment from the published data.
+\begin{marginfigure}[-2.8cm]
+\begin{minted}[frame=lines,fontsize=\small]{json}
+{
+"step_name": "Simple 2AFC",
+"stim" : {
+  "sounds" : {
+    "L": {
+      "type"      : "tone",
+      "frequency" : 4000},
+    "R": {
+      "type"      : "tone",
+      "frequency" : 8000}
+  }
+},
+"reward": 10
+}
+\end{minted}
+\caption{Example parameters for the above task}
+\label{sample_params}
+\end{marginfigure}
+
+\subsection{The limitations of finite state machines}
+\label{sec:fsmlimits}
+
+The 2AFC task described above could be easily implemented in a finite-state machine. However, the difficulty of programming a finite-state machine is subject to combinatoric explosion with more complex tasks. Specifically, finite-state machines can't handle any task that requires any notion of "state history." 
+
+As an example, consider a maze-based task. In this task, the animal has to learn a particular route through a maze---it is not enough to reach the endpoint, but the animal has to follow a specific path to reach it (Figure \ref{fig:maze}). The arena is equipped with an actimeter that detects when the animal enters each area.
+
+\begin{marginfigure}[0.65cm]
+\includegraphics[]{figures/side_18_maze.pdf}
+\caption{The subject must reach point \texttt{i} but only via the correct (green) path.}
+\label{fig:maze}
+\end{marginfigure}
+
+In Autopilot, we would define a hardware object that logs positions from the actimeter with a \mintinline{python}{store_position()} method. If the animal has entered the target position ("i" in this example), a \mintinline{python}{task_trigger()} that advances the task stage is called. The following code is incomplete, but illustrates the principle.
+
+\begin{pythoncode*}{label= \texttt{\textbf{maze - hardware}}}
+class Actimeter(Hardware):
+    def __init__(self):
+        # ... some code to access the hardware ...
+        self.positions = []
+        self.target_position = "i"
+        
+    def store_position(self, position):
+        self.positions.append(position)
+        
+        if position == self.target_position:
+            self.finished_cb(self.positions) |$\tikzmark{finishcb}$|
+            self.positions = []
+\end{pythoncode*}
+%
+\begin{tikzpicture}[overlay, remember picture]
+\draw[<-] (pic cs:finishcb) ++(0,0.1) to[left] ++(3.1,0)node[below right, yshift=8pt, text width=2.4in]{See line \ref{callback} below};
+\end{tikzpicture}
+
+\vspace{-12pt}
+
+The task follows, with parameters and network methods for sending data omitted for clarity.
+
+\begin{pythoncode*}{label= \texttt{\textbf{maze - task}}, firstnumber=last}
+class Maze(Task):
+    def __init__(self):
+        self.target_path = ['a', 'b', 'e', 'f', 'i']
+        
+        self.actimeter = Actimeter()
+        self.actimeter.finished_cb = self.finished |$\tikzmark{callback}\label{callback}$|
+        
+    def finished(self, positions):
+        if positions == self.target_path: |$\tikzmark{equality}$|
+            self.reward()
+\end{pythoncode*}
+
+\begin{tikzpicture}[overlay, remember picture]
+\draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(1.8,0) --++(0,1.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
+\draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(3.6,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
+\end{tikzpicture}
+\vspace{-14pt}
+
+How would such a task be programmed in a finite-state machine formalism? Since the path matters, each "state" needs to consist of the current position and all the positions before it. But, since the animal can double back and have arbitrarily many state transitions before reaching the target corner, this task is impossible to represent with a finite-state machine, as a full representation would necessitate infinitely many states (this is one example of the \textit{pumping lemma}, see \citep{kozenLimitationsFiniteAutomata1997}).
+
+Even if we dramatically simplify the task by 1) assuming the animal never turns back and visits a space twice, and 2) only considering paths that are less than or equal to the length of the correct path, the finite state machine would be as complex as figure \ref{fig:fsmtree}. 
+
+While finite-state machines are relatively easy to implement and work well for simple tasks, they quickly become an impediment to even moderately complex tasks. Even for 2AFC tasks, many desirable features are difficult to implement with a finite state machine, such as: (1) graduation to a more difficult task depending on performance history, (2) adjusting reward volume based on learning rate, (3) selecting or synthesizing upcoming stimuli based on patterns of errors\citep{bakAdaptiveOptimalTraining2016}, etc.
+
+\begin{figure*}[hb!]
+\caption{State transition tree for a simplified maze task.}
+\label{fig:fsmtree}
+\includegraphics[]{figures/maze.pdf}
+\end{figure*}
+
+\clearpage
+\section{Hardware}
+\label{sec:hardware}
+
+The Raspberry Pi can interface with nearly all common hardware, and has an \href{https://www.raspberrypi.org/help/}{extensive collection} of \href{https://elinux.org/RPi_Guides}{guides}, \href{https://elinux.org/RPi_Tutorials}{tutorials}, and an active \href{https://www.raspberrypi.org/forums/}{forum} to support users implementing new hardware. There is also an enormous amount of existing hardware for the Raspberry Pi, including \href{https://www.hifiberry.com/}{sound cards}, \href{https://www.adafruit.com/product/2348}{motor controllers}, \href{https://www.digikey.com/product-detail/en/raspberry-pi/SENSE-HAT/1690-1013-ND/6196429}{sensor arrays}, \href{https://www.seeedstudio.com/Raspberry-Pi-High-Precision-AD-DA-Board-p-2765.html}{ADC/DACs}, and \href{https://www.digikey.com/product-detail/en/pimoroni-ltd/PIM369/1778-1221-ND/9521981}{touchscreen displays}, largely eliminating the need for expensive proprietary hardware (Table \ref{tab:periphs}). 
+
+\begin{margintable}[0.3cm]
+\caption{
+\textbf{Cost of common peripherals.} The native hardware of the Raspberry Pi and low-level hardware control of Autopilot make most custom-built peripherals unnecessary. While Bpod requires an additional module to decode rotary encoder signals, for example, Autopilot can directly decode them via its GPIO pins with minimal effort by using \href{https://pypi.org/project/pigpio-encoder/}{existing open-source libraries.} Inexpensive off-the-shelf hardware is also available to supplement the Pi's native hardware.}
+\label{tab:periphs}
+\noindent\begin{tabularx}{\linewidth}{Rll}
+\toprule
+\textbf{Device} & Raspi & Bpod \\
+\midrule
+ADC/DAC & \href{https://www.seeedstudio.com/Raspberry-Pi-High-Precision-AD-DA-Board-p-2765.html}{\$30} &  \href{https://sanworks.io/shop/viewproduct?productID=1021}{\$475}/\href{https://sanworks.io/shop/viewproduct?productID=1013}{\$475}\\
+I2C & \$0 & \href{https://sanworks.io/shop/viewproduct?productID=1019}{\$165} \\
+Ethernet & \$0 & \href{https://sanworks.io/shop/viewproduct?productID=1025}{\$235} \\
+Rotary Encoder & \$0 &  \href{https://sanworks.io/shop/viewproduct?productID=1022}{\$135}\\
+\bottomrule
+\end{tabularx}
+\end{margintable}
+
+\begin{marginfigure}[1cm]
+\includegraphics[]{figures/pokeport.pdf}
+\caption{We have designed a basic set of easily-assembled hardware available on \href{https://auto-pi-lot.com/hardware/}{Autopilot's website}.}
+\label{fig:pokeport}
+\end{marginfigure}%
+
+\begin{table*}[b]
+\caption{Specifications of reviewed behavior hardware}
+\label{hwtab}
+\begin{tabularx}{\linewidth}{Rrrr}\toprule
+& \href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/}{\textbf{Raspberry Pi 4B}} & \href{https://www.pjrc.com/teensy/techspecs.html}{\textbf{Bpod (Teensy 3.6)}} & \href{https://micropython.org/}{\textbf{pyControl (pyboard)}}\\
+\midrule
+CPU Clock & 1.5GHz & 180MHz & 168MHz \\
+CPU Cores & 4 & 1 & 1 \\
+CPU Architecture & ARMv8-A, 64-bit & ARMv7E-M 32-bit & ARMv7E-M 32-bit \\
+RAM Size & 1, 2, or 4GB & 256KB & 192KB\\
+Storage & MicroSD (any size) & 1024KB & 1024KB \\
+GPU & Broadcom VideoCore VI & \textcolor{red}{N/A} & \textcolor{red}{N/A} \\
+GPIO Pins & 40 & 58 & 29 \\
+USB Ports & 2x USB 2.0, 2x USB 3.0  & 2x USB 2.0 & 1x USB 2.0 \\
+Ethernet & 1Gbps & 100Mbps & \textcolor{red}{N/A} \\
+WiFi & 2.4/5 GHz 802.11 b/g/n/ac & \textcolor{red}{N/A} & \textcolor{red}{N/A} \\
+Camera Input & 15-pin Serial Interface & \textcolor{red}{N/A} & \textcolor{red}{N/A} \\
+Bluetooth & \checkmark & \textcolor{red}{N/A} & \textcolor{red}{N/A} \\
+\end{tabularx}
+\end{table*}
+
+Autopilot uses \href{http://abyz.me.uk/rpi/pigpio/}{pigpio} to interact with its GPIO pins, giving Autopilot $5 \mu s$ measurement precision and enabling protocols that require high precision (such as Serial, PWM, and I2C) for nearly all of the pins. Hardware devices in Autopilot are independent Python objects, so their implementation and logic is flexible across installations and tasks. Hardware logic is also reusable, so it doesn't need to be reimplemented for every task, and is intended to be built into a library of hardware objects analogously to tasks.
+
+All hardware objects can be given callback functions to trigger task events, and can be given their own \hyperref[sec:networking]{networking object} to directly send data and receive configuration input. Time-consuming or continuous operations are run in separate threads and don't block task operation. This makes complex hardware logic easy to implement---for example, if one were using flashing LEDs as an aversive stimulus, the flashes could be delivered with a single method call while the next stage in the task is being computed and other hardware input is still being taken.
+
+Though we expect most users will want to make their own or use existing hardware, we have designed a set of 3D-printable components (Figure \ref{fig:pokeport}), and include them along with assembly instructions and parts lists on \href{https://auto-pi-lot.com/hardware/}{Autopilot's website}. 
+\clearpage
+
+\subsection{System Adaptability}
+
+\begin{marginfigure}[0.4cm]
+\begin{minted}[frame=lines,fontsize=\small]{json}
+{
+"AGENT": "pilot",
+"AUDIOSERVER": "jack",
+"DATADIR": "/some/data/dir",
+"NAME": "example_pilot",
+"PINS": {
+    "LEDS": {
+        "C": [22,18,16],
+        "L": [11,13,15],
+        "R": [19,21,23]}
+},
+"MSGPORT": 5565,
+"TERMINALIP": "192.168.0.100"
+}
+\end{minted}
+\caption{The prefs.json file stores durable system configuration options.}
+\label{fig:prefs}
+\end{marginfigure}%
+
+Rather than attempting to enforce a uniform hardware ecosystem, Autopilot adapts to the radically divergent hardware of different researchers by keeping hardware logic independent from the way it is set up in a particular system. A systemwide \mintinline{python}{prefs.json} file contains all durable configuration information for your setup (Figure \ref{fig:prefs}). Hardware is then accessed by its type and name, so if a task needs an LED named "C" (for "Center"), it would connect to the pins defined in  \mintinline{python}{prefs['PINS']['LEDS']['C']} no matter how the LED was connected or configured in the system. This layer of abstraction allows the task classes to be general enough to maintain a shared task library while also allowing researchers to retain total control over their system. 
+ 
+Autopilot also allows the hardware in your particular setup to be used for multiple tasks that may have differing hardware demands. We think a common use-case will be a series of mostly-static behavioral boxes that can be reconfigured without being wholly rebuilt. The hardware schematics we release are modular, so that one could, for example, change a behavior box from a freely-moving two-alternative forced choice task to a head-fixed version by replacing a panel and installing a running wheel. We are working to implement support for multiple hardware configurations that can be kept in the \texttt{prefs.json} file and automatically swapped depending on the task being run.
+
+\section{Stimuli}
+\label{sec:stim}
+
+
+\begin{marginfigure}[0.45cm]
+\begin{pythoncode*}{
+label= \texttt{An Autopilot Tone},
+frame=lines,
+linenos=false}
+
+my_tone = sounds.Tone(
+    frequency = 500,
+    duration  = 200)
+my_tone.play()
+\end{pythoncode*}
+\vspace{-18pt}
+\begin{matlabcode*}{
+label=\texttt{A \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/AnalogSound2AFC/AnalogSound2AFC.m}{Bpod Tone}},
+frame=lines,
+linenos=false}
+tone = GenerateSineWave(...
+samplingrate, freq, dur);
+
+% load to audio server
+server = BPodAudioPlayer;
+server.loadSound(1,tone);
+
+% buffer sound after poke
+sma = AddState(sma, ...,
+'OutputActions', 
+{'AudioPlayer1', '*'});
+% play sound by number
+sma = AddState(sma, ...,
+'OutputActions',
+{'AudioPlayer1', 1});
+\end{matlabcode*}
+\caption{Autopilot stimuli are parametrically defined and inherit all the playback logic that makes them easy to integrate in tasks}
+\label{fig:tone}
+\end{marginfigure}
+
+A hardware object would control a speaker, whereas stimulus objects are the individual sounds that the speaker would play. Like tasks and hardware, Autopilot makes stimulus generation portable between users, and is released with a family of common sounds like tones, noises, and sounds from files. The logic of sound presentation is contained in an inherited metaclass, so to program a new stimulus a user only needs to describe how to generate it from its parameters (Figure \ref{fig:tone}).  Sound stimuli are better developed than visual stimuli in the current version of Autopilot, but we present a proof-of-concept visual experiment (Section \ref{sec:gonogo}) using \href{https://www.psychopy.org/}{psychopy}\citep{peircePsychoPy2ExperimentsBehavior2019}.
+
+Autopilot controls the realtime audio server \href{http://jackaudio.org/}{jack} from an independent Python process that dumps samples directly into jack's buffer (Figure \ref{fig:soundpath}), giving it the lowest trigger-to-playback latency of any of the systems we have tested or found benchmarks for (Section \ref{sec:latency}). Sounds can be buffered in system memory or synthesized on demand, and the only limit on the number of stimuli that can be simultaneously buffered is the Pi's generous 4GB of memory. Because the realtime server is independent from the logic of sound synthesis and storage, stimuli can be controlled independently from different threads without interrupting audio or dropping frames.
+
+We use the \href{https://www.hifiberry.com/shop/boards/hifiberry-amp2/}{Hifiberry Amp 2}, a combined sound card and amplifier, which is capable of 192kHz/24Bit audio playback. Jack can output to any sound hardware, however, including the builtin audio of the Raspberry Pi if fidelity isn't important. There are no external video cards for the Raspberry Pi, but its embedded video card is capable of presenting video and visual stimuli (Section \ref{sec:gonogo}) especially if the other computationally demanding parts of the task are distributed to other Raspberry Pis (Section \ref{sec:topology}).
+
+\begin{marginfigure}[0cm]
+\includegraphics[]{figures/side_19_soundpath.pdf}
+\caption{Our sound server keeps audio samples buffered until a \texttt{.play()} method is called, and then dumps them directly into the jack audio daemon.}
+\label{fig:soundpath}
+\end{marginfigure}
+
+\subsection{Stimulus and Reward Managers}
+\label{sec:managers}
+
+In many tasks, the structure of the stimulus presentation is as important as the structure of the task. Stimulus structure can become complicated quickly---in addition to whatever order is necessitated by the task design, it is common to also include shaping routines like bias correction in the presentation logic. Different types of stimuli also require different degrees of coordination: unitary stimuli that are presented once per trial can be handled independently without fear of them overlapping  or interrupting one another, but continuous stimuli that change in response to task performance need to be mutually coordinated. 
+
+We separate stimulus presentation logic from task structure by using stimulus managers. Stimulus managers have different 'base' presentation types---eg. random presentation, blocked presentation, etc.---and a set of configurable transformations like bias correction that can be chained together. The stimulus manager can yield prebuffered stimulus objects, synthesize new stimuli according to some task-related rule, and manage a continuous stimulus stream. 
+
+Reward managers behave similarly\sidenote{Reward managers are not yet implemented as independent classes in the current version (0.2) of Autopilot, but are a planned feature of Autopilot v0.3. Different modes of reward delivery are currently implemented by the \href{http://docs.auto-pi-lot.com/autopilot.core.hardware.html\#autopilot.core.hardware.Solenoid}{\texttt{Solenoid} class}.}. Reward managers can implement different calibration schemes---eg. for gravity-fed water delivery, reward can be configured to be delivered for a constant time, constant volume, or use the animal's mass and performance to adaptively deliver a total volume over a period of time.
+
+\section{Agents - Terminal, Pilot, and Child}
+\label{sec:agents}
+
+All\marginnote{\includegraphics[]{figures/side_26_agents.pdf}} of the above components---tasks, hardware, and stimuli---are organized into a single system as an "agent," the central executable component of Autopilot which a) manages the core operations of the system and b) defines how it interacts with the rest of the agents it is connected to. Specifically, agents are built around an action vocabulary that  maps different types of messages to callback methods.
+
+\clearpage
+
+Currently, we have implemented three Agent types: 
+
+\begin{itemize}
+    \item \textbf{Terminal} - The user-facing control agent.
+    \item \textbf{Pilot} - A Raspberry Pi that runs tasks, coordinates hardware, and optionally coordinates a set of child Pis.
+    \item \textbf{Child} - Subordinate Pis to a pilot that carry out different parts of a task
+\end{itemize}
+
+\textbf{Terminal}\marginnote{\includegraphics[]{figures/side_27_terminal.pdf}} agents serve as a root node (see Section \ref{sec:networking}) in an Autopilot swarm. The terminal is the only agent with a \hyperref[sec:ui]{GUI}, which is used to control its connected pilots and visualize incoming task data. The terminal also manages data and keeps a registry of all active experimental subjects. The terminal is intended to make the day-to-day use of an Autopilot swarm manageable, even for those without programming experience. The terminal GUI is described further in Section \ref{sec:ui}.
+
+\textbf{Pilot}\marginnote{\includegraphics[]{figures/side_28_pilot.pdf}} agents are the workhorses of Autopilot---the agents that run the experiments. Pilots are intended to operate as always-on, continuously running system services. Pilots make a network connection to a terminal and wait for further instructions. They maintain the system-level software used for interfacing with the hardware connected to the Raspberry Pi, receive and execute tasks, and continually return data to the terminal for storage. 
+
+Each\marginnote{\includegraphics[]{figures/side_29_child.pdf}} pilot is capable of coordinating one or many \textbf{child} agents. The pilot maintains a network connection to its children, and if a task specifies that some of its functionality is to be split between Raspberry Pis, the pilot notifies its children and sends them a specialized subtask description. The pilot serves as the only point of contact between its children and the terminal, so the terminal only needs to keep track of its pilots, and doesn't need separate methods for communicating with all their children, their hardware, etc.
+
+\subsection{Behavioral topologies}
+\label{sec:topology}
+
+We think one of the most transformative features of Autopilot's distributed structure is the control that users have over what we call "behavioral topology." The logic of hardware and task operation within an agent, the distribution of labor between agents performing a task, and the pattern of connectivity and command within a swarm of agents constitute a topology. 
+
+Below we illustrate this idea with a few examples:
+
+\clearpage
+
+\begin{itemize}
+    \item \textbf{Pilot Swarm}\marginnote{\includegraphics[]{figures/side_20_swarm.pdf}} - The first and most obvious topological departure from traditional behavioral instrumentation is the use of a single computer to independently coordinate tasks in parallel. Our primary installation of Autopilot is a cluster of 10 behavior boxes that can independently run tasks dispatched from a central terminal which manages data and visualization. This topology highlights the expandability of an Autopilot system: adding new pilots is inexpensive, and the single central terminal makes controlling experiments and managing data simple.
+    \item \textbf{Shared Task} - \marginnote{\includegraphics[]{figures/side_21_shared.pdf}} Tasks can be shared across pilots and their (potentially multiple) children to handle tasks with computationally intensive operations. For example, in an open-field navigation task, one pilot can deliver position-dependent sounds while one of its children records and analyzes video of the arena to track the animal's position. The terminal only needs to be configured to connect to the parent pilot, but since networking is handled in an independent process the raw video data can pass through the parent from the child such that sound delivery remains responsive.
+    \item \textbf{Distributed Task}\marginnote{\includegraphics[]{figures/side_22_distributed.pdf}} - Many pilots with overlapping responsibilities can cooperate to perform distributed tasks. We anticipate this will be useful when the experimental arenas can't be fully contained (such as natural environments), or when experiments require simultaneous input and output from multiple subjects. Distributed tasks can take advantage of the Pi's wireless communication, enabling, for example, experiments that require many networked cameras to observe an area, or experiments that use the Pis themselves as an interface in a multisubject augmented reality experiment.
+    \item \textbf{Multi-Agent Task}\marginnote{\includegraphics[]{figures/side_23_multi.pdf}} - Neuroscientific research often consists of multiple mutually interdependent experiments, each with radically different instrumentation. Autopilot provides a framework to unify these experiments by allowing users to rewrite core functionality of the program while maintaining integration between its components. For example, a neuroethologist could build a new \hyperref[sec:futureagents]{"Observer"} agent that continually monitors an animal's natural behavior in its home cage to calibrate a parameter in a task run by a pilot. If they wanted to manipulate the behavior, they could build a "Compute" agent that processes Calcium imaging data taken while the animal performs the task to generate and administer patterns of optogenetic stimulation. We think that unifying diverse experimental data streams and hardware into a single framework is the best way to perform experiments that measure natural behavior and its hierarchical organization across multiple timescales in order to  understand the naturally behaving brain\citep{dattaComputationalNeuroethologyCall2019}.
+\end{itemize}
+
+\clearpage
+
+
+\section{Networking}
+\label{sec:networking}
+
+\begin{marginfigure}[0.8cm]
+\includegraphics[]{figures/side_24_networking.pdf}
+\caption{Autopilot segregates data streams efficiently---eg. raw velocity (red) can be plotted and saved by the terminal while only the task-relevant events (blue) are sent to the pilot. The pilot then sends trial-summarized data to the terminal (green).}
+\label{fig:datastreams}
+\end{marginfigure}
+
+Agents use two types of object to communicate with one another: core \textbf{station} objects and peripheral \textbf{node} objects (Figure \ref{fig:datastreams}). Each agent creates one station in a separate process that handles all communication \textit{between} agents. Stations are capable of forwarding data and maintaining agent state so the agent process is not unnecessarily interrupted. Nodes are created by individual modules run within an agent---eg. tasks, plots, hardware---that allow them to send and receive messages within an agent or between agents through the station object. Messages are TCP packets\sidenote{Autopilot uses ZeroMQ\citep{hintjensZeroMQMessagingMany2013} and \href{http://www.tornadoweb.org/en/stable/}{tornado} to send and process messages}, so there is no distinction between sending messages within a computer, a local network, or over the internet.
+
+Both types of networking objects are tailored to their hosts by a set of callback functions---\textbf{listens}---that define how to handle each type of message. Messages have a uniform key-value structure, where the key indicates the listen used to process the message and the value is the message payload. This system makes adding new network-enabled components trivial:
+
+\begin{pythoncode*}{label=A new networked LED}
+class LED_RGB(Hardware):
+    def __init__(self):
+        # call self.color for a 'COLOR' message
+        self.listens = {'COLOR': self.color}
+        self.node = networking.Node(
+            id      = 'BEST_LED',
+            listens = self.listens)
+        
+    def color(msg):
+        self.set_color(msg.value)
+        
+# elsewhere in the code, we change the color to red!
+node.send(to='BEST_LED', key='COLOR', value=[255,0,0])
+\end{pythoncode*}
+
+\begin{marginfigure}[2.4cm]
+\includegraphics[]{figures/side_25_tree.pdf}
+\caption{Treelike network structure---downstream messages are addressed by successive nodes, but upstream messages can always be pushed until the target is found.}
+\label{fig:nettree}
+\end{marginfigure}
+
+Network connectivity is treelike (Figure \ref{fig:nettree})---each independent networking object can have many children but at most one parent. This structure makes an implicit assumption about the anisotropy of information flow: 'higher' nodes don't need to send messages to the 'lowest' nodes, and the 'lowest' nodes send all their messages to one or a few 'higher' nodes. It enforces simplified delegation of responsibilities in both directions: a terminal shouldn't need to know about every hardware object connected to all of its connected pilots, it just sends messages to the pilots, who handle it from there. A far-downstream node shouldn't need to know exactly how to send its data back to the terminal, so it pushes it upstream until it reaches a node that does.
+\clearpage
+\section{GUI \& Plots}
+\label{sec:ui}
+
+The terminal's GUI controls day-to-day system operation\sidenote{Autopilot uses \href{https://wiki.qt.io/PySide}{PySide}, a wrapper around \href{https://www.qt.io/}{Qt}, to build its GUI.}. It is intended to be a nontechnical frontend that can be used by those without programming experience. 
+
+For each pilot, the terminal creates a control panel that manages subjects, task operation, and plots incoming data. \href{http://docs.auto-pi-lot.com/guide.training.html#creating-a-subject}{Subjects can be managed} through the GUI, including creation, protocol assignment, and metadata editing. Protocols can also be \href{http://docs.auto-pi-lot.com/guide.training.html#creating-a-protocol}{created from within the GUI}. The \hyperref[sec:taskcomponents]{\texttt{PARAMS}} dictionary from a task is used to programmatically generate a series of fields that the user can fill to describe their particular version of the task. The standardized description of tasks not only allows them to be reused between researchers, but also take advantage of the rest of the infrastructure of Autopilot.
+
+The GUI also has a set of basic maintenance and informational routines in its menus, like calibrating water ports or viewing a history of subject weights. The simple callback design and network infrastructure makes adding new GUI functionality straightforward.
+
+\subsection{Plotting}
+\label{sec:plotting}
+
+\begin{marginfigure}[-5.5cm]
+\begin{minted}[frame=lines,label=Trial Plot,fontsize=\small]{json}
+{"data": {
+    "target"   : "point",
+    "response" : "segment",
+    "correct"  : "rollmean"
+},
+"roll_window" : 50}
+\end{minted}
+\begin{minted}[frame=lines, label=Continuous Plot,fontsize=\small]{json}
+{"data": {
+    "target"   : "point",
+    "response" : "segment",
+    "velocity" : "shaded"
+},
+"continuous": true}
+\end{minted}
+\caption{\texttt{PLOT} parameters for Figure \ref{fig:gui}. In both, "target" and "response" data are mapped to "point" and "segment" graphical primitives, but timestamps rather than trial numbers are used for the x-axis in the "continuous" plot (Figure \ref{fig:gui}, bottom). Additional parameters can be specified, eg. the trial plot (Figure \ref{fig:gui}, top) computes rolling accuracy over the past 50 trials}
+\label{fig:plotparams}
+\end{marginfigure}
+
+Realtime data visualization is critical for monitoring training progress and ensuring that the task is working correctly, but each task has different requirements for visualization. A task that has a subject continuously running on a ball requires a continuous readout of running velocity, whereas a trial-based task only needs to show correct/incorrect responses as they happen. Autopilot solves this problem by assigning the data returned by the task to graphical primitives like points, lines, or shaded areas as specified in a task's \hyperref[sec:taskcomponents]{\texttt{PLOT}} dictionary (taking inspiration from Wilkinson's grammar of graphics\citep{wilkinsonGrammarGraphics2012}).%
+%
+\begin{figure*}[hb!]
+\caption[][-7cm]{Screenshot from a terminal GUI running two different tasks with different plots concurrently. \texttt{pilot\_1} runs 2 subjects: (\texttt{tones} and \texttt{tones\_2}). See Figure \ref{fig:plotparams} for plot description}
+\label{fig:gui}
+\includegraphics[]{figures/ss_3.png}
+\end{figure*}
+% keeping in case want to remove param figures
+%The top plot displays trial-by-trial information along the x-axis: each dot represents the target response (left = bottom, right = top), and each line segment represents the subject's actual response. A rolling mean of the subject's accuracy is plotted in gray. The bottom plot advances continuously, and displays the subject's velocity (shaded area) as well as the target and actual responses (as in top plot).
+\clearpage
+
+
+
+\chapter{Tests}
+\label{sec:tests}
+
+\newthought{We have been testing and refining Autopilot} since we built our swarm of 10 training boxes 10 months ago. In that time 115 mice\sidenote{All procedures were performed in accordance with National Institutes of Health guidelines, as approved by the University of Oregon Institutional Animal Care and Use Committee.} have performed over 1.9 million trials on auditory two-alternative forced choice tasks. Our terminal has sent and received more than 42 million messages. While Autopilot is (by definition) immature at release, it is by no means untested.
+
+\section{Latency}
+\label{sec:latency}
+
+\begin{margintable}[1.5cm]
+\caption{Latency Test Materials}
+\label{tab:materials}
+\noindent\begin{tabularx}{\linewidth}{lX}%
+\toprule
+\textbf{Autopilot} & \href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/}{Raspberry Pi 4}\\
+Soundcard & \href{https://www.hifiberry.com/shop/boards/hifiberry-amp2/}{Hifiberry Amp2} \\
+IR Break Sensor & \href{https://www.digikey.com/product-detail/en/tt-electronics-optek-technology/OPB901L55/365-1767-ND/1637490}{TT Electronics OPB901L55}\\
+Speaker & \href{https://www.parts-express.com/hivi-rt13we-isodynamic-tweeter--297-421}{HiVi RT1.3WE}\\
+\midrule
+\textbf{Bpod} & \href{https://sanworks.io/shop/viewproduct?productID=1024}{State Machine R2}\\
+Computer & See Table \ref{tab:terminal}\\
+Soundcard & \href{https://www.asus.com/Sound-Cards/Essence_STX_II_71/}{ASUS Xonar Essence STX II}\\
+Stimulator & Grass S88 \\
+\midrule
+Oscilloscope & \href{https://download.tek.com/manual/071181702web.pdf}{Tektronix TDS 2004B}\\
+\bottomrule
+\end{tabularx}
+\end{margintable}
+
+
+Neurons compute at millisecond timescales, so any task that links neural computation to behavior needs to have near-millisecond latency. We measured Autopilot's end-to-end, hardware input to hardware output latency by measuring the delay between a poke in a nosepoke sensor and the onset of a 10kHz pure tone (Table \ref{tab:materials}). 
+
+We also measured the latency of a Bpod state machine configured according to the \href{https://sites.google.com/site/bpoddocumentation/installing-bpod/ubuntu14}{provided instructions} and running an \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/PsychToolboxSound/PsychToolboxSound.m}{example task} from their repository. Sound playback was triggered with a 1ms TTL pulse to the state machine's BNC input port. We note that for the Bpod test we used a more recent soundcard from the same manufacturer and Ubuntu 16.04 (running the \href{https://help.ubuntu.com/community/UbuntuStudio/RealTimeKernel}{\texttt{lowlatency}} kernel) since the recommended \href{https://www.asus.com/us/Sound-Cards/Xonar_DX/}{Asus Xonar DX} is no longer available for purchase and Ubuntu 14.04 is \href{https://ubuntu.com/blog/ubuntu-14-04-trusty-tahr}{no longer supported}.
+
+Autopilot's \href{http://jackaudio.org/}{jack} audio backend was configured with a \texttt{192kHz} sampling rate and a total buffer size of \texttt{128} samples, and Bpod's Psychtoolbox server was configured with a \href{https://github.com/sanworks/Bpod_Gen2/blob/825eaf6ea2cb11da956ee21c42876c4363e9c14e/Functions/Plugins/PsychToolboxAudio/PsychToolboxAudio.m#L25}{\texttt{192kHz}} sampling rate with a \href{https://github.com/sanworks/Bpod_Gen2/blob/825eaf6ea2cb11da956ee21c42876c4363e9c14e/Functions/Plugins/PsychToolboxAudio/PsychToolboxAudio.m#L122}{\texttt{32} sample} buffer for theoretical minimum latencies of \texttt{0.67} and \texttt{0.17ms}, respectively.
+
+For both systems we directly measured the input logic and output sound voltage with an oscilloscope and estimated latency with its measurement cursors. %
+%
+\begin{figure}[hb!]
+\caption{For the two systems we measured (blue), mean latency is presented $\pm$ standard deviation of all individual measurements (black dots, n=200 for each). Reported latencies (red) of \href{https://sites.google.com/site/bpoddocumentation/bpod-user-guide/function-reference/psychtoolboxsoundserver}{Bpod} and \href{https://pycontrol.readthedocs.io/en/latest/user-guide/hardware/\#audio_player}{pyControl} were found online.}
+\label{fig:lags}
+\includegraphics{figures/test_1_lags.pdf}
+\end{figure}
+
+\clearpage
+
+Autopilot's  \texttt{1.75ms} $\pm$ \texttt{0.3} latency---less than 3x the theoretical minimum---improves upon the measured latency of Bpod and reported latency of pyControl by an order of magnitude (Figure \ref{fig:lags}, \texttt{18.4ms} $\pm$ \texttt{1.4}, \texttt{15ms} respectively). This suggests that Autopilot eliminates most perceptible end-to-end latency, which is necessary for tasks that require realtime feedback.
+
+While we did not deeply investigate the reason why Bpod exceeded its theoretical minimum latency by more than 100x, potential sources of latency include a \href{https://github.com/sanworks/Bpod_Gen2/blob/825eaf6ea2cb11da956ee21c42876c4363e9c14e/Functions/Internal\%20Functions/ArCOM/ArCOMObject_Bpod.m#L304}{costly serial reading method}, or \href{https://github.com/sanworks/Bpod/blob/4b756d8251f0a06ee9a442e9cac465872c1b4174/Functions/RunStateMatrix.m#L189}{the MATLAB graphics engine being continuously called in the main loop of the program}, which are intrinsic to its single-threaded design.
+
+Since Autopilot's event handling infrastructure is shared across tasks and hardware classes, latency for all events should be roughly similar to that of audio playback. One future direction is to improve upon Autopilot's already-low latency by compiling its sound server and event handling methods using Cython.
+
+\section{Bandwidth}
+
+\begin{margintable}[-6.6cm]
+\caption{Terminal Specs}
+\label{tab:terminal}
+\noindent\begin{tabularx}{\linewidth}{rR}
+\toprule
+    CPU & AMD FX-4300 \\
+    CPU Speed & 3.8GHz \\
+    Memory & 8GB \\
+    Ethernet & 1Gbit/s \\
+    Switch & NETGEAR GSS116E \\
+\bottomrule
+\end{tabularx}
+\end{margintable}
+
+\begin{marginfigure}[-0.4cm]
+\includegraphics[]{figures/test_net_combined.pdf}
+
+\caption{Network latency (top) and throughput (bottom) tests. Each point in the latency test represents the mean rate and delay of 5,000 255 Byte messages. Throughput (bottom) was calculated as the product of message rate and message size, and is displayed for a test that requested different numbers of pilots (colors) to send messages of different size to the terminal.}
+\label{fig:speed}
+\end{marginfigure}
+
+To support data-intensive tasks like those that require online processing of video or electrophysiological data, the networking modules at the core of Autopilot need high bandwidth and low latency. 
+
+We tested network capacity using Autopilot's \href{http://docs.auto-pi-lot.com/autopilot.core.gui.html#autopilot.core.gui.Bandwidth_Test}{\texttt{Bandwidth\_Test}} widget. This test requests that a set of selected pilots send messages at a range of selected frequencies and payload sizes back to the terminal. The messages pass through four networking objects en route: the stations and network nodes running the test for both the terminal and pilots (See Figure \ref{fig:datastreams}). Delay is measured as the duration between the creation of the message at the sender and the processing of the message at the receiver. The Pis and terminal were synchronized on common NTP servers to align timestamps. 
+
+First we tested the limits of our terminal's ability to receive messages from the 10 pilots that it controls. Our terminal is a modest desktop (complete with a vintage 2012 CPU, see Table \ref{tab:terminal}) with ethernet connections to 10 Raspberry Pi 3b's through a network switch. We first tested the rate at which the Pi 3b's and our terminal could send and process typical (\texttt{255 Byte}) messages without a data payload (Figure \ref{fig:speed}, top). A single Pi was capable of sending at a maximum rate of \texttt{707 Hz} without exceeding its nominal mean delay of \texttt{4.9} ($\pm$ \texttt{0.47}) ms. Adding additional Pis did not cause increased delay until the total sending rate surpassed roughly \texttt{2000 Hz}. These are the rate limits of sending and receiving messages, respectively.
+
+As we increased the size of each individual message by including payloads of generated data (Figure \ref{fig:speed}, bottom), the rate of messaging decreased, but the total throughput (\texttt{message rate (Hz) * size (Bytes)}) saturated linearly as a multiple of the number of sending Pis. The Raspberry Pi 3b has a shared USB/Ethernet Bus, and thus appears to have a relatively limited \texttt{11.8MB/s} throughput.
+
+\begin{marginfigure}[0.1cm]
+\includegraphics[]{figures/test_4_comparison.pdf}
+\caption{The Raspberry Pi 4's gigabit ethernet bus markedly improves network performance.}
+\label{fig:netcomparison}
+\end{marginfigure}
+
+Fortunately, the Raspberry Pi 4 has an independent \href{https://www.raspberrypi.org/magpi/raspberry-pi-4-specs-benchmarks/}{gigabit ethernet bus}. On a Raspberry Pi 4, Autopilot has a \texttt{41MB/s} maximum throughput and a \texttt{1,919Hz} maximum messaging rate (Figure \ref{fig:netcomparison}). We observed a slightly higher messaging delay with the Raspberry Pi 4 (\texttt{6.9ms} vs. \texttt{4.9ms} Raspberry Pi 3B+). We note that the NTP synchronization method we used to measure delays has a margin of error on the order of milliseconds. 
+
+Autopilot's networking modules are capable of supporting the infrastructure of next-generation behavioral neuroscience experiments. Our humble terminal was capable of receiving the full \texttt{114.6MB/s} of 10 Pis without sign of saturation, and a Raspberry Pi 4 is capable of sending data at \texttt{41MB/s}. This bandwidth makes Autopilot capable of streaming raw Calcium imaging\sidenote{2-Photon:  5.9MB/s\\ \noindent (12 bits * 512x512 resolution * 15Hz)} and electrophysiological data from modern high-density probes\sidenote{Neuropixels: 14.4MB/s\citep{junFullyIntegratedSilicon2017}\\\noindent(10 bits * 30kHz * 384 channels)}. The delay between sending and processing messages over 4 hops in a network (\texttt{4.9ms}) is less than the latency with which comparable systems (Figure \ref{fig:lags}) process triggers when connected directly via serial.
+
+Finally, while Autopilot typically operates in a "TCP-like" protocol---resending messages until they have been confirmed as received---these tests were run with an optional "UDP-like" protocol which does not check for confirmation. Across the approximately 2.5 million messages sent during these tests only \texttt{537} were dropped (and only during tests which saturated rate or bandwidth capacity), giving Autopilot a delivery rate of \texttt{99.98\%} in "UDP" mode. By design, delivery rate is guaranteed to be 100\% in "TCP" mode.
+
+\section{Distributed Go/No-go Task}
+\label{sec:gonogo}
+
+We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}). The code for this task is described in greater detail in \href{http://docs.auto-pi-lot.com/guide.task.html#distributed-go-no-go-using-child-agents}{the user guide}.
+
+\begin{marginfigure}[-1.3cm]
+\includegraphics[]{figures/test_5_gonogo.pdf}
+\caption{Hardware distribution for the distributed go/no-go task}
+\label{fig:gonogo}
+\end{marginfigure}
+
+In this task, a head-fixed subject would\sidenote{No mice were trained on this task} be running on a wheel in front of a display with a lick-detecting water port able to deliver reward. Above the port is an LED. Whenever the LED is green, if the subject drops below a threshold velocity for a fixation period, a grating stimulus at a random orientation is presented on the monitor. After a random delay, there is a chance that the grating changes orientation by a random amount. If the subject licks the port in trials when the orientation is changed, or refrains from licking when it is not, the subject is rewarded. 
+
+One "parent" pilot controlled the operation of the task, including the coordination of its child\sidenote{Both Raspberry Pi 4s}. The parent was connected to the LED and solenoid valve for reward delivery, as well as a monitor\sidenote{\href{https://www.productchart.com/monitors/16901}{Acer S230HL} - (\texttt{1920x1080px, 60Hz})} to display the gratings\sidenote{Visual stimuli were presented with \href{https://www.psychopy.org/}{Psychopy} (v3.1.5) using the \href{https://www.glfw.org/}{glfw} (v1.8.3) backend while Autopilot was run in a dedicated X11 display server.}. The child continuously streamed velocity data (measured with a USB optical mouse against the surface of the wheel) back to the terminal for storage (see also Figure \ref{fig:datastreams}, which depicts the network topology for this task). The child waited for a message from the parent to initiate measuring velocity, and when a rolling average of recent velocities fell below a given threshold the child sent a TTL trigger back to the parent to start displaying the grating. This split-pilot topology allows us to poll the subject velocity continuously (at \texttt{125Hz} in this example) without competing for resources with psychopy's rendering engine.
+
+We measured trigger (TTL pulse from the child) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter\sidenote{\href{https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=3341}{Thorlabs PM100D}} attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
+
+\begin{marginfigure}[1.8cm]
+\includegraphics[]{figures/test_6_visual_lags.pdf}
+\caption{Stacked dots are a histogram of individual observations (n=50) underneath the probability density (black line), red lines indicate quartiles.}
+\label{fig:vidlat}
+\end{marginfigure}
+
+We observed a bimodal distribution of latencies (Quartiles: \texttt{28, 30, 36ms, n=50}, Figure \ref{fig:vidlat}), presumably because onsets of visual stimuli are quantized to the refresh rate (\texttt{60Hz, 16.67ms}) of the monitor. This range of latencies corresponds to the second and third frame after the trigger is sent (2/3 of observations fall in the 2nd frame, 1/3 of observations in the 3rd frame). We observed a median framerate of \texttt{36.2 FPS (IQR: 0.7)} across 50 trials (\texttt{8863} frames, Figure \ref{fig:framerate}). 
+
+We further tested the Pi's framerate by using Psychopy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test---a script that draws stimuli without any Autopilot components running---to see if the framerate limits were imposed by the hardware of the Raspberry Pi or overhead from Autopilot (Table \ref{tab:fpstests}). We tested a series of Gabor filters and \href{https://www.psychopy.org/api/visual/dotstim.html#psychopy.visual.DotStim}{random dot stimuli} (dots travel in random directions with equal velocity, default parameters) at different screen resolutions and stimulus complexities. The Raspberry Pi was capable of moderately high framerates (\texttt{>60 FPS}) for smaller, lower resolution stimuli, but struggled (\texttt{<30 FPS}) for full HD, fullscreen stimuli.
+
+\begin{marginfigure}[-0.7cm]
+\includegraphics[]{figures/test_7_fps.pdf}
+\caption{Probability density of framerates for 960 x 540px grating rendered at 1080p. Red lines indicate quartiles}
+\label{fig:framerate}
+\end{marginfigure}
+
+Autopilot is appropriate for realtime rendering of simple stimuli, and the proof-of-concept API we built around Psychopy doesn't impose discernible overhead (Mean framerate for a \texttt{960 x 540px} grating at \texttt{1080p} in Autopilot: \texttt{36.2 fps}, vs. \texttt{timeByFrames}: \texttt{35.0 fps}). In the future we will investigate prerendering and caching complex stimuli in order to increase performance. A straightforward option for higher-performance video would be to deploy an Autopilot agent running on a desktop computer with a high-performance GPU, or to use a single-board computer with a GPU like the \href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/}{NVIDIA Jetson} (\$99).
+
+
+
+\begin{table}
+\caption{Tests performed over 1000 frames with PsychoPy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test.}
+    \begin{tabular}{rrr|rr}
+        \toprule
+        \textbf{Stimulus} & \textbf{Resolution} & \textbf{Size / \# Dots}& \textbf{Mean FPS} & \textbf{$\sigma$ FPS} \\
+        \midrule 
+        Gabor Filter & 1280 x 720  & 300 x 300px & 106.4 & 5.5 \\
+        Gabor Filter & 1920 x 1080 & 300 x 300px & 75.2 & 3.5\\
+        Gabor Filter & 1280 x 720 & 640 x 360px & 53.5 & 2.2\\ 
+        Gabor Filter & 1920 x 1080 & 960 x 540px & 35.0 & 1.0 \\
+        Gabor Filter & 1280 x 720 & 720 x 720px & 41.5 & 2.2 \\
+        Gabor Filter & 1920 x 1080 & 1080 x 1080px & 20.1 & 0.7 \\
+        Random Dots & 1280 x 720 & 100 dots & 98.0 & 3.8 \\
+        Random Dots & 1920 x 1080 & 100 dots & 67.6 & 3.0 \\
+        Random Dots & 1280 x 720 & 1000 dots & 20.9 & 0.25 \\
+        Random Dots & 1920 x 1080 & 1000 dots & 19.5 & 0.36 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:fpstests}
+\end{table}
+
+
+\chapter{Limitations and Future Directions}
+\label{sec:future}
+\begin{fullwidth}
+
+\newthought{While we believe that} Autopilot's order of magnitude increase of performance and decrease in expense, and its qualitative improvements in task design flexibility due to its distributed architecture are already useful contributions to behavioral neuroscience, we do not view Autopilot as "finished." We view Autopilot---like all open-source software---as an evolving project. We are invested in its development, and will be continually working to fix bugs, make its use more elegant, and add new features in collaboration with its users. 
+
+We expect that as the codebase matures and other researchers use Autopilot in new, unexpected ways that some fundamental elements of its structure may evolve. We have built version logging into the structure of the system so that changes will not compromise the replicability of experiments (see \textbf{Versioning and Containerization} below). While there will inevitably be changes between versions, these will be both transparently documented and announced in release notes in order to alert users and describe how to adapt as needed. Accordingly, potential users should not let the limitations and future directions described below cause them to worry about early adoption or to wait for a stable version---the cost to start using Autopilot is low, and in our experience implementing experiments is already easier and more straightforward than comparable behavior systems. 
+
+\vspace{12pt}
+
+\noindent We see several limitations in the launch version of Autopilot that we will improve on in future versions:
+
+
+\begin{itemize}
+    \item \textbf{Python 3} - We began developing Autopilot while there was still a case to be made for using Python 2. Now, given Python 2's impending \href{https://www.python.org/dev/peps/pep-0373/#update}{end of life} in 2020, we will transition Autopilot to Python 3 by the end of 2019. We have already started transitioning with the \texttt{Subject} data class and don't see the transition as a great obstacle.
+    \item \textbf{Synchronization} - Currently, there is no synchronization engine built into Autopilot. To ensure time-sensitive operations distributed over multiple Raspberry Pis are synchronized (ie. generate near-identical timestamps), we will add the ability for agents to \href{http://abyz.me.uk/rpi/pigpio/python.html#hardware_clock}{generate and follow a clock signal with pigpio}. This synchronization engine will also allow alignment of Autopilot data with external software, such as the proprietary software often used for imaging data acquisition.
+    \item \label{item:othertools} \textbf{Integration with Other Software} - We will make Autopilot capable of natively recording electrophysiological data by integrating with Open Ephys\citep{siegleOpenEphysOpensource2017}. We also are interested in tightly integrating other recent tools like DeepLabCut\citep{nathUsingDeepLabCut3D2019} and MoSeq\citep{wiltschkoMappingSubSecondStructure2015} to make Autopilot a unified platform for complex and naturalistic behavioral experiments.
+    \item \textbf{Transformations} - To enable the use of computer vision and other analytical tools within tasks we have begun building a data transformation module. This module will provide a framework to perform high-level data transformations---eg. images from a camera to positions of tracked objects---that convert raw data from hardware objects to processed data useful for designing complex tasks.
+    \item \textbf{Agents}\label{sec:futureagents} - The Agent infrastructure is still immature---the terminal, pilot, and child agents are written as independent classes, rather than with a shared inheritance structure. We will be designing a common Agent class schema so that they are easier to design and deploy. We also plan to expand the available agents, specifically by introducing Observer and Compute agents. Observers will be designed for passive observation without supervision from a terminal, eg. for monitoring animals continuously in their home cages. Compute agents will run on high-performance computers in order to facilitate computationally intensive operations like GPU-dependent image analysis, online spike-sorting, etc. A mature agent framework will provide a much more streamlined path to the complex multi-agent experiments alluded to in Section \ref{sec:topology}.
+    \item \textbf{Data} - We plan on transitioning our data model to implementing the Neurodata Without Borders\citep{rubelNWBAccessibleData2019} standard.  Since the Neurodata Without Borders standard is implemented in HDF5 and structurally similar to our data model, this transition should be straightforward. We also plan on adding support for a NoSQL \href{https://www.mongodb.com/}{mongoDB} database backend to improve reliability, scalability, and performance of data storage and retrieval. Since our data model is standardized, we will ensure all data storage backends are mutually compatible so data stored in a database can be exported to HDF5 files and vice versa. Currently Autopilot only automatically logs changes in task parameters and code version, but in the future we will expand our logging facility to include detailed data on systemwide preferences and connected hardware. 
+    \item \textbf{Versioning and Containerization} - While Autopilot version and local changes are logged in collected data by default, there is no way to specify that a task should be run using a particular version automatically (ie. the user has to manually check out the specific git commit before running Autopilot). We intend on supporting task parameterizations that specify particular versions of Autopilot. We also will expand Autopilot's version logging system to include the versions of all the other packages in the environment. In our view, the best way to support reproducible software environments is to use a container system like \href{https://www.docker.com/}{Docker}, so we will be building infrastructure to generate containers from task parameterizations.
+    \item \textbf{Tasks} - We look forward to collaborating with other researchers to expand the available library of tasks. While the two-alternative forced choice and go/no-go tasks we have implemented are common, we designed Autopilot to be capable of performing \textit{any} behavioral experiment. For example: we have already started a collaboration to build a freely-moving, jumping-based behavior that relies on 16 hardware components and data streams, and have future plans to build hardware and stimulus management extensions for human psychophysical tasks performed in an fMRI. 
+    \item \textbf{Mesh Networking} - The tree structure of Autopilot's networking was built to enforce simplicity of its messaging protocol, but it limits the ability for data to be shared efficiently between a large number of pilots because communication has to be routed through a hub terminal. We will implement a true mesh network architecture by implementing a distributed hash table, allowing agents to directly communicate with one another without explicit configuration. We also will implement a peer-to-peer data protocol akin to Bittorrent to allow efficient distribution of data across a swarm of agents.
+    \item \textbf{Web Interface} - We would like to make a web-compatible UI that allows tasks to be administered and monitored from any computer. A web interface would make continuous experiments much easier to manage---we specifically intend this improvement (along with the Observer agent) to facilitate active sensory enrichment\citep{wellsSensoryStimulationEnvironmental2009,engineerEnvironmentalEnrichmentImproves2004a} and developmental experiments.
+    \item \textbf{Platform Independence} - We have not rigorously tested Autopilot on operating systems other than Raspbian and Ubuntu Linux, though we know the terminal agent and its GUI works on macOS. 
+    \item \textbf{Unit Tests} - At release, Autopilot has no unit tests. To make the codebase easier to maintain, we aim to reach 100\% coverage by the first stable release of the program (v1.0).
+\end{itemize}
+\end{fullwidth}
+
+
+\chapter{Glossary}
+
+\begin{fullwidth}
+%\storestyleof{thintab}
+%\noindent\begin{listliketab}
+\renewcommand{\arraystretch}{1.25}
+\begin{table*}[!hb]
+\noindent\begin{tabularx}{\linewidth}{llX}
+
+%\begin{itemize}[label={}, labelindent=5pt, itemindent=-15pt]
+ \textbf{Agent} & \ref{sec:agents} & The executable part of Autopilot. A set of startup routines (eg. opening a GUI or starting an audio server), runtime behavior (eg. opening as a window or running as a background system process), and event handling methods (ie. \textbf{listens}) that constitute the role of the particular Autopilot instance in the \textbf{swarm}. \\
+ \textbf{Child} & \ref{sec:agents} & An \textbf{agent} that performs some auxiliary, supporting role in a \textbf{task}---primarily used for offloading some hardware responsibilities from a \textbf{pilot}. \\
+ \textbf{Graduation} & \ref{sec:tasks} & Moving between successive \textbf{tasks} in a \textbf{protocol} when some criterion is met.  \\
+ \textbf{Listen} & \ref{sec:networking} & A method belonging to the \textbf{station} or \textbf{node} of a particular \textbf{agent} that defines how to process a particular type of message (ie. a message with a particular \texttt{key}). \\
+ \textbf{Node} & \ref{sec:networking} & A networking object that some module (eg. hardware, \textbf{tasks}, GUI routines) or method (eg. a \textbf{listen}) uses to communicate with other \textbf{nodes}. Messages to other \textbf{agents} in the swarm are relayed through their \textbf{Station} \\
+ \textbf{Pilot} & \ref{sec:agents} & An \textbf{agent} that runs on a Raspberry Pi, the primary experimental agent of Autopilot. Typically runs as a system service, receives \textbf{tasks} from a \textbf{terminal} and runs them. Can organize a group of \textbf{children} if requested by the \textbf{task}. \\
+ \textbf{Protocol} & \ref{sec:tasks} & A (\texttt{.json}) file that contains a list of \textbf{task} parameters and the \textbf{graduation} criteria to move between them. The \textbf{tasks} in a protocol are also known as its \textbf{levels}.  \\
+ \textbf{Stage} & \ref{sec:tasks} & \textbf{Stages} are methods that implement the logic of a \textbf{task}. They can be used analogously to states in a finite-state machine (eg. wait for \textbf{trial} initiation, play stimulus, etc.) or asynchronously (whenever x input is received, rotate stimulus by y degrees). \\
+ \textbf{Station} & \ref{sec:networking} & Each \textbf{agent} has a single \textbf{station}, a networking object that is run in its own process and is responsible for communication between \textbf{agents}. The \textbf{station} also routes messages from \textbf{children} or other \textbf{nodes}. \\
+ \textbf{Swarm} & & Informally, a group of connected \textbf{agents}. \\
+ \textbf{Task} & \ref{sec:tasks} & A formalized description of an experiment: the parameters it takes, the data that it collects, the hardware it needs, and a collection of \textbf{stages} that describe what happens during the experiment.  \\
+ \textbf{Terminal} & \ref{sec:agents} & A user-facing \textbf{agent} that provides a GUI for operating and maintaining a \textbf{swarm}.  \\
+\textbf{Topology} & \ref{sec:topology} & A particular combination of \textbf{agents}, their designated responsibilities, and the networking connections between them invoked by a \textbf{task} (eg. task requires one pilot to record video, one to process the video, and one to administer reward) or by usage (eg. 10 pilots are connected to a single terminal and are typically used to run 10 independent tasks, though they could run shared tasks together). \\
+\textbf{Trial} & \ref{sec:tasks} & If a \textbf{task} is structured such that its \textbf{stages} form a repeating series, a \textbf{trial} is a single completion of that series.%
+%\end{itemize}
+\end{tabularx}%
+%\end{listliketab}%
+\end{table*}%
+\end{fullwidth}
+%
+\backmatter
+\begin{fullwidth}
+\bibliography{autopilot }
+\bibliographystyle{plain}
+
+\end{fullwidth}
+
+
+
+\end{document}

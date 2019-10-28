@@ -1,0 +1,42 @@
+		 +----------------------------------+
+		 |     THE LISTLIKETAB PACKAGE	    |
+		 | Scott Pakin, scott+llt@pakin.org |
+		 +----------------------------------+
+
+
+Description
+-----------
+The listliketab package helps the user make list-like tabulars, i.e.,
+a tabular that is indistinguishable from an itemize or enumerate
+environment.  The advantage of using a tabular is that the user can
+add additional columns to each entry in the list.
+
+
+Copyright and license
+---------------------
+Copyright (C) 2005 Scott Pakin <scott+llt@pakin.org>
+
+This package may be distributed and/or modified under the conditions
+of the LaTeX Project Public License, either version 1.2 of this
+license or (at your option) any later version.  The latest version of
+this license is in:
+
+                http://www.latex-project.org/lppl.txt
+
+and version 1.2 or later is part of all distributions of LaTeX version
+1999/12/01 or later.
+
+
+Building listliketab
+--------------------
+tex listliketab.ins       <== Produces listliketab.sty (the package proper)
+pdflatex listliketab.dtx  <== Produces listliketab.pdf (documentation)
+makeindex -s gind.ist listliketab  <== Produces listliketab.ind (index)
+makeindex -s gglo.ist listliketab.glo -o listliketab.gls  <== (change log)
+pdflatex listliketab.dtx  <== Merges index + change log into the documentation
+pdflatex listliketab.dtx  <== Produces final version of listliketab.pdf
+
+Note that listliketab comes with pre-built documentation (PDF format,
+U.S. letter-sized paper, 8 pages), so you really need to perform only
+the first step above unless you're unhappy with the documentation as
+provided.
