@@ -44,3 +44,4 @@ _minted*
 
 # xcolor
 *.xcp
+.Rhistory
