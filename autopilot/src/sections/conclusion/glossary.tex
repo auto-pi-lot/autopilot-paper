@@ -1,0 +1,29 @@
+
+\begin{fullwidth}
+%\storestyleof{thintab}
+%\noindent\begin{listliketab}
+\renewcommand{\arraystretch}{1.25}
+\begin{table*}[!hb]
+\noindent\begin{tabularx}{\linewidth}{llX}
+
+%\begin{itemize}[label={}, labelindent=5pt, itemindent=-15pt]
+ \textbf{Agent} & \ref{sec:agents} & The executable part of Autopilot. A set of startup routines (eg. opening a GUI or starting an audio server), runtime behavior (eg. opening as a window or running as a background system process), and event handling methods (ie. \textbf{listens}) that constitute the role of the particular Autopilot instance in the \textbf{swarm}. \\
+ \textbf{Child} & \ref{sec:agents} & An \textbf{agent} that performs some auxiliary, supporting role in a \textbf{task}---primarily used for offloading some hardware responsibilities from a \textbf{pilot}. \\
+ \textbf{Graduation} & \ref{sec:tasks} & Moving between successive \textbf{tasks} in a \textbf{protocol} when some criterion is met.  \\
+ \textbf{Listen} & \ref{sec:networking} & A method belonging to the \textbf{station} or \textbf{node} of a particular \textbf{agent} that defines how to process a particular type of message (ie. a message with a particular \texttt{key}). \\
+ \textbf{Node} & \ref{sec:networking} & A networking object that some module (eg. hardware, \textbf{tasks}, GUI routines) or method (eg. a \textbf{listen}) uses to communicate with other \textbf{nodes}. Messages to other \textbf{agents} in the swarm are relayed through their \textbf{Station} \\
+ \textbf{Pilot} & \ref{sec:agents} & An \textbf{agent} that runs on a Raspberry Pi, the primary experimental agent of Autopilot. Typically runs as a system service, receives \textbf{tasks} from a \textbf{terminal} and runs them. Can organize a group of \textbf{children} if requested by the \textbf{task}. \\
+ \textbf{Protocol} & \ref{sec:tasks} & A (\texttt{.json}) file that contains a list of \textbf{task} parameters and the \textbf{graduation} criteria to move between them. The \textbf{tasks} in a protocol are also known as its \textbf{levels}.  \\
+ \textbf{Stage} & \ref{sec:tasks} & \textbf{Stages} are methods that implement the logic of a \textbf{task}. They can be used analogously to states in a finite-state machine (eg. wait for \textbf{trial} initiation, play stimulus, etc.) or asynchronously (whenever x input is received, rotate stimulus by y degrees). \\
+ \textbf{Station} & \ref{sec:networking} & Each \textbf{agent} has a single \textbf{station}, a networking object that is run in its own process and is responsible for communication between \textbf{agents}. The \textbf{station} also routes messages from \textbf{children} or other \textbf{nodes}. \\
+ \textbf{Swarm} & & Informally, a group of connected \textbf{agents}. \\
+ \textbf{Task} & \ref{sec:tasks} & A formalized description of an experiment: the parameters it takes, the data that it collects, the hardware it needs, and a collection of \textbf{stages} that describe what happens during the experiment.  \\
+ \textbf{Terminal} & \ref{sec:agents} & A user-facing \textbf{agent} that provides a GUI for operating and maintaining a \textbf{swarm}.  \\
+\textbf{Topology} & \ref{sec:topology} & A particular combination of \textbf{agents}, their designated responsibilities, and the networking connections between them invoked by a \textbf{task} (eg. task requires one pilot to record video, one to process the video, and one to administer reward) or by usage (eg. 10 pilots are connected to a single terminal and are typically used to run 10 independent tasks, though they could run shared tasks together). \\
+\textbf{Trial} & \ref{sec:tasks} & If a \textbf{task} is structured such that its \textbf{stages} form a repeating series, a \textbf{trial} is a single completion of that series.%
+%\end{itemize}
+\end{tabularx}%
+%\end{listliketab}%
+\end{table*}%
+\end{fullwidth}
+%

@@ -1,0 +1,59 @@
+
+\section{Limitations of Existing Systems}
+\label{sec:limitations}
+
+We see several limitations with these and other behavioral systems:
+
+\begin{itemize}[after=\vspace{-\topsep}]
+    \item \textbf{Hardware} - Both Pycontrol and Bpod strongly encourage users to purchase a limited set of hardware modules and add-ons from their particular hardware ecosystem. If a required part is not available for purchase, neither system provides a clear means of interacting with custom hardware, requiring the user to 'tack on' loosely-integrated components---we found \href{https://github.com/erlichlab/BpodSoundModule}{one such lab} using a Raspberry Pi to deliver sounds in their Bpod task.   There is also a hard limit on the \textit{number} of hardware peripherals that can be used in any given task, as there is no ability to use additional pyboards or Bpod state machines. The microcontrollers used in these systems also impose strong limits on their software: neither run a full, high-level programming language\sidenote{Bpod runs \href{https://github.com/sanworks/Bpod_StateMachine_Firmware}{custom firmware} written in C++ on a \href{https://www.pjrc.com/store/teensy36.html}{Teensy 3.6} microcontroller. pyControl's pyboard implements \href{https://micropython.org/}{micropython}, a subset of Python that excludes canonical libraries like numpy\citep{waltNumPyArrayStructure2011} or scipy\citep{jonesSciPyOpenSource2001}}. We will discuss this further in \hyperref[sec:singlelanguage]{section \ref*{sec:singlelanguage}}. A broader  limitation of existing systems is the difficulty of flexibly integrating the diverse hardware and analytical tools necessary to perform the next generation of behavioral neuroscience experiments that study "naturalistic, unrestrained, and minimally shaped behavior"\citep{dattaComputationalNeuroethologyCall2019}.
+    \item \textbf{Stimuli} - Stimuli are not tightly integrated into either of these systems, requiring the user to write custom routines for their synthesis, presentation, and description in the resulting data. Neither are capable of delivering visual stimuli. Bpod only supports raw audio waveforms presented with either a proprietary analog output hardware module or using PsychToolbox from the host computer. Some parametric audio stimuli are included in the \href{https://bitbucket.org/takam/pycontrol/src/default/pyControl/audio.py}{pyControl source code} but we were unable to find any documentation or examples of their use. %
+\end{itemize}\nobreak%
+\begin{marginfigure}[0.35cm]
+\begin{minted}[frame=lines,fontsize=\small]{matlab}
+for currentTrial = 1:MaxTrials
+% new state matrix every trial
+sma = NewStateMatrix();
+
+% add states and transitions
+sma = AddState(sma, 
+    'Name', 'Wait', ...
+    'Timer', 0,...
+    'StateChangeConditions', ...
+    {'Port2In', 'Delay'}, ...
+    'OutputActions', ...
+    {'AudioPlayer1','*'});
+% add more states...
+
+% upload and run task
+SendStateMatrix(sma);
+RawEvents = RunStateMatrix;
+
+% manually gather data and params
+BpodSystem.Data = AddTrialEvents(
+    BpodSystem.Data, RawEvents);
+    
+% plotting in the main loop
+UpdateSideOutcomePlot(...);
+UpdateTotalRewardDisplay(...);
+
+% manually save data
+SaveBpodSessionData;
+end
+\end{minted}
+\caption{\href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/AnalogSound2AFC/AnalogSound2AFC.m}{Bpod's general task structure.}}
+\label{fig:bpodtask}
+\end{marginfigure}\nobreak
+\begin{itemize}[resume*, before=\vspace{0pt}, after=\vspace{\baselineskip}]%
+    \item \textbf{Tasks} - Tasks in both systems require a large amount of code and effort duplication. Neither system has a notion of reusable tasks or task 'templates,' so every user needs to rewrite every task from scratch. Bpod's structure in particular tends to encourage users to write long \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/AnalogSound2AFC/AnalogSound2AFC.m}{task scripts} that are difficult to read (Figure \ref{fig:bpodtask}) because much of its codebase is 'backend' code for compiling and communicating with the state machine, so users have to write basic routines like stimulus creation themselves. Another factor that contributes to the difficulty of task design in these systems is the need to work around the limitations of finite state machines, which we discuss further in section \ref{sec:fsmlimits}.
+    \item \textbf{Data} - Data storage and formatting is basic, requiring extensive additional processing to make it human readable. For example, to determine whether a subject got a trial correct in an \href{https://github.com/sanworks/Bpod_Gen2/blob/master/Examples/Protocols/Light/Light2AFC/Light2AFC.m}{example} Bpod experiment, one would use the following code:
+    
+    \mintinline{matlab}{SessionData.RawEvents.Trial{1,1}.States.Punish(1) ~= NaN}
+    
+    As a result, data format is idiosyncratic to each user, making data sharing dependent on manual annotation and metadata curation from investigators. Additionally, since the parameters of experiments are not saved by default---and the GUIs of both systems allow parameters to be changed at will---critical data could be lost and experiments could be made unreproducible unless the user writes custom code to save them.
+    \clearpage
+    \item \textbf{Visualization \& GUI} - The GUIs of each of these systems are highly technical, and are not designed to be easily used by non-programmers. Visualization of task progress is quite rigid in both systems, either a timeseries of task states or plots specific to two-alternative forced choice tasks. There is no obvious way to adapt plots to specific tasks.
+\end{itemize}
+
+In short, existing systems for behavioral experiments are limited by the hardware they can use, the tasks they can implement, and the ease with which they can be implemented. Some of these limitations are cosmetic---fixable with additional code or hardware---but several of the most crucial are intrinsic to the design of these systems.
+
+These systems, among others, have pioneered the development of modern behavioral hardware and software, and are to be commended for being open-source and highly functional. One need look no further for evidence of their usefulness than to their adoption by many labs worldwide. At the time that these systems were developed, a general-purpose single-board computer with performance like the Raspberry Pi 4 was not widely available. The above two systems are not unique in their limitations, but are reflective of broader constraints of developing experimental tools. We are only able to articulate the design principles that differentiate Autopilot by building on their work. 
