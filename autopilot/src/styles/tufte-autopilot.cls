@@ -13,6 +13,8 @@
 % Load the common style elements
 \input{tufte-common.def}
 
+% set Garamond as main font!
+
 
 %%
 % Set up any book-specific stuff now
