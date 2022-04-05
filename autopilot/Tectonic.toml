@@ -5,7 +5,7 @@ bundle = 'https://data1.fullyjustified.net/tlextras-2020.0r0.tar'
 
 
 [[output]]
-name = 'autopilot'
+name = 'autopilot_v2'
 type = 'pdf'
 index = "autopilot.tex"
 shell_escape = true
