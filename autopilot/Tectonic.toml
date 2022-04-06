@@ -9,3 +9,10 @@ name = 'autopilot_v2'
 type = 'pdf'
 index = "autopilot.tex"
 shell_escape = true
+
+[[output]]
+name = 'autopilot_todo'
+type = 'pdf'
+index = 'todo/index.tex'
+preamble = 'todo/_preamble.tex'
+postamble = 'todo/_postamble.tex'
