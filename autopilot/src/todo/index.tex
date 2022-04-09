@@ -5,6 +5,7 @@
 \item add early collaborators like Chris, mackenzie, etc. who gave information and insight.
 \item add contribution statement
 \item add citations for bpod and pycontrol papers, i think they have come out since this!!!
+\item move autopilot to its own organization repository so links stay fresh!
 \end{itemize}
 
 \subsection{Formatting}
@@ -36,23 +37,24 @@
 \subsection{Existing Systems}
 
 \begin{itemize}
-	\item "These are the minimum components for a complete behavior system, but there are of course many other things, means of conceptualizing and supporting. Each of these is far from monolithic and has within it a thousand design choices."
-	\item add transforms to "data management"
-	\item Update description for pyControl
-	\item update description for BPod
-	\item link to finite state machine section from "pyControl uses a finite state machine"
-	\item Bpod also has pyBpod and whatever else
-	\item remove "Bpod blocks operation" it's not necessary -- refocus this section on just describing the architectural decisions without including shit talking the GUI. In general, the purpose of this section is to illustrate two prior approaches to solving this problem to draw contrast with what we do differently. Can also discuss the mode by which it's used (eg. talk about the IBL needing to make the bigass PDF) and maybe try and find some individual use cases of each that are given as examples. These are designed for individual labs to use as tools, rather than designed as a means for organizing technical knowledge within or across labs (let alone share data).
+	\item \sout{"These are the minimum components for a complete behavior system, but there are of course many other things, means of conceptualizing and supporting. Each of these is far from monolithic and has within it a thousand design choices."}
+	\item \sout{add transforms to "data management"}
+	\item \sout{Update description for pyControl}
+	\item \sout{update description for BPod}
+	\item \sout{link to finite state machine section from "pyControl uses a finite state machine"}
+	\item \sout{Bpod also has pyBpod and whatever else}
+	\item \sout{remove "Bpod blocks operation" it's not necessary -- refocus this section on just describing the architectural decisions without including shit talking the GUI. In general, the purpose of this section is to illustrate two prior approaches to solving this problem to draw contrast with what we do differently.}
+	\item \sout{Can also discuss the mode by which it's used (eg. talk about the IBL needing to make the bigass PDF) and maybe try and find some individual use cases of each that are given as examples. These are designed for individual labs to use as tools, rather than designed as a means for organizing technical knowledge within or across labs (let alone share data).}
 \end{itemize}
 
 \subsection{Limitations of existing systems}
 
 \begin{itemize}
-\item Documentation is a big problem -- don't have low-level docs so people can inspect what's going on. Researchers are expected to interact with it on a top-level only: the tool as is, rather than expand and hack on the library itself. Flexible tools need to have interfaces at multiple levels: yes, just use, but also be able to extend, and modify the existing system. This is an architectural, interface, and documentation question and it's a hard one to solve!
-\item \textbf{New Item: Community Tooling} - No facility for sharing tasks, hardware development, etc. No good means of sharing practical usage advice -- basically the community tooling isn't there. Look for examples of Bpod tasks (eg. the IBL task) and how that doesn't make for a cumulative body of knowledge. Use the christof koch quote about organization being the major problem: in order to be a force multiplier, need to be able to have peer-to-peer knowledge sharing instead of treating a piece of software as a fixed entity.
-\item Data - no schemas, no formal structures, sharing is hard and both take the approach that you need to write a whole additional library to 
-\item Devops and code tooling -- Bpod stuff has no means of integrating other code because matlab doesn't have a package manager. No CI, no tests for either 
-\item the bottom line is that these tools weren't designed with integration in mind, ithey might handle some subset of the experiment, but they don't really play well with the other parts of the experiment and ultimately serve as yet another complicated node rather than something that can be compared. 
+\item \sout{Documentation is a big problem -- don't have low-level docs so people can inspect what's going on. Researchers are expected to interact with it on a top-level only: the tool as is, rather than expand and hack on the library itself. Flexible tools need to have interfaces at multiple levels: yes, just use, but also be able to extend, and modify the existing system. This is an architectural, interface, and documentation question and it's a hard one to solve!}
+\item \sout{\textbf{New Item: Community Tooling} - No facility for sharing tasks, hardware development, etc. No good means of sharing practical usage advice -- basically the community tooling isn't there. Look for examples of Bpod tasks (eg. the IBL task) and how that doesn't make for a cumulative body of knowledge. Use the christof koch quote about organization being the major problem: in order to be a force multiplier, need to be able to have peer-to-peer knowledge sharing instead of treating a piece of software as a fixed entity.}
+\item \sout{Data - no schemas, no formal structures, sharing is hard and both take the approach that you need to write a whole additional library to analyze the data}
+\item \sout{Devops and code tooling -- Bpod stuff has no means of integrating other code because matlab doesn't have a package manager. No CI, no tests for either} \textbf{Instead of this, just say that Autopilot does this}
+\item \sout{the bottom line is that these tools weren't designed with integration in mind, ithey might handle some subset of the experiment, but they don't really play well with the other parts of the experiment and ultimately serve as yet another complicated node rather than something that can be compared.}
 \end{itemize}
 
 
