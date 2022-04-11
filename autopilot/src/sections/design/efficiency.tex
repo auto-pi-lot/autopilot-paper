@@ -1,8 +1,8 @@
-
+%!TEX root=../../autopilot.tex
 \section{Efficiency}
 \label{sec:efficiency}
 
-Though it is a single board, the Raspberry Pi operates more like a computer than an integrated circuit. It most commonly runs a custom Linux distribution, Raspbian, allowing Autopilot to use Python across the whole system. Using an interpreted language like Python running on Linux has inherent performance drawbacks compared to compiled languages running on embedded microprocessors. While Python's overhead is negligible on modern processors, Autopilot is nevertheless designed to maximize computational efficiency.
+Though it is a single board, the Raspberry Pi operates more like a computer than a microcontroller. It most commonly runs a custom Linux distribution, Raspbian, allowing Autopilot to use Python across the whole system. Using an interpreted language like Python running on Linux has inherent performance drawbacks compared to compiled languages running on embedded microprocessors. In practice these drawbacks are less profound than they appear on paper: Python's overhead is negligible on modern processors\sidenote{and improvements to CPython in \href{https://docs.python.org/3.11/whatsnew/3.11.html\#faster-cpython}{Python 3.11} and onwards will bring overhead close to zero\citep{andersonGuidoVanRossum2021}}, jitter and performance can be improved by \hyperref[sec:lowlevel]{wrapping compiled code}, etc. While we view the gain in accessibility and extensibility of a widely used high-level language like Python as outweighing potential performance gains from using a compiled language, Autopilot is nevertheless designed to maximize computational efficiency.
 
 \subsection{Concurrency}
 
@@ -24,6 +24,8 @@ Autopilot distributes computation across multiple processes and threads to take 
 
 Critical operations that are computationally intensive or cannot be interrupted are given their own dedicated \textbf{processes}. Linux allows individual cores of a processor to be reserved for single processes, so individual Raspberry Pis are capable of running four truly parallel processing streams. For example, all Raspberry Pis in an Autopilot swarm create a messaging client to handle communication between devices which runs on its own processor core so no messages are missed. Similarly, if an experiment requires sound delivery, a realtime \hyperref[sec:stim]{sound engine} in a separate process (Figure \ref{fig:multiprocess}) also runs on its own core.
 
+Since even moderately complex experiments can consume more resources than are available on a single processor, the topmost layer of concurrency in Autopilot is to use additional \textbf{computers}. Autopilot uses the Raspberry Pi as a low-cost hardware controller, but only its GPIO control system is unique to them: the rest of the code can be used on any type of computer, so computationally expensive or GPU-intensive operations can be offloaded to any number of high performance machines. Computers divide labor \textit{autonomously} (see \ref{sec:message_handliong} and \ref{sec:agents} ), so for example a computer running a task can send and receive messages from one running the GUI and plots, but does not \textit{depend} on that input as it would in a system that couples a microcontroller with a managing computer. The ability to coordinate multiple, autonomous computers with heterogeneous responsibilities and capabilities in a shared task is Autopilot's definitive design decision.
+
 \begin{marginfigure}[0.1cm]
  \includegraphics[]{figures/side_14_multiprocess.pdf}
  \caption{A multi-process program is truly concurrent, allowing multiple cpu cores to operate in parallel.}
@@ -34,7 +36,7 @@ Critical operations that are computationally intensive or cannot be interrupted 
 \label{sec:lowlevel}
 
 Autopilot uses Python as a "glue" language, where it wraps and coordinates faster low-level compiled code\citep{vanrossumGlueItAll1998}.  
-Performance-critical components of Autopilot are thin wrappers around fast C libraries (Table \ref{tab:libraries}).
+Performance-critical components of Autopilot are thin wrappers around fast C libraries (Table \ref{tab:libraries}). As Autopilot's API matures, we intend to replace any performance-limiting Python code like its sound server and networking operations with compiled code exposed to python with tools like the C Foreign Function Interface (\href{https://cffi.readthedocs.io/en/latest/index.html}{CFFI}).
 
 \begin{margintable}[0.1cm]
 \caption{A few libraries Autopilot uses}
@@ -63,7 +65,6 @@ Autopilot (\href{http://abyz.me.uk/rpi/pigpio/pigpiod.html}{pigpio}) & $5\mu s$ 
 \href{https://bitbucket.org/takam/pycontrol/src/c678552ac57be2108a5461e0c5f8051ce7d3816a/pyControl/framework.py?at=default\&fileviewer=file-view-default\#framework.py-278}{pyControl} & $1000\mu s$ \\
 \bottomrule
 \end{tabularx}
-
 \end{margintable}
 
 \subsection{Caching}
@@ -71,6 +72,8 @@ Autopilot (\href{http://abyz.me.uk/rpi/pigpio/pigpiod.html}{pigpio}) & $5\mu s$ 
 Finite-state machines are only aware of the current state and the events that transition it to future states. They are thus incapable of exploiting the often predictable structure of behavioral tasks to precompute future states and precache stimuli. Further, to change task parameters between trials (eg. changing the rewarded side in a two-alternative forced-choice task), state machines need to be fully reconstructed and reuploaded to the device that runs them each time.
 
 Autopilot precomputes and caches as much as possible. Rather than wait "inside" a state, Autopilot prepares each of the next possible events and saves them for immediate execution when the appropriate trigger is received. Static stimuli are prepared once at the beginning of a behavioral session and stored in memory. Before their presentation, they are buffered to minimize latency.
+
+By providing full low-level documentation, we let researchers choose the balance between ease of use and performance themselves: it's possible to just call a sound's \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.play}{play()}} method, explicitly buffered with its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.buffer}{buffer()}} method, or generated on the fly with its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.play_continuous}{play\_continuous()}} method. Similarly, messages can be sent with a networking node's \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/node.html\#autopilot.networking.node.Net_Node.send}{send()}} method, or prepared beforehand by explicitly making a \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/message.html\#autopilot.networking.message.Message}{Message}} and calling its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/message.html\#autopilot.networking.message.Message.serialize}{serialize()}} method.
 
 \vspace{16pt}
 

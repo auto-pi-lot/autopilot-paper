@@ -62,24 +62,25 @@
 
 \begin{itemize}
 \item We take a broad lens on reproducibility -- not just good data, but a tool that integrates into a broader ecosystem of tools and reduces labor duplication beyond itself. Reproducibility is not just a question of getting everyone to upload their data, but to build the tools that make reproducibility accessible to a broader base of researchers.	
-\item Though only the GPIO is really unique to the raspi -- autopilot can be used on any unixlike system.
+\item \sout{Though only the GPIO is really unique to the raspi -- autopilot can be used on any unixlike system.}
 \end{itemize}
 
 \subsection{Efficiency}
 
 \begin{itemize}
-\item integrated circuit -> microcontroller
-\item efficiency of interpreted languages is not the only consideration in efficiency: how easy it is to use and the time spent troubleshooting and making do with other systems is itself part of the equation, so we try and balance the ease of use witht he performance of the program 
-\item \textbf{Concurrency} - Arguably the most radical concurrency model in autopilot is the use of multiple comptuers. So if a single processor can't do what you want it's trivial to have other computers running other things. This also lets different system components be isolated from one another, something that blends into the notion of agents and behavioral topologies discussed later.
-\item \textbf{Low-Level} - We make use of Python to mature an API that we will then drop down into lower level languages like C and Rust when they are stable.
+\item \sout{integrated circuit -> microcontroller}
+\item \sout{efficiency of interpreted languages is not the only consideration in efficiency: how easy it is to use and the time spent troubleshooting and making do with other systems is itself part of the equation, so we try and balance the ease of use witht he performance of the program}
+\item \sout{\textbf{Concurrency} - Arguably the most radical concurrency model in autopilot is the use of multiple comptuers. So if a single processor can't do what you want it's trivial to have other computers running other things. This also lets different system components be isolated from one another, something that blends into the notion of agents and behavioral topologies discussed later.}
+\item \sout{\textbf{Low-Level} - We make use of Python to mature an API that we will then drop down into lower level languages like C and Rust when they are stable.}
+\item \sout{\textbf{Caching} - by provbiding low-level documentation, we let people choose how they want to cache -- you can just hit play on a sound method or buffer it before, or generate it on the fly. You can just `send' a message, or you can pre-serialize it and send it manually.}
 \end{itemize}
 
 \subsection{Flexibility}
 
 \begin{itemize}
-\item \textbf{Modularity} - There is a tension between flexibiltiy and providing a complete behavioral package, to balance that we have to be very capable of keeping our code modular. We do that by implementing a sensible inheritance hierarchy with predictable and shared APIs for different objects. That way we can keep a predictable set of methods exposed while being able to modify the other  
+\item \sout{\textbf{Modularity} - There is a tension between flexibiltiy and providing a complete behavioral package, to balance that we have to be very capable of keeping our code modular. We do that by implementing a sensible inheritance hierarchy with predictable and shared APIs for different objects. That way we can keep a predictable set of methods exposed while being able to modify the other}
 \item \textbf{New Section: Open Ecosystem} - split apart modularity section into a discussion about being able to pick and choose different parts of the library with a new section about the choice to use the raspberry pi and a generalize dhardware approach rather than an ecosystem of specific hardware objects. Describe the wiki here?
-\item \textbf{New Section: Plugins} - replace structured expansino/code transparency section with plugin sectino. By separating local configuration files and etc. we are able to have a very flexible plugin system: users are not expected to modify files in the repository to use it (which makes it difficult to contribute later) or implement everything in a single script. instead we provide a system for expansion that scaffolds their use of the software and reuse in tasks. Expand the discussion of the task library to a general purpose pick and choose your own tool library with plugins that can be maintained by you but be part of a larger project.
+\item \sout{\textbf{New Section: Plugins} - replace structured expansino/code transparency section with plugin sectino. By separating local configuration files and etc. we are able to have a very flexible plugin system: users are not expected to modify files in the repository to use it (which makes it difficult to contribute later) or implement everything in a single script. instead we provide a system for expansion that scaffolds their use of the software and reuse in tasks. Expand the discussion of the task library to a general purpose pick and choose your own tool library with plugins that can be maintained by you but be part of a larger project.}
 \item CI is also really relevant here -- to make sure that it's possible to change the system freely, we have CI and as we have been developing have been 
 
 \end{itemize}

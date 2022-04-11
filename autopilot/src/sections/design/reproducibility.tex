@@ -1,4 +1,4 @@
-
+%!TEX root=../../autopilot.tex
 \section{Reproducibility}
 \label{sec:reproducibility}
 
@@ -62,6 +62,10 @@ The best way to make data publishable is to avoid cleaning data altogether and \
 Autopilot data is stored in \href{https://support.hdfgroup.org/HDF5/whatishdf5.html}{HDF5} files, a hierarchical, high-performance file format. HDF5 files support metadata throughout the file hierarchy, allowing annotations to natively accompany data. Because HDF5 files can store nearly all commonly used data types, data from all collection modalities---trialwise behavioral data, continuous electrophysiological data, imaging data, etc.---can be stored together from the time of its acquisition. Data is always stored with the conditions of its collection, and is ready to analyze and publish immediately (Figure \ref{fig:datastx}). No Autopilot-specific scripts are needed to import data into your analysis tool of choice---anything that can read HDF5 files can read Autopilot data. 
 
 In future versions we will implement the Neurodata Without Borders standard\citep{rubelNWBAccessibleData2019}, further enabling Autopilot data to be immediately incorporated into existing processing pipelines (see section \ref{sec:future}).
+
+\subsection{Testing \& Continuous Integration}
+
+Open-source scientific software explodes prior limitations imposed by proprietary tools, it also exposes researchers to bugs in software written by semi-amateurs that can yield errors in the resulting data, analysis, and interpretation. 
 
 \subsection{Expense}
 \label{sec:expense}
