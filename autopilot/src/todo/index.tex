@@ -6,6 +6,7 @@
 \item add contribution statement
 \item add citations for bpod and pycontrol papers, i think they have come out since this!!!
 \item move autopilot to its own organization repository so links stay fresh!
+\item complete nosepoke assembly instructions on wiki.
 \end{itemize}
 
 \subsection{Formatting}
@@ -61,7 +62,7 @@
 \section{Design}
 
 \begin{itemize}
-\item We take a broad lens on reproducibility -- not just good data, but a tool that integrates into a broader ecosystem of tools and reduces labor duplication beyond itself. Reproducibility is not just a question of getting everyone to upload their data, but to build the tools that make reproducibility accessible to a broader base of researchers.	
+\item \sout{We take a broad lens on reproducibility -- not just good data, but a tool that integrates into a broader ecosystem of tools and reduces labor duplication beyond itself. Reproducibility is not just a question of getting everyone to upload their data, but to build the tools that make reproducibility accessible to a broader base of researchers.}
 \item \sout{Though only the GPIO is really unique to the raspi -- autopilot can be used on any unixlike system.}
 \end{itemize}
 
@@ -81,19 +82,16 @@
 \item \sout{\textbf{Modularity} - There is a tension between flexibiltiy and providing a complete behavioral package, to balance that we have to be very capable of keeping our code modular. We do that by implementing a sensible inheritance hierarchy with predictable and shared APIs for different objects. That way we can keep a predictable set of methods exposed while being able to modify the other}
 \item \textbf{New Section: Open Ecosystem} - split apart modularity section into a discussion about being able to pick and choose different parts of the library with a new section about the choice to use the raspberry pi and a generalize dhardware approach rather than an ecosystem of specific hardware objects. Describe the wiki here?
 \item \sout{\textbf{New Section: Plugins} - replace structured expansino/code transparency section with plugin sectino. By separating local configuration files and etc. we are able to have a very flexible plugin system: users are not expected to modify files in the repository to use it (which makes it difficult to contribute later) or implement everything in a single script. instead we provide a system for expansion that scaffolds their use of the software and reuse in tasks. Expand the discussion of the task library to a general purpose pick and choose your own tool library with plugins that can be maintained by you but be part of a larger project.}
-\item CI is also really relevant here -- to make sure that it's possible to change the system freely, we have CI and as we have been developing have been 
+\item \sout{CI is also really relevant here -- to make sure that it's possible to change the system freely, we have CI and as we have been developing have been}
 
 \end{itemize}
 
 \subsection{Reproducibility}
 
 \begin{itemize}
-\item New to data management section: schema stuff! We want to provide a well annotated data structure that can be exported to many different formats. To do that we have built a bunch of data modeling tools
-\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
-\item Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.
-\item Self-documenting data -> be more explicit that we record \textit{everything}
+\item \sout{New to data management section: schema stuff! We want to provide a well annotated data structure that can be exported to many different formats. To do that we have built a bunch of data modeling tools}
 \item \textbf{New Section: Knowledge Organization} - There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
-\item Update prices!
+\item \sout{Update prices!}
 \end{itemize}
 
 \section{Structure}
@@ -102,6 +100,14 @@
 \item Start by describing the hierarchical object strucutre -- Autopilot is designed around a few fundamental types with abstract methods that are then elaborated. This is in progress!
 \item \textbf{New Section: Transforms} - also include DLC stuff.
 \item Stuff that all autopilot objects have -- sick logging (give example). Autopilot is about making best practices baked into the process. 
+\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
+\end{itemize}
+
+\subsection{Data}
+
+\begin{itemize}
+\item (In program design section) - Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.
+\item (In program design section) - Self-documenting data -> be more explicit that we record \textit{everything}
 \end{itemize}
 
 \subsection{Tasks}
