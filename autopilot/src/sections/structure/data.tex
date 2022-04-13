@@ -1,3 +1,65 @@
 %!TEX root=../../autopilot.tex
 \section{Data}
 \label{sec:datamodel}
+
+As of v0.5.0, Autopilot uses \href{https://pydantic-docs.helpmanual.io/}{pydantic} to create explicitly typed and schematized data models. Submodules include \texttt{data} abstract \texttt{modeling} tools that define base model types like \texttt{Table}s, \texttt{Group}s, and sets of \texttt{Attributes}. These base modeling classes are then built into a few core data models like subject \texttt{Biography} information, \texttt{Protocol} declaration, and the \texttt{Subject} data model itself that combines them. Modeling classes then have multiple \texttt{interfaces} that can be used to create equivalent objects in other formats, like pytables for hdf5 storage, pandas dataframes for analysis, or exported to Neurodata Without Borders.
+
+For example, consider a simplified version of the \texttt{Biograpphy} model:
+
+
+\begin{pythoncode*}{label = \texttt{\textbf{data - Biography}}}
+from autopilot.data.modeling import Data, Attributes
+from typing import Optional, Union
+
+class Enclosure(Data):
+    """Where does the subject live?"""
+    box:  Optional[Union[str, int]] = Field(
+        default=None, 
+        description="The box this Subject lives in"
+    )
+    room: Optional[Union[str, int]] = Field(
+        default=None, 
+        description="The room number that the animal is housed in"
+    )
+
+class Biography(Attributes):
+    """Biography of an Experimental Subject"""
+    id:  str = Field(...
+        description="The indentifying name of this subject."
+    )
+    dob: datetime = Field(... 
+        description="The Subject's date of birth"
+    )
+    enclosure: Optional[Enclosure] = None
+
+    @property
+    def age(self) -> timedelta:
+        """Difference between now and :attr:`.dob`"""
+        return datetime.now() - self.dob
+\end{pythoncode*}
+
+A new subject could then be created with this biography like this, storing it in the HDF5 file and returning an exact copy when requested:
+
+\begin{pythoncode*}{label = \texttt{\textbf{data - New Subject}}}
+from autopilot.data import Subject
+
+bio = Biography(
+    id="my_subject",
+    dob="2022-01-01T00:00:00",
+    enclosure=Enclosure(box=100, room="Building 200")
+)
+sub = Subject.new(bio)
+assert sub.info == bio
+\end{pythoncode*}
+
+
+> Autopilot knows how to handle the \texttt{Attributes} subclasses, storing its data as attributes on an HDF5 group. If it were a Table, it would create a table!
+
+> Because these models are recursive, we can build expressive, explicitly typed data models that can be distributed along with an interoperable JSON schema that includes their complete description. 
+
+> In the future we've laid the groundwork for plugins to provide their own subject schema so the data model can be fully flexible and accomodate the needs and existing data structures of labs while lifting them up into a reproducible, well-documented, and reliable format.
+
+> We're also exploring an additional library for ingesting data produced by other software into a single Subject file!
+
+
+
