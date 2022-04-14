@@ -52,14 +52,17 @@ sub = Subject.new(bio)
 assert sub.info == bio
 \end{pythoncode*}
 
+The models are declared using a combination of python type hints\sidenote{Python \href{https://docs.python.org/3/library/typing.html}{type hints} are colon delimited annotations like this: \mintinline{python}{x:int = 1} that indicate the type (integer, string, etc.) of the variable. Though typically Python does not enforce or validate these type hints, Pydantic both validates that a type matches its hint and coerces it to the correct type (eg. \mintinline{python}{int('1')}) if possible.} and \texttt{Field} objects that provide defaults and descriptions. Because these models can be recursive, as in the case of using the \texttt{Enclosure} model as a type within the \texttt{Biography} model, we can build expressive, flexible, but still strict representations of complex data. 
 
-> Autopilot knows how to handle the \texttt{Attributes} subclasses, storing its data as attributes on an HDF5 group. If it were a Table, it would create a table!
+Out of the box, pydantic models can create explicit and interoperable \href{https://pydantic-docs.helpmanual.io/usage/schema/}{schemas} in \href{https://json-schema.org/draft/2020-12/json-schema-core.html}{JSON Schema} and \href{https://github.com/OAI/OpenAPI-Specification}{OpenAPI} formats, and Autopilot extends them with additional interfaces and representations. Autopilot can create a GUI form for filling in fields for models, for example, to create a new Subject or declare parameters for a task (Figure \ref{fig:modelform}). \texttt{Attribute} models that consist of scalar key-value pairs can be reliably stored and retrieved from metadata attribute sets in HDF5 groups, but Autopilot knows that \texttt{Table} models should be created as HDF5 tables as they will have multiple values for each field. An additional \texttt{Trial\_Data} class that inherits from \texttt{Table} can be exported to NWB trial data, and the \texttt{Subject.get\_trial\_data} method uses the model to load trial data and convert it to a correctly typed pandas\citep{mckinneyPandasFoundationalPython2011} DataFrame.
 
-> Because these models are recursive, we can build expressive, explicitly typed data models that can be distributed along with an interoperable JSON schema that includes their complete description. 
+\begin{marginfigure}
+\includegraphics[width=\linewidth]{figures/model_form.png}
+\label{fig:modelform}
+\caption{An Autopilot Data model can automatically generate a GUI form to fill in its properties, for example to define a new experimental Subject's biography, parameters for tasks, preferences, and so on.}
+\end{marginfigure}
 
-> In the future we've laid the groundwork for plugins to provide their own subject schema so the data model can be fully flexible and accomodate the needs and existing data structures of labs while lifting them up into a reproducible, well-documented, and reliable format.
-
-> We're also exploring an additional library for ingesting data produced by other software into a single Subject file!
+Though the data modeling system is new\sidenote{Released as an alpha version at the time of writing}, we have laid the groundwork for Autopilot's plugin system to allow researchers to declare custom schema for all data produced by Autopilot as well as additional means of making coherent datasets even when they are produced by multiple incompatible software libraries (see \ref{sec:future}).
 
 
 
