@@ -100,37 +100,39 @@
 \item Start by describing the hierarchical object strucutre -- Autopilot is designed around a few fundamental types with abstract methods that are then elaborated. This is in progress!
 \item \textbf{New Section: Transforms} - also include DLC stuff.
 \item Stuff that all autopilot objects have -- sick logging (give example). Autopilot is about making best practices baked into the process. 
-\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
 \item Rename "Children" as "copilots" throughout
 \end{itemize}
 
 \subsection{Data}
 
 \begin{itemize}
-\item (In program design section) - Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.
-\item (In program design section) - Self-documenting data -> be more explicit that we record \textit{everything}
+\item \sout{(In program design section) - Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.}
+\item \sout{(In program design section) - Self-documenting data -> be more explicit that we record \textit{everything}}
 \item Annotate code example
 \end{itemize}
 
 \subsection{Tasks}
 
 \begin{itemize}
-\item Update task header to use Pydantic models.
-\item end FSM section being like "rather than trying to standardize on a particular model for tasks, we standardize on \textit{use}" -- We provide a set of minimal tools that can be used to write tasks, but then purposefully leave the space open for people to write them how they want, and then allow standardization to happen naturally rather than presupposing a structure and asking people to conform to it. Cite aaron swartz description of standards from his book.
+\item \sout{Update task header to use Pydantic models.}
+\item \sout{end FSM section being like "rather than trying to standardize on a particular model for tasks, we standardize on \textit{use}" -- We provide a set of minimal tools that can be used to write tasks, but then purposefully leave the space open for people to write them how they want, and then allow standardization to happen naturally rather than presupposing a structure and asking people to conform to it. Cite aaron swartz description of standards from his book.}
 \end{itemize}
 
 \subsection{Hardware}
 
 \begin{itemize}
 \item Update link to refer to the wiki rather than the hardware page on autopilot website. also mention build guides and whatever. Also describe vision of being ableo to declare specific part numbers for hardware objects to be able to document the parameters of their use.
-\item System adaptability section seems redundant with separating task params. consolidate this.
+\item \sout{update prices}
+\item update figure to use new tripoke figure.
+\item System adaptability section seems redundant with separating task params. Abbreviate this and change this section to being about using the wiki to gather common configurations for hardware objects, benchmarks, etc.
+\item update system specs, if they've changed.
 \end{itemize}
 
 \subsection{Stimuli}
 
 \begin{itemize}
 \item You can also use a jetson or some other SBC with a video card if performance is more important. as we did in (cite DLC paper)
-\item remove stimulus and reward manager section, we don't really have them.
+\item remove stimulus and reward manager section, we don't really have them -- move this to future directions
 \end{itemize}
 
 \subsection{Agents}
@@ -184,6 +186,8 @@
 
 \begin{itemize}
 \item RDF export, linked data capabilities between the wiki and data structures
+\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
+\item Unify slot, signal, and trigger architecture to make different pieces more effortlessly compatible.
 \end{itemize}
 
 
