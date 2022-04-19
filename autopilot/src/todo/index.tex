@@ -90,7 +90,7 @@
 
 \begin{itemize}
 \item \sout{New to data management section: schema stuff! We want to provide a well annotated data structure that can be exported to many different formats. To do that we have built a bunch of data modeling tools}
-\item \textbf{New Section: Knowledge Organization} - There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
+
 \item \sout{Update prices!}
 \end{itemize}
 
@@ -98,8 +98,9 @@
 
 \begin{itemize}
 \item Start by describing the hierarchical object strucutre -- Autopilot is designed around a few fundamental types with abstract methods that are then elaborated. This is in progress!
-\item \textbf{New Section: Transforms} - also include DLC stuff.
-\item Stuff that all autopilot objects have -- sick logging (give example). Autopilot is about making best practices baked into the process. 
+\item in this section, also talk about ability to dehydrate and rehydrate objects so they can be re-instantiated across processes and machines.
+\item \sout{\textbf{New Section: Transforms} - also include DLC stuff.}
+\item \sout{Stuff that all autopilot objects have -- sick logging (give example). Autopilot is about making best practices baked into the process. }
 \item Rename "Children" as "copilots" throughout
 \end{itemize}
 
@@ -121,11 +122,11 @@
 \subsection{Hardware}
 
 \begin{itemize}
-\item Update link to refer to the wiki rather than the hardware page on autopilot website. also mention build guides and whatever. Also describe vision of being ableo to declare specific part numbers for hardware objects to be able to document the parameters of their use.
+\item \sout{Update link to refer to the wiki rather than the hardware page on autopilot website. also mention build guides and whatever. Also describe vision of being ableo to declare specific part numbers for hardware objects to be able to document the parameters of their use.}
 \item \sout{update prices}
-\item update figure to use new tripoke figure.
-\item System adaptability section seems redundant with separating task params. Abbreviate this and change this section to being about using the wiki to gather common configurations for hardware objects, benchmarks, etc.
-\item update system specs, if they've changed.
+\item \sout{update figure to use new tripoke figure.}
+\item \sout{System adaptability section seems redundant with separating task params. Abbreviate this and change this section to being about using the wiki to gather common configurations for hardware objects, benchmarks, etc.} - nah just took it out.
+\item \sout{update system specs, if they've changed.}
 \end{itemize}
 
 \subsection{Stimuli}
@@ -146,8 +147,8 @@
 \subsection{Networking}
 
 \begin{itemize}
-\item Rewrite to say that the backbone "station" structure is being phased out in favor of a point to point communiocatino system. For now you can use point to point communication if timing is important, but otherwise you can use the hierarchical networking structure for now.
-\item remove treelike
+\item \ref{sec:networking} Rewrite to say that the backbone "station" structure is being phased out in favor of a point to point communication system. For now you can use point to point communication if timing is important, but otherwise agent-agent communication still uses the hierarchical networking structure by default.
+\item \ref{fig:datastreams}remove treelike
 \end{itemize}
 
 \subsection{GUI}
@@ -189,6 +190,9 @@
 \item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
 \item Unify slot, signal, and trigger architecture to make different pieces more effortlessly compatible.
 \item Write rust interface to GPIO pins
+\item \textbf{New Section: Knowledge Organization} - We will continue to explore additional avenues for improving the interfaces with which we share information. If there's anything we've learned over the past few years it's that technical profiency isn't enough: you need to support a community of people around the tool and make sure they have the means of answering questions for themselves. There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
+\item pipelining for transforms, forking and branching to be able to get intermediate products out as well as merge multiple pipes, as well as different transformatino rhythms that let you control more finely how transformatino piplines behave
+\item stimulus managers - in a previous version we described these, thinking that they would be developed shortly. we still haven't gotten around to that but have left stubs in place.
 \end{itemize}
 
 

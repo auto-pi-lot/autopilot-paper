@@ -1,5 +1,12 @@
 \documentclass{article}
 \usepackage{geometry}
+\usepackage{xr-hyper}
+\usepackage{natbib}
+\usepackage[colorlinks = true]{hyperref}
+
+\makeatletter
+\newcommand{\@tufte@stored@shortcaption}{test}
+\makeatother
 
 \usepackage[normalem]{ulem}
 
@@ -10,6 +17,7 @@
 
 \title{Autopilot v2 TODO}
 
+\externaldocument{../build/autopilot_v2/autopilot_v2}[../autopilot_v2/autopilot_v2.pdf]
 
 
 \begin{document}

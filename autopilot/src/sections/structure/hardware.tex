@@ -54,34 +54,3 @@ Bluetooth & \checkmark & \textcolor{red}{---} & \textcolor{red}{---} \\
 To organize and make available the vast amount of contextual knowledge needed to build and use experimental hardware, we have made a densely linked and publicly editable \href{https://wiki.auto-pi-lot.com/index.php/Autopilot_Wiki}{semantic wiki}. The Autopilot wiki contains, among others, reference information for \href{https://wiki.auto-pi-lot.com/index.php/Parts}{off-the-shelf parts}, schematics for \href{https://wiki.auto-pi-lot.com/index.php/2D_CAD}{2D} and \href{https://wiki.auto-pi-lot.com/index.php/3D_CAD}{3D}-printable components, and \href{https://wiki.auto-pi-lot.com/index.php/Guides}{guides} for building experimental apparatuses and custom parts. The wiki combines unrestrictive freeform editing with structured, computer-readable \href{https://www.semantic-mediawiki.org/wiki/Semantic_MediaWiki}{semantic properties}, and we have defined a collection of \href{https://wiki.auto-pi-lot.com/index.php/Special:CategoryTree?target=Hardware&mode=categories&namespaces=&title=Special%3ACategoryTree}{schemas} for commonly documented items coupled with \href{https://wiki.auto-pi-lot.com/index.php/Special:Forms}{submission forms} for ease of use. For example, the wiki page for the \href{https://wiki.auto-pi-lot.com/index.php/Lee_LHDA0531115H}{Lee Company solenoid} we use has fields from a generic \href{https://wiki.auto-pi-lot.com/index.php/Category:Part}{Part} schema like a datasheet, price, and voltage, but also that it's a 3-way, normally-closed \href{https://wiki.auto-pi-lot.com/index.php/Category:Solenoid}{solenoid}. 
 
 The wiki's blend of structure and freedom breaks apart typically monolithic hardware documentation into a collaborative, multimodal technical knowledge graph. Autopilot can access the wiki through its \href{https://docs.auto-pi-lot.com/en/latest/guide/plugins.html\#the-wiki-api}{API}, and we intend to tighten their integration over time, including automatic configurations for common parts, usage and longevity benchmarks, detecting mutually incompatible parts, and automatically resolving any additional plugins or dependencies needed to use a part.
-
-
-
-\clearpage
-
-\subsection{System Adaptability}
-
-\begin{marginfigure}[0.4cm]
-\begin{minted}[frame=lines,fontsize=\small]{json}
-{
-"AGENT": "pilot",
-"AUDIOSERVER": "jack",
-"DATADIR": "/some/data/dir",
-"NAME": "example_pilot",
-"PINS": {
-    "LEDS": {
-        "C": [22,18,16],
-        "L": [11,13,15],
-        "R": [19,21,23]}
-},
-"MSGPORT": 5565,
-"TERMINALIP": "192.168.0.100"
-}
-\end{minted}
-\caption{The prefs.json file stores durable system configuration options.}
-\label{fig:prefs}
-\end{marginfigure}%
-
-Rather than attempting to enforce a uniform hardware ecosystem, Autopilot adapts to the radically divergent hardware of different researchers by keeping hardware logic independent from the way it is set up in a particular system. A systemwide \mintinline{python}{prefs.json} file contains all durable configuration information for your setup (Figure \ref{fig:prefs}). Hardware is then accessed by its type and name, so if a task needs an LED named "C" (for "Center"), it would connect to the pins defined in  \mintinline{python}{prefs['PINS']['LEDS']['C']} no matter how the LED was connected or configured in the system. This layer of abstraction allows the task classes to be general enough to maintain a shared task library while also allowing researchers to retain total control over their system. 
- 
-Autopilot also allows the hardware in your particular setup to be used for multiple tasks that may have differing hardware demands. We think a common use-case will be a series of mostly-static behavioral boxes that can be reconfigured without being wholly rebuilt. The hardware schematics we release are modular, so that one could, for example, change a behavior box from a freely-moving two-alternative forced choice task to a head-fixed version by replacing a panel and installing a running wheel. We are working to implement support for multiple hardware configurations that can be kept in the \texttt{prefs.json} file and automatically swapped depending on the task being run.

@@ -1,4 +1,7 @@
 % !TEX options=--shell-escape
+% !TEX jobname = autopilot_v2
+% !TEX output_directory = ../build/autopilot_v2
+
 \documentclass[nohyper, justified, notitlepage, marginals=raggedright,twoside=false,debug]{styles/tufte-autopilot}
 
 %% Package imports
@@ -13,6 +16,7 @@
 \usepackage{listings}
 \usepackage{minted}
 %\usepackage[usenames, svgnames]{xcolor}
+\usepackage{xr-hyper}
 \usepackage[colorlinks = true,
             urlcolor = DarkOrchid,
             citecolor = DarkOrchid,
@@ -38,6 +42,7 @@
 %\usepackage{authblk}
 %\usepackage{abstract} % to get saythanks
 % \usepackage{ fontawesome }
+% \usepackage{zref-user}
 
 \usetikzlibrary{tikzmark}
 \usetikzlibrary{calc}
@@ -69,7 +74,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % enable synctex
-% \synctex=1
+\synctex=1
 
 % fix soul error MakeTextUppercase
 % https://tex.stackexchange.com/a/560793/232585

@@ -1,8 +1,78 @@
+%!TEX root=../../autopilot.tex
 \section{Transforms}
 \label{sec:transforms}
 
-> Integrating other data processing libraries like DLC-Live
+In v0.3.0, we introduced the \texttt{transform} module, a collection of tools for transforming data. The raw data off a sensor is often not in itself useful for performing an experiment: we want to compare it to some threshold, extract positions of objects in a video feed, and so on. Transforms are like building blocks, each performing some simple operation\sidenote[][2cm]{as a \texttt{.process()} method}, and then composed into a pipeline (Figure \ref{fig:transform_example}). Pipelines are portable, and can be created on the fly from a JSON representation of their arguments, so it's easy to offload expensive operations to a more capable machine for distributed realtime experimental control (See \citep{kaneRealtimeLowlatencyClosedloop2020a}). 
 
-> Interfacing different components with one another
+\begin{marginfigure}[-8cm]
+\includegraphics[width=\linewidth]{figures/transform_marginfig.pdf}
+\end{marginfigure}
 
-> Applied to elaborate existing objects, like gammatone sound
+\begin{marginfigure}[-3.5cm]
+\begin{pythoncode*}{
+label= \texttt{Transform - DLC Live!},
+frame=lines,
+linenos=false}
+from autopilot import transform as t
+# track points on a human body
+dlc = t.image.DLC(
+    model_zoo="full_human")
+# select one of the knees
+dlc += t.selection.DLCSlice(
+    select="knee2")
+# Test if it's in an ROI
+dlc += t.logical.Condition(
+    minimum=(0,0),
+    maximum=(128,128))
+
+# Process frames with the pipeline
+# set pin High if knee2 in ROI
+while True:
+    pin.set(dlc.process(
+        cam.q.get()))
+\end{pythoncode*}
+\caption{Transforms can be chained together (here with the in-place addition operator \texttt{+=}) to make pipelines that encapsulate the logical relationship between some input and a desired output. Here \texttt{pin} is a \href{https://docs.auto-pi-lot.com/en/latest/hardware/gpio.html\#autopilot.hardware.gpio.Digital_Out}{Digital\_Out} object, and \texttt{cam} is a \href{https://docs.auto-pi-lot.com/en/latest/hardware/cameras.html\#autopilot.hardware.cameras.PiCamera}{PiCamera} with \texttt{queue} enabled.}
+\label{fig:transform_example}
+
+\end{marginfigure}
+
+In addition to computing derived values, we use transforms in a few ways, including
+
+\begin{itemize}
+\item \textbf{Bridging Hardware} --- Different hardware devices use different data types, units, scales, so transforms can \href{https://docs.auto-pi-lot.com/en/latest/transform/units.html\#autopilot.transform.units.Rescale}{rescale} and convert values to make them compatible.
+\item \textbf{Integrating External Tools} --- The number of exciting analytical tools for realtime experiments keep growing, but in practice they can be hard to use together. The transform module gives a scaffolding for writing wrappers around other tools and exposing them to each other in a shared framework, as we did with DeepLabCut-Live\citep{kaneRealtimeLowlatencyClosedloop2020a}, making closed-loop pose tracking available to the rest of Autopilot's ecosystem. We don't need to rally thousands of independent developers to agree to write their tools in a shared library, instead we want to make wrapping them easy.
+\item \textbf{Extending Objects} --- Transforms can be used to augment existing and create new objects. For example, a \href{https://docs.auto-pi-lot.com/en/latest/hardware/i2c.html#autopilot.hardware.i2c.I2C_9DOF}{motion sensor} uses the \href{https://docs.auto-pi-lot.com/en/latest/transform/geometry.html\#autopilot.transform.geometry.Spheroid}{spheroid} transform to calibrate its accelerometer, and the \href{https://docs.auto-pi-lot.com/en/latest/transform/timeseries.html\#autopilot.transform.timeseries.Gammatone}{gammatone filter}\sidenote[][0.25cm]{a thin wrapper around \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.gammatone.html}{scipy's \texttt{signal.gammatone}}} extends the \href{https://docs.auto-pi-lot.com/en/latest/stim/sound/sounds.html\#autopilot.stim.sound.sounds.Noise}{Noise} sound to make a gammatone \href{https://docs.auto-pi-lot.com/en/latest/stim/sound/sounds.html\#autopilot.stim.sound.sounds.Gammatone}{filtered noise} sound.
+\end{itemize}
+
+Like Tasks and Hardware, the transform module provides a scaffolding for writing reference implementations of algorithms commonly needed for realtime behavioral experiments. For example, neuroscientists often want to quickly measure a research subject's velocity or orientation, which is possible with inexpensive inertial motion sensors (IMUs), but since anything worth measuring will be swinging the sensor around with wild abandon the readings first need to be rotated back to a geocentric coordinate frame. Since the readings from an accelerometer are noisy, we found a few whitepapers describing using a Kalman filter for fusing the accelerometer and gyroscope data for a more accurate orientation estimate (\citep{abyarjooImplementingSensorFusion2015b,patonisFusionMethodCombining2018a}), but couldn't find an implementation --- so we \href{https://docs.auto-pi-lot.com/en/latest/_modules/autopilot/transform/geometry.html\#IMU_Orientation}{wrote one}. We integrated it into the IMU class (Figure \ref{fig:imu}) and since it's an independent transform, it's available to anyone even if they use nothing else from Autopilot.
+
+\begin{marginfigure}[-0.5cm]
+\begin{pythoncode*}{
+label=Geocentric Velocity,
+frame=lines,
+linenos=false
+}
+# rotate input in x and y
+# by some pitch and roll
+reorient = t.geometry.Rotate(
+    dims='xy') 
+# select the z axis
+reorient += t.selection.Slice(
+    select=2)
+# remove gravity
+reorient += t.math.Add(
+    -9.8)
+
+# using I2C_9DOF...
+angle = imu.rotation
+z_accel = reorient.process(
+    imu._acceleration, angle)
+\end{pythoncode*}
+\caption{Using the \href{https://docs.auto-pi-lot.com/en/latest/_modules/autopilot/transform/geometry.html\#IMU_Orientation}{IMU\_Orientation} transform built into the IMU's \texttt{rotation} property, a processing chain to reorient the accelerometer reading and subtract gravity for geocentric z-axis acceleration.}
+\label{fig:imu}
+\end{marginfigure} 
+
+Transforms were made to be composed, so we broke it into independent sub-operations: A \href{https://docs.auto-pi-lot.com/en/latest/transform/timeseries.html\#autopilot.transform.timeseries.Kalman}{Kalman} filter, \href{https://docs.auto-pi-lot.com/en/latest/transform/geometry.html\#autopilot.transform.geometry.Rotate}{rotation}, and a \href{https://docs.auto-pi-lot.com/en/latest/transform/geometry.html\#autopilot.transform.geometry.Spheroid}{spheroid correction} to calibrate accelerometers. Then we combined it with the DLC-Live transform for a fast but accurate motion estimate from position, velocity, and acceleration measurements from three independent sensors. Since each step of the transformation is exposed in a clean API, it was straightforward to \href{https://github.com/auto-pi-lot/autopilot-plugin-parallax/blob/759dbb382b90a99f71edf5070772ac18555b67dd/kalman\_position.py}{extend the Kalman filter} to accomodate the the wildly different sampling rates of the camera and IMU. It's still got its quirks, but that's the purpose of plugins --- to make the code \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Parallax}{available and documented} without formally integrating it in the library. 
+
+\clearpage
+
