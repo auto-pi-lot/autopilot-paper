@@ -5,8 +5,9 @@
 \item add early collaborators like Chris, mackenzie, etc. who gave information and insight.
 \item add contribution statement
 \item add citations for bpod and pycontrol papers, i think they have come out since this!!!
-\item move autopilot to its own organization repository so links stay fresh!
+\item move autopilot to its own organization repository so links stay fresh! Then update the links in the paper!
 \item complete nosepoke and behavior box assembly instructions on wiki.
+\item terminal send back pilot DB to each other pilot when they connect.
 \end{itemize}
 
 \subsection{Formatting}
@@ -15,6 +16,9 @@
 \item TOC spacing!
 \item Smart quotes for single quotes
 \item Margin note positioning throughout (do at end though)
+\item Glossary links throughout text?
+\item Index???
+\item fix links to future directions to have correct references to individual items within list.
 \end{itemize}
 
 \section{Intro}
@@ -80,7 +84,7 @@
 
 \begin{itemize}
 \item \sout{\textbf{Modularity} - There is a tension between flexibiltiy and providing a complete behavioral package, to balance that we have to be very capable of keeping our code modular. We do that by implementing a sensible inheritance hierarchy with predictable and shared APIs for different objects. That way we can keep a predictable set of methods exposed while being able to modify the other}
-\item \textbf{New Section: Open Ecosystem} - split apart modularity section into a discussion about being able to pick and choose different parts of the library with a new section about the choice to use the raspberry pi and a generalize dhardware approach rather than an ecosystem of specific hardware objects. Describe the wiki here?
+\item \sout{\textbf{New Section: Open Ecosystem} - split apart modularity section into a discussion about being able to pick and choose different parts of the library with a new section about the choice to use the raspberry pi and a generalize dhardware approach rather than an ecosystem of specific hardware objects. Describe the wiki here?}
 \item \sout{\textbf{New Section: Plugins} - replace structured expansino/code transparency section with plugin sectino. By separating local configuration files and etc. we are able to have a very flexible plugin system: users are not expected to modify files in the repository to use it (which makes it difficult to contribute later) or implement everything in a single script. instead we provide a system for expansion that scaffolds their use of the software and reuse in tasks. Expand the discussion of the task library to a general purpose pick and choose your own tool library with plugins that can be maintained by you but be part of a larger project.}
 \item \sout{CI is also really relevant here -- to make sure that it's possible to change the system freely, we have CI and as we have been developing have been}
 
@@ -132,30 +136,31 @@
 \subsection{Stimuli}
 
 \begin{itemize}
-\item You can also use a jetson or some other SBC with a video card if performance is more important. as we did in (cite DLC paper)
-\item remove stimulus and reward manager section, we don't really have them -- move this to future directions
+\item \sout{You can also use a jetson or some other SBC with a video card if performance is more important. as we did in (cite DLC paper)}
+\item \sout{remove stimulus and reward manager section, we don't really have them -- move this to future directions}
 \end{itemize}
 
 \subsection{Agents}
 
 \begin{itemize}
-\item Remove child agent. 
-\item talk about managing dependencies for particular types of agents here, more relevant than terminal vs. pilot etc.
-\item Talk about scripts and system configuration here.
+\item \sout{Remove child agent.}
+\item \sout{talk about managing dependencies for particular types of agents here, more relevant than terminal vs. pilot etc.}
+\item \sout{Talk about scripts and system configuration here.}
+\item Change child figure to being one with multiple copilots
 \end{itemize}
 
 \subsection{Networking}
 
 \begin{itemize}
-\item \ref{sec:networking} Rewrite to say that the backbone "station" structure is being phased out in favor of a point to point communication system. For now you can use point to point communication if timing is important, but otherwise agent-agent communication still uses the hierarchical networking structure by default.
-\item \ref{fig:datastreams}remove treelike
+\item \ref{sec:networking} \sout{Rewrite to say that the backbone "station" structure is being phased out in favor of a point to point communication system. For now you can use point to point communication if timing is important, but otherwise agent-agent communication still uses the hierarchical networking structure by default.}
+\item \ref{fig:datastreams} \sout{remove treelike}
 \end{itemize}
 
 \subsection{GUI}
 
 \begin{itemize}
-\item Change framing so we're talking about moving the GUI towards being a visual representation of the rest of the data modeling systems, so that different components of the system automatically get interfaces. Decoupling all the logic of the GUI into general system methods that the GUI can just visually present.
-\item We're going to change the plotting stuff to be built into the data description, but for now it's independent.
+\item \sout{Change framing so we're talking about moving the GUI towards being a visual representation of the rest of the data modeling systems, so that different components of the system automatically get interfaces. Decoupling all the logic of the GUI into general system methods that the GUI can just visually present.}
+\item \sout{We're going to change the plotting stuff to be built into the data description, but for now it's independent.}
 \end{itemize}
 
 \section{Tests}
@@ -193,6 +198,8 @@
 \item \textbf{New Section: Knowledge Organization} - We will continue to explore additional avenues for improving the interfaces with which we share information. If there's anything we've learned over the past few years it's that technical profiency isn't enough: you need to support a community of people around the tool and make sure they have the means of answering questions for themselves. There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
 \item pipelining for transforms, forking and branching to be able to get intermediate products out as well as merge multiple pipes, as well as different transformatino rhythms that let you control more finely how transformatino piplines behave
 \item stimulus managers - in a previous version we described these, thinking that they would be developed shortly. we still haven't gotten around to that but have left stubs in place.
+\item granular dependency management!
+\item agent management! make it easier to deploy and configure pilots from a single place
 \end{itemize}
 
 

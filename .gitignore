@@ -45,3 +45,5 @@ _minted*
 # xcolor
 *.xcp
 .Rhistory
+
+autopilot/src/autopilot_v2.pdf

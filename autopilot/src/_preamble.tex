@@ -4,6 +4,9 @@
 
 \documentclass[nohyper, justified, notitlepage, marginals=raggedright,twoside=false,debug]{styles/tufte-autopilot}
 
+% set PDF version
+\special{pdf:minorversion 7}
+
 %% Package imports
 \usepackage{microtype}
 \usepackage{amsmath}
@@ -14,7 +17,7 @@
 \usepackage[framemethod=tikz]{mdframed}% http://ctan.org/pkg/mdframed
 \usepackage{lipsum}
 \usepackage{listings}
-\usepackage{minted}
+\usepackage[cache=true]{minted}
 %\usepackage[usenames, svgnames]{xcolor}
 \usepackage{xr-hyper}
 \usepackage[colorlinks = true,
@@ -34,15 +37,8 @@
 %\usepackage[english]{babel}
 \usepackage[autostyle, english=american]{csquotes} % styling smart quotes
 \usepackage[titletoc]{appendix} % add appendices
-%\usepackage{scrextend}
-%\usepackage{etoolbox}
-%\usepackage[toc, automake=true]{glossaries}
 \usepackage{fontspec}
 \usepackage{styles/listliketab}
-%\usepackage{authblk}
-%\usepackage{abstract} % to get saythanks
-% \usepackage{ fontawesome }
-% \usepackage{zref-user}
 
 \usetikzlibrary{tikzmark}
 \usetikzlibrary{calc}
@@ -58,6 +54,21 @@
 \usepackage{fancyvrb}
 \fvset{fontsize=\normalsize}
 
+\usepackage{styles/extra}
+
+% ---------------------------
+% Geometry and spacing
+% -------------------------
+
+\geometry{
+ left=0.9in, % left margin
+ % right=0.8in,
+%  textwidth=27pc, % main text block
+  marginparsep=1pc, % gutter between main text block and margin notes
+ marginparwidth=13pc, % width of margin notes
+ bottom=1.1in
+}
+
 \titlespacing*{\chapter}{0pt}{-10pt}{0pt}
 %\titlespacing{\section}{0pt}{30pt}{0pt}
 \renewcommand{\baselinestretch}{0.9}
@@ -67,8 +78,9 @@
 
 % \setlength{\intextsep}{60.0pt plus 2.0pt minus 2.0pt}
 
-%% Import extra shit from overleaf doc - see what's necessary.
-\usepackage{styles/extra}
+
+\setlength{\abovecaptionskip}{3pt plus 2pt minus 3pt}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,6 +101,10 @@
 %\apptocmd{\appendices}{\apptocmd{\thechapter}{: }{}{}}{}{}
 
 \renewcommand\appendixname{Appendix: }
+
+% -------------------------------------
+% Fonts and restyling
+% ------------------------------------
 
 \setmainfont{EBGaramond}[
 	Path = garamond/ ,
@@ -114,16 +130,27 @@
 \setmarginnotefont{\footnotesize}
 
 
-% style captions, including adding more space after figures
+% style captions
 \captionsetup{justification=raggedright, singlelinecheck=false}
 %\captionsetup[figure]{belowskip=24pt, position=below}
 %\captionsetup[table]{aboveskip=12pt, position=above}
 
-\setlength{\abovecaptionskip}{3pt plus 2pt minus 3pt}
 
 % format smart quotes
 \MakeOuterQuote{"}
 
+% Section numbering
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{1}
+
+
+% right aligned tabularx
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+
+% ------------------------------------
+% Code blocks
+% ------------------------------------
 
 % Styling for code blocks
 \usemintedstyle{colorful}
@@ -139,39 +166,24 @@
 \definecolor{aliceblue}{rgb}{0.98, 0.98, 0.99}
 
 
-%\renewcommand{\theFancyVerbLine}{%
-%\textt\small\arabic{FancyVerbLine}}
-
-% right aligned tabularx
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
-
-
-\setcounter{secnumdepth}{1}
-\setcounter{tocdepth}{1}
-
-\newminted{python}{linenos=true,
-               frame=single,
-               framerule = 1pt,
-               labelposition = topline,
-               bgcolor=aliceblue,
-               escapeinside=||}
-
-\newminted{matlab}{linenos=true,
-frame=single,
-framerule = 1pt,
-labelposition = topline,
-bgcolor=aliceblue,
-escapeinside=||}
-
-
-\geometry{
- left=0.9in, % left margin
- % right=0.8in,
-%  textwidth=27pc, % main text block
-  marginparsep=1pc, % gutter between main text block and margin notes
- marginparwidth=13pc, % width of margin notes
- bottom=1.1in
+\newminted{python}{
+  linenos=true,
+  frame=single,
+  framerule = 1pt,
+  labelposition = topline,
+  bgcolor=aliceblue,
+  escapeinside=||
 }
+
+\newminted{matlab}{
+  linenos=true,
+  frame=single,
+  framerule = 1pt,
+  labelposition = topline,
+  bgcolor=aliceblue,
+  escapeinside=||
+}
+
 
 \newenvironment{abstract}{%
 \vspace{1em}
