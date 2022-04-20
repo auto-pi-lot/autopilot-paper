@@ -1540,6 +1540,7 @@
 
 \newcommand{\maketitlepage}[0]{%
   %\cleardoublepage%
+  hey
   {%
   \sffamily%
   \begin{fullwidth}%
