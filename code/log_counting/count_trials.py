@@ -1,36 +1,42 @@
 import sys
 import os
-from tqdm import tqdm
+from tqdm.rich import tqdm
 import pandas as pd
 import datetime
+import tables
+from pathlib import Path
+from typing import TypedDict
 
-sys.path.append('/path/to/autopilot/repo')
+class TrialSummary(TypedDict):
+    subject: str
+    task: str
+    step: str
+    n_trials: int
 
-from autopilot.core.mouse import Mouse
 
-data_dir = '/path/to/data/files'
+data_path = Path.home() / "Dropbox" / "lab" / "autopilot" / "data"
+subjects = list(data_path.glob('*.h5'))
 
-total_trials = 0
-for mouse_file in tqdm(os.listdir(data_dir)):
-    amus = Mouse(file=os.path.join(data_dir, mouse_file))
-    tr = amus.get_trial_data(step='all')
-    total_trials += tr.shape[0]
+# counting manually because the table structure of 
+# the subject file changed in v0.5.0 and automatically
+# recreates a new file which can take awhile and this
+# is almost as easy
 
-print(total_trials)
+summaries = []
+for subject in tqdm(subjects):
+    subject_id = subject.stem
+    h5f = tables.open_file(str(subject), 'r')
+    for table in h5f.walk_nodes('/data', classname="Table"):
+        summary = TrialSummary(
+            subject = subject_id, 
+            step = table._v_parent._v_name,
+            task = table._v_parent._v_parent._v_name,
+            n_trials = table.nrows
+        )
+        summaries.append(summary)
+    h5f.close()
 
-# find earliest training day
+df = pd.DataFrame(summaries)
+df.to_csv('./trial_counts.csv', index=False)
 
-earliest_day = datetime.datetime.now()
-for mouse_file in tqdm(os.listdir(data_dir)):
-    amus = Mouse(file = os.path.join(data_dir, mouse_file))
-    tr = amus.get_trial_data(step='all')
-    try:
-        first_ts = pd.to_datetime(tr.loc[0,'timestamp'].decode(), format='%Y-%m-%dT%H:%M:%S.%f')
-    except:
-        first_ts = pd.to_datetime(tr.loc[0, 'RQ_timestamp'].decode(), format='%Y-%m-%dT%H:%M:%S.%f')
-        #print('first table of {} was blank'.format(mouse_file))
-        #continue
-    if first_ts < earliest_day:
-        earliest_day = first_ts
-
-print(earliest_day)
+print(f"Total subjects: {len(subjects)}\nTotal trials: {df['n_trials'].sum()}")

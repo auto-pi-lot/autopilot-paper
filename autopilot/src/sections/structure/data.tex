@@ -4,7 +4,7 @@
 
 As of v0.5.0, Autopilot uses \href{https://pydantic-docs.helpmanual.io/}{pydantic} to create explicitly typed and schematized data models. Submodules include \texttt{data} abstract \texttt{modeling} tools that define base model types like \texttt{Table}s, \texttt{Group}s, and sets of \texttt{Attributes}. These base modeling classes are then built into a few core data models like subject \texttt{Biography} information, \texttt{Protocol} declaration, and the \texttt{Subject} data model itself that combines them. Modeling classes then have multiple \texttt{interfaces} that can be used to create equivalent objects in other formats, like pytables for hdf5 storage, pandas dataframes for analysis, or exported to Neurodata Without Borders.
 
-For example, consider a simplified version of the \texttt{Biograpphy} model:
+For example, consider a simplified version of the \texttt{Biography} model:
 
 
 \begin{pythoncode*}{label = \texttt{\textbf{data - Biography}}}

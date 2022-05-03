@@ -47,3 +47,4 @@ _minted*
 .Rhistory
 
 autopilot/src/autopilot_v2.pdf
+.Rproj.user
