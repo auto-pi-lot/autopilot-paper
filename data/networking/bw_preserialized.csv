@@ -1,0 +1,2 @@
+,rate,payload_size,message_size,n_messages,confirm,blosc,random,preserialized,n_pilots,mean_delay,drop_rate,actual_rate,send_jitter,delay_jitter
+0,0.0,28.0,403.0,5000,False,False,False,True,1,2135.363925,0.0,2100.8403361344535,0.0,0.568434

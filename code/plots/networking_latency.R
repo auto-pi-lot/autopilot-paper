@@ -6,7 +6,6 @@ library(here)
 # loadfonts()
 here::i_am('code/plots/networking_latency.R')
 
-
 lates <- import(here('data', 'networking', 'network_latency.csv'))
 # Filter to session 10, which is the complete one with latest code version
 lates <- lates %>% filter(session==20)

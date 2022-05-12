@@ -1,0 +1,56 @@
+{
+    "AGENT": "PILOT",
+    "ALSA_NPERIODS": 2,
+    "AUDIOSERVER": false,
+    "AUTOPLUGIN": true,
+    "BASEDIR": "/home/pi/autopilot",
+    "CALIBRATIONDIR": "/home/pi/autopilot/calibration",
+    "CHILDID": [],
+    "CONFIG": "",
+    "DATADIR": "/home/pi/autopilot/data",
+    "FS": 192000,
+    "HARDWARE": {
+        "GPIO": {
+            "digi_in": {
+                "pin": 13,
+                "record": false
+            },
+            "digi_out": {
+                "pin": 11
+            }
+        }
+    },
+    "HASH": "0ad581b5e251d90b625f6e9e9fa970c9d1c0bb84",
+    "JACKDSTRING": "jackd -P75 -p16 -t2000 --silent -dalsa -dhw:sndrpihifiberry -P -r192000 -n 2 -s -p 64 &",
+    "LINEAGE": "NONE",
+    "LOGDIR": "/home/pi/autopilot/logs",
+    "LOGLEVEL": "WARNING",
+    "LOGNUM": 4,
+    "LOGSIZE": 5242880,
+    "MSGPORT": 5565,
+    "NAME": "paper_tester_0",
+    "NCHANNELS": 1,
+    "OUTCHANNELS": [
+        1
+    ],
+    "PARENTID": "",
+    "PARENTIP": "",
+    "PARENTPORT": "",
+    "PIGPIO": false,
+    "PIGPIOARGS": "-t 0 -l -s 10",
+    "PIGPIOD": false,
+    "PIGPIOMASK": "1111110000111111111111110000",
+    "PING_INTERVAL": 5,
+    "PLUGINDIR": "/home/pi/autopilot/plugins",
+    "PLUGIN_DB": "/home/pi/autopilot/plugin_db.json",
+    "PROTOCOLDIR": "/home/pi/autopilot/protocols",
+    "PULLDOWNS": "",
+    "PULLUPS": "",
+    "PUSHPORT": 5560,
+    "REPODIR": "/home/pi/git/autopilot",
+    "SOUNDDIR": "/home/pi/autopilot/sounds",
+    "SUBJECT": "network_latency_2",
+    "TERMINALIP": "192.168.0.100",
+    "VENV": "/home/pi/git/autopilot/venv",
+    "VIZDIR": "/home/pi/autopilot/viz"
+}

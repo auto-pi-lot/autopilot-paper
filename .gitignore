@@ -48,3 +48,4 @@ _minted*
 
 autopilot/src/autopilot_v2.pdf
 .Rproj.user
+__pycache__
