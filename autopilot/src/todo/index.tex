@@ -8,6 +8,7 @@
 \item move autopilot to its own organization repository so links stay fresh! Then update the links in the paper!
 \item complete nosepoke and behavior box assembly instructions on wiki.
 \item terminal send back pilot DB to each other pilot when they connect.
+\item links from text to future directions
 \end{itemize}
 
 \subsection{Formatting}
@@ -29,6 +30,63 @@
 \item Check the changelog!
 \end{itemize}
 
+\section{Structure}
+
+
+\subsection{Data}
+
+\begin{itemize}
+\item \sout{(In program design section) - Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.}
+\item \sout{(In program design section) - Self-documenting data -> be more explicit that we record \textit{everything}}
+\item Annotate code example
+\end{itemize}
+
+
+\subsection{Agents}
+
+\begin{itemize}
+\item \sout{Remove child agent.}
+\item \sout{talk about managing dependencies for particular types of agents here, more relevant than terminal vs. pilot etc.}
+\item \sout{Talk about scripts and system configuration here.}
+\item Change child figure to being one with multiple copilots
+\end{itemize}
+
+
+
+\section{Future Directions}
+
+\begin{itemize}
+\item RDF export, linked data capabilities between the wiki and data structures
+\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
+\item Unify slot, signal, and trigger architecture to make different pieces more effortlessly compatible.
+\item Write rust interface to GPIO pins
+\item \textbf{New Section: Knowledge Organization} - We will continue to explore additional avenues for improving the interfaces with which we share information. If there's anything we've learned over the past few years it's that technical profiency isn't enough: you need to support a community of people around the tool and make sure they have the means of answering questions for themselves. There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
+\item pipelining for transforms, forking and branching to be able to get intermediate products out as well as merge multiple pipes, as well as different transformatino rhythms that let you control more finely how transformatino piplines behave
+\item stimulus managers - in a previous version we described these, thinking that they would be developed shortly. we still haven't gotten around to that but have left stubs in place.
+\item granular dependency management!
+\item agent management! make it easier to deploy and configure pilots from a single place
+\end{itemize}
+
+\section{Data to Include}
+
+\begin{itemize}
+\item Get all configuration files including chrony, prefs, etc.
+\item Organize and annotate data
+\end{itemize}
+
+\section{Docs to write}
+
+\begin{itemize}
+\item document the get\_stream method on net\_nodes!
+\item wiki page for the paper plugin! specifically the go no/go task
+\end{itemize}
+
+
+\hrule
+
+\section{Finished}
+
+
 \subsection{Preamble}
 
 \begin{itemize}
@@ -36,8 +94,9 @@
 \item \sout{This is actually a challenging technical and theoretical problem. Tension between totalizing framework and integrating many tools: autopilot tries to be mindful about both -- it is a logical framework for the different parts of an experiment, allows easily hooking into each of these components, but also lets them be used separately. Autopilot was designed to \textit{play nice} with other tools, but also give them a place to play nice with each other.}
 \item \sout{"whats missing is a glue framework"}
 \item \sout{\textbf{Reproducibility para} - Mention of the wiki and plugin systems -- using a linux system brings with it all a manner of technical challenges. We have designed autopilot as a system that can integrate fluid technical knowledge along with the code to use it. Also that we have designed it to let work at all stages of "completeness" work together with its plugin framework -- example with a stepper motor. thsi one might not be **exactly** what you need but it's better than nothing.}
-\item Note that autopilot is a continually developing system, so we don't necessarily do everything here perfectly, many things are in progress, but this document is intended to capture the ideas that animate its development.
+\item \sout{Note that autopilot is a continually developing system, so we don't necessarily do everything here perfectly, many things are in progress, but this document is intended to capture the ideas that animate its development.}
 \end{itemize}
+
 
 \subsection{Existing Systems}
 
@@ -100,21 +159,16 @@
 
 \section{Structure}
 
+
 \begin{itemize}
-\item Start by describing the hierarchical object strucutre -- Autopilot is designed around a few fundamental types with abstract methods that are then elaborated. This is in progress!
-\item in this section, also talk about ability to dehydrate and rehydrate objects so they can be re-instantiated across processes and machines.
+\item \sout{Start by describing the hierarchical object strucutre -- Autopilot is designed around a few fundamental types with abstract methods that are then elaborated. This is in progress!} - how hard would it be to make this be an autogenerated figure?
+\item \sout{in this section, also talk about ability to dehydrate and rehydrate objects so they can be re-instantiated across processes and machines.} - probably not necessary
 \item \sout{\textbf{New Section: Transforms} - also include DLC stuff.}
 \item \sout{Stuff that all autopilot objects have -- sick logging (give example). Autopilot is about making best practices baked into the process. }
 \item Rename "Children" as "copilots" throughout
 \end{itemize}
 
-\subsection{Data}
 
-\begin{itemize}
-\item \sout{(In program design section) - Change standardized task decriptions to being about schemas. Tasks and data use a shared representation (along with the subject class) that lets you export descrptions as JSON, but also into NWB and etc.}
-\item \sout{(In program design section) - Self-documenting data -> be more explicit that we record \textit{everything}}
-\item Annotate code example
-\end{itemize}
 
 \subsection{Tasks}
 
@@ -140,14 +194,6 @@
 \item \sout{remove stimulus and reward manager section, we don't really have them -- move this to future directions}
 \end{itemize}
 
-\subsection{Agents}
-
-\begin{itemize}
-\item \sout{Remove child agent.}
-\item \sout{talk about managing dependencies for particular types of agents here, more relevant than terminal vs. pilot etc.}
-\item \sout{Talk about scripts and system configuration here.}
-\item Change child figure to being one with multiple copilots
-\end{itemize}
 
 \subsection{Networking}
 
@@ -163,59 +209,29 @@
 \item \sout{We're going to change the plotting stuff to be built into the data description, but for now it's independent.}
 \end{itemize}
 
+
 \section{Tests}
 
 \begin{itemize}
-\item Functionality testing is done in our CI, so these are just rough performance characterizations that can always change. So as much as it doesn't make sense to publish performance characterization in a static paper, we'll do some of that here
+\item \sout{Functionality testing is done in our CI, so these are just rough performance characterizations that can always change. So as much as it doesn't make sense to publish performance characterization in a static paper, we'll do some of that here}
 \item Add version numbers to each of the test in margin note.
-\item Update language on tests. We have been working on autopilot continuously, \# commits have happened, etc.
-\item Remove Bpod comparison tests. too messy. Then also remove language at the top that we improve efficiency an order of magnitude
-\item \textbf{CODE:} replace JSON with msgpack.
-\item \textbf{Re-run all tests} 
+\item \sout{Update language on tests. We have been working on autopilot continuously, \# commits have happened, etc.}
+\item \sout{Remove Bpod comparison tests. too messy. Then also remove language at the top that we improve efficiency an order of magnitude}
+\item \sout{\textbf{CODE:} replace JSON with msgpack.}
+\item \sout{\textbf{Re-run all tests} }
 \begin{itemize}
-\item Sound latency
-\item Network latency
-\item Network throughput
+\item \sout{Sound latency}
+\item \sout{Network latency}
+\item \sout{Network throughput}
 \end{itemize}
-\item Make sure to actually NTP sync!
+\item \sout{Make sure to actually NTP sync!}
 \item \textbf{NEW Tests}
 \begin{itemize}
-\item GPIO on/off latency
-\item networked GPIO on/off latency
-\item Camera FPS for picam/FLIR cam?
-\item timed GPIO on/off jitter.
+\item \sout{GPIO on/off latency}
+\item \sout{networked GPIO on/off latency}
+\item \sout{Camera FPS for picam/FLIR cam?}
+\item \sout{timed GPIO on/off jitter.}
 \end{itemize}
-\item Just say we haven't done any work on visual stimuli so this test was run with the release version of autopilot.
+\item \sout{Just say we haven't done any work on visual stimuli so this test was run with the release version of autopilot.}
 
 \end{itemize}
-
-\section{Future Directions}
-
-\begin{itemize}
-\item RDF export, linked data capabilities between the wiki and data structures
-\item Also working on a related ingest project to be able to automatically bring in data from other sources made during use. 
-\item Unify slot, signal, and trigger architecture to make different pieces more effortlessly compatible.
-\item Write rust interface to GPIO pins
-\item \textbf{New Section: Knowledge Organization} - We will continue to explore additional avenues for improving the interfaces with which we share information. If there's anything we've learned over the past few years it's that technical profiency isn't enough: you need to support a community of people around the tool and make sure they have the means of answering questions for themselves. There is a ton of additional informatino that's needed to perform any experiment that doesn't fit neatly in code or docs, hence the wiki! To make things both \textit{technically} reproducible AND \textit{practically} reproducible, the plugin system is built into a semantic wiki that can organize structured data (wiki stuff here for sure, not in the other place i said)
-\item pipelining for transforms, forking and branching to be able to get intermediate products out as well as merge multiple pipes, as well as different transformatino rhythms that let you control more finely how transformatino piplines behave
-\item stimulus managers - in a previous version we described these, thinking that they would be developed shortly. we still haven't gotten around to that but have left stubs in place.
-\item granular dependency management!
-\item agent management! make it easier to deploy and configure pilots from a single place
-\end{itemize}
-
-\section{Data to Include}
-
-\begin{itemize}
-\item Get all configuration files including chrony, prefs, etc.
-\item Organize and annotate data
-\end{itemize}
-
-\section{Docs to write}
-
-\begin{itemize}
-\item document the get\_stream method on net\_nodes!
-\item wiki page for the paper plugin! specifically the go no/go task
-\end{itemize}
-
-
-
