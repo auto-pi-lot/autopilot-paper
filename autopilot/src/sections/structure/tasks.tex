@@ -7,7 +7,7 @@
 \label{fig:taskstx}
 \end{marginfigure}
 
-Behavioral experiments in Autopilot are centered around \textbf{tasks}. Tasks are Python classes that describe the parameters, coordinate the hardware, and perform the logic of the experiment. Tasks may consist of one or multiple \textbf{stages}, completion of which constitutes a \textbf{trial} (Figure \ref{fig:taskstx}). Stages are analogous to states in the finite state machine formalism. 
+Behavioral experiments in Autopilot are centered around \textbf{tasks}. Tasks are Python classes that describe the parameters, coordinate the hardware, and perform the logic of the experiment. Tasks may consist of one or multiple \textbf{stages} like a stimulus presentation or response event, completion of which constitutes a \textbf{trial} (Figure \ref{fig:taskstx}). Stages are analogous to states in the finite state machine formalism. 
 
 Multiple tasks are combined to make \textbf{protocols}, in which animals move between tasks according to "graduation" criteria like accuracy or number of trials. Training an animal to perform a task typically requires some period of shaping where they are familiarized to the apparatus and the structure of the task. For example, to teach animals about the availability of water from "nosepoke" sensors, we typically begin with a "free water" task that simply gives them water for poking their nose in them. Having a structured protocol system prevents shaping from relying on intuition or ad hoc criteria.
 

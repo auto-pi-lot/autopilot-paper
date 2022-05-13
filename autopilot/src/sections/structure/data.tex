@@ -12,14 +12,14 @@ from autopilot.data.modeling import Data, Attributes
 from typing import Optional, Union
 
 class Enclosure(Data):
-    """Where does the subject live?"""
+    """Where does the subject work?"""
     box:  Optional[Union[str, int]] = Field(
         default=None, 
-        description="The box this Subject lives in"
+        description="The box this Subject is run in"
     )
     room: Optional[Union[str, int]] = Field(
         default=None, 
-        description="The room number that the animal is housed in"
+        description="The room number that the animal is run in"
     )
 
 class Biography(Attributes):
@@ -58,11 +58,11 @@ Out of the box, pydantic models can create explicit and interoperable \href{http
 
 \begin{marginfigure}
 \includegraphics[width=\linewidth]{figures/model_form.png}
-\label{fig:modelform}
 \caption{An Autopilot Data model can automatically generate a GUI form to fill in its properties, in this example to define a new experimental Subject's biography.}
+\label{fig:modelform}
 \end{marginfigure}
 
-Though the data modeling system is new\sidenote{Released as an alpha version at the time of writing}, we have laid the groundwork for Autopilot's plugin system to allow researchers to declare custom schema for all data produced by Autopilot, and to preserve both interoperability and reproducibility by combining them with datasets potentially produced by multiple incompatible tools (see \ref{sec:future}).
+Though the data modeling system is new\sidenote{Released as an alpha version at the time of writing}, we have laid the groundwork for Autopilot's plugin system to allow researchers to declare custom schema for all data produced by Autopilot, and to preserve both interoperability and reproducibility by combining them with datasets potentially produced by multiple incompatible tools (see Section \ref{future:data}).
 
 
 
