@@ -44,11 +44,11 @@
 % The main matter in Tufte's /Beautiful Evidence/ doesn't restart the page
 % numbering---it continues where it left off in the front matter.
 \renewcommand\mainmatter{%
-  \if@openright%
-    \cleardoublepage%
-  \else%
-    \clearpage%
-  \fi%
+  % \if@openright%
+  %   \cleardoublepage%
+  % \else%
+  %   \clearpage%
+  % \fi%
   \@mainmattertrue%
   \fancyhf{}%
   \ifthenelse{\boolean{@tufte@twoside}}%
@@ -67,11 +67,11 @@
 % The back matter contains appendices, indices, glossaries, endnotes,
 % biliographies, list of contributors, illustration credits, etc.
 \renewcommand\backmatter{%
-  \if@openright%
-    \cleardoublepage%
-  \else%
-    \clearpage%
-  \fi%
+  % \if@openright%
+  %   \cleardoublepage%
+  % \else%
+  %   \clearpage%
+  % \fi%
   \@mainmatterfalse%
 }
 

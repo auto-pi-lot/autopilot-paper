@@ -2,7 +2,7 @@
 % !TEX jobname = autopilot_v2
 % !TEX output_directory = ../build/autopilot_v2
 
-\documentclass[nohyper, justified, notitlepage, marginals=raggedright,twoside=false,debug]{styles/tufte-autopilot}
+\documentclass[nohyper, justified, notitlepage, notoc, marginals=raggedright,twoside=false,debug]{styles/tufte-autopilot}
 
 % set PDF version
 \special{pdf:minorversion 7}
@@ -199,6 +199,21 @@
 \end{mdframed}
 }
 
+\newenvironment{acknowledgements}{%
+\vspace{1em}
+\par\vspace*{\fill}
+\begin{mdframed}[
+     linewidth=1pt,
+     linecolor=black,
+     leftline=false,bottomline=false,rightline=false,
+     innerrightmargin=0pt,innertopmargin=1em,innerbottommargin=0pt,
+     innerleftmargin=1em,% Distance between vertical rule & proof content
+     skipabove=.5\baselineskip
+   ]
+}{%
+\end{mdframed}\newpage
+}
+
 \newenvironment{thintab}%
 {\begin{itemize}%
 \setlength{\itemsep}{0pt}%
@@ -224,7 +239,7 @@
 % Book metadata
 \title{Auto\textcolor{RED}{pi}lot\\
 \large Automating behavioral experiments with lots of Raspberry Pis}
-\author{JONNY L. SAUNDERS, MICHAEL WEHR \href{mailto:wehr@uoregon.edu}{@}}
+\author{JONNY L. SAUNDERS, LUCAS OTT, MICHAEL WEHR \href{mailto:wehr@uoregon.edu}{@}}
 
 % filthy hack putting the affiliations in the tufte-common.cls file. 
 % goddamn hate latex.
