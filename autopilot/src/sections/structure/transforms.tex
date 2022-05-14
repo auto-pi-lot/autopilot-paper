@@ -46,7 +46,7 @@ In addition to computing derived values, we use transforms in a few ways, includ
 
 Like Tasks and Hardware, the transform module provides a scaffolding for writing reference implementations of algorithms commonly needed for realtime behavioral experiments. For example, neuroscientists often want to quickly measure a research subject's velocity or orientation, which is possible with inexpensive inertial motion sensors (IMUs), but since anything worth measuring will be swinging the sensor around with wild abandon the readings first need to be rotated back to a geocentric coordinate frame. Since the readings from an accelerometer are noisy, we found a few whitepapers describing using a Kalman filter for fusing the accelerometer and gyroscope data for a more accurate orientation estimate (\citep{abyarjooImplementingSensorFusion2015b,patonisFusionMethodCombining2018a}), but couldn't find an implementation. We \href{https://docs.auto-pi-lot.com/en/latest/_modules/autopilot/transform/geometry.html\#IMU_Orientation}{wrote one} and integrated it into the IMU class (Figure \ref{fig:imu}). Since it's an independent transform, it's available to anyone even if they use nothing else from Autopilot.
 
-\begin{marginfigure}[-0.5cm]
+\begin{marginfigure}[-1.5cm]
 \begin{pythoncode*}{
 label=Geocentric Velocity,
 frame=lines,

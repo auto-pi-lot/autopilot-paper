@@ -14,7 +14,7 @@ At minimum, a complete system to automate behavioral experiments has 6 requireme
 \item Finally,\marginnote{\includegraphics[]{figures/side_7_ui.pdf}} a \hyperref[sec:ui]{user interface} to control task operation. The UI should make it possible for someone who does not program to operate the system.
 \end{enumerate}
 
-We\marginnote[-0.6cm]{\includegraphics[]{figures/side_8_checks.pdf}} will briefly describe two other systems that are "complete" as described above: pyControl and Bpod.
+We\marginnote[-0.6cm]{\includegraphics[]{figures/side_8_checks.pdf}} will briefly describe two other systems that meet this definition of completeness: pyControl and Bpod.
 
 %\vspace{16pt}
 %\sffamily{\textbf{\Large{pyControl}}}\normalfont
@@ -26,7 +26,7 @@ There is limited support for some parametrically defined sound stimuli, presente
 
 Like most behavioral software, pyControl uses a finite-state machine formalism to define its tasks. A task is a set of discrete states, each of which has a set of events that transition the task from one state to another. pyControl also allows timed transitions between states, and one function that is called on every event for a rough sort of parallelism. pyControl also allows the use of external variables to control state logic, making these state machines more flexible than strict finite state machines.
 
-\begin{marginfigure}[-0.4cm]
+\begin{marginfigure}[-3.5cm]
 \begin{minted}[frame=lines,fontsize=\small]{python}
 D 0 2
 D 8976 3

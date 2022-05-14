@@ -179,7 +179,7 @@ class Actimeter(Hardware):
 \end{pythoncode*}
 %
 \begin{tikzpicture}[overlay, remember picture]
-\draw[<-] (pic cs:finishcb) ++(0,0.1) to[left] ++(3.1,0)node[below right, yshift=8pt, text width=2.4in]{See line \ref{callback} below};
+\draw[<-] (pic cs:finishcb) ++(0,0.1) to[left] ++(3.75,0)node[below right, yshift=8pt, text width=2.4in]{See line \ref{callback} below};
 \end{tikzpicture}
 
 \vspace{-12pt}
@@ -200,8 +200,8 @@ class Maze(Task):
 \end{pythoncode*}
 
 \begin{tikzpicture}[overlay, remember picture]
-\draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(1.8,0) --++(0,1.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
-\draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(3.6,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
+\draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(2.6,0) --++(0,1) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
+\draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(4.25,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
 \end{tikzpicture}
 \vspace{-14pt}
 

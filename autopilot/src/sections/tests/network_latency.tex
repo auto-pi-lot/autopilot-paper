@@ -3,6 +3,19 @@
 \section{Network Latency}
 \label{sec:networklatency}
 
+
+\begin{margintable}[-0.5cm]
+\caption{Network Test Materials}
+\label{tab:materials}
+\noindent\begin{tabularx}{\linewidth}{lX}%
+\toprule
+Router & \\
+Chrony & version \\
+zmq & version \\
+\bottomrule
+\end{tabularx}
+\end{margintable}
+
 To support data-intensive tasks like those that require online processing of video or electrophysiological data, the networking modules at the core of Autopilot need high bandwidth and low latency. 
 
 To test the latency of Autopilot's networking modules, we switch from "script mode" to "Task mode."\sidenote{Link to task code} Tasks are useful for encapsulating multistage routines across multiple devices that would be hard to coordinate with scripts alone. Our \texttt{Network\_Latency} task consists of one "leader" pilot sending timestamped messages to a "follower" pilot which returns the timestamp marking when it received the message. The two pis communicate via two directly connected \texttt{Net\_Node}s (rather than routing each message through agent-level \texttt{Station} objects) after the leader pi initiates the follower with a multihop "START" message routed through a Terminal agent containing the task and networking parameters. We measured latency using software timestamps while synchronizing the clocks of the two pis with Chrony, an \href{https://en.wikipedia.org/wiki/Network\_Time\_Protocol}{NTP} daemon previously measured to synchronize Raspberry Pis within dozens of microseconds\citep{soaresAnalysisTimekeepingExperimentation2020}\sidenote{Our sync is likely to be near to or better than that reported in \citep{soaresAnalysisTimekeepingExperimentation2020}: in addition to a quiet network, we configured chrony to poll more frequently and tolerate a smaller error than default}, with the leader pi hosting an NTP server and the follower pi synchronizing its clock solely from the leader. We documented this \href{https://wiki.auto-pi-lot.com/index.php/NTP}{on the wiki} too, since synchronization is a universal problem in multi-computer experiments.

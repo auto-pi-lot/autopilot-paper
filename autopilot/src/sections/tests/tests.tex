@@ -1,29 +1,30 @@
 
 \newthought{We have been testing and refining Autopilot} since we built our swarm of 10 training boxes in the spring of 2019. In that time 178 mice\sidenote{All procedures were performed in accordance with National Institutes of Health guidelines, as approved by the University of Oregon Institutional Animal Care and Use Committee.} have performed over 6 million trials on a range of tasks. While Autopilot is still relatively new, it is by no means untested.
 
-In this section we will present a set of basic performance benchmarks while also showing several of the different ways that Autopilot can be used. The code for all of the following tests is available as a \href{https://github.com/auto-pi-lot/plugin-tests}{plugin} that is further documented on the \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{wiki}, and runs on a prerelease of v0.5.0 (specific commit hashes will be referenced where relevant). 
+In this section we will present a set of basic performance benchmarks while also showing several of the different ways that Autopilot can be used. The code for all of the following tests is available as a \href{https://github.com/auto-pi-lot/plugin-tests}{plugin} that is further documented on the \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{wiki}, and runs on a prerelease of v0.5.0. 
 
 \begin{margintable}[-0.5cm]
-\caption{Latency Test Materials}
+\caption{General Materials}
 \label{tab:materials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
-\textbf{Hardware} & \href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/}{Raspberry Pi 4}\\
-Soundcard & \href{https://www.hifiberry.com/shop/boards/hifiberry-amp2/}{Hifiberry Amp2} \\
-IR Break Sensor & \href{https://www.digikey.com/product-detail/en/tt-electronics-optek-technology/OPB901L55/365-1767-ND/1637490}{TT Electronics OPB901L55}\\
-Speaker & \href{https://www.parts-express.com/hivi-rt13we-isodynamic-tweeter--297-421}{HiVi RT1.3WE}\\
-Oscilloscope & \href{https://download.tek.com/manual/071181702web.pdf}{Tektronix TDS 2004B}\\
-Router & \\
-\midrule
-Python & version \\
+\textbf{Hardware} & \\
+Raspi & \href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/}{Raspberry Pi 4b}\\
+Oscilloscope & \href{https://wiki.auto-pi-lot.com/index.php/Rigol\_DS1054Z}{Rigol DS1054Z} \\
 \midrule
 \textbf{Software} & \\
-RaspiOS version & \\
+Autopilot & link to v0.5.0a \\
+Plugin & \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot\_Paper}{Autopilot\_Paper} \\
+Python & 3.9.12 \\
+RaspiOS & Bullseye \href{https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios\_lite\_armhf-2022-04-07/}{22-04-04} (lite) \\
+Lockfile & Link to v0.5.0a lockfile \\
 \midrule
 \textbf{Analysis} & \\
 R & (version) \\
 ggplot2 & (version) \\
 dplyr & (version) \\
+pandas & (version) \\
+numpy & (version) \\ 
 \bottomrule
 \end{tabularx}
 \end{margintable}
