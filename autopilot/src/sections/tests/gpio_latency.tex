@@ -9,7 +9,7 @@ Neurons compute at millisecond timescales, so any task that links neural computa
 \label{tab:gpiomaterials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
-\textbf{Code} & \href{https://github.com/auto-pi-lot/plugin-tests/blob/main/plugin_tests/scripts/test_gpio.py}{test\_gpio.py} \\
+\textbf{Code} & \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_tests/scripts/test_gpio.py}{test\_gpio.py} \\
 \textbf{gpiozero} & link to gpiozero class \\
 \textbf{pigpio} & version \\
 \bottomrule
@@ -26,7 +26,7 @@ We first tested the software measured latency between when a command to write a 
 \includegraphics{figures/gpio_latency_small.pdf}
 \end{figure}
 
-Pigpio is useful as a general purpose controller because of its ability to run scripts within its daemon, use hardware PWM via direct memory access, and consistently poll for pin state, but takes a latency penalty because the python interface communicates with it through a local TCP socket. To demonstrate the flexibility of Autopilot in incorporating additional software libraries, we wrote a \href{https://github.com/auto-pi-lot/plugin-tests/blob/main/plugin_tests/hardware/zero.py}{thin wrapper} around \href{https://gpiozero.readthedocs.io/en/stable/}{gpiozero}, which can use \href{https://pypi.org/project/RPi.GPIO/}{RPi.GPIO} to directly write to the GPIO registers. For simple output, this wrapper proved to be faster (16.2 $\mu s \pm 0.22$, n=100,000), and with \~63 lines of code is now available in the plugin accompanying this paper to be used, repurposed, and extended.
+Pigpio is useful as a general purpose controller because of its ability to run scripts within its daemon, use hardware PWM via direct memory access, and consistently poll for pin state, but takes a latency penalty because the python interface communicates with it through a local TCP socket. To demonstrate the flexibility of Autopilot in incorporating additional software libraries, we wrote a \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_tests/hardware/zero.py}{thin wrapper} around \href{https://gpiozero.readthedocs.io/en/stable/}{gpiozero}, which can use \href{https://pypi.org/project/RPi.GPIO/}{RPi.GPIO} to directly write to the GPIO registers. For simple output, this wrapper proved to be faster (16.2 $\mu s \pm 0.22$, n=100,000), and with \~63 lines of code is now available in the plugin accompanying this paper to be used, repurposed, and extended.
 
 \subsection{Roundtrip Input/Output Latency}
 

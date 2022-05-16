@@ -20,6 +20,7 @@
 \usepackage[cache=true]{minted}
 %\usepackage[usenames, svgnames]{xcolor}
 \usepackage{xr-hyper}
+\usepackage{url}
 \usepackage[colorlinks = true,
             urlcolor = DarkOrchid,
             citecolor = DarkOrchid,
@@ -147,6 +148,12 @@
 % right aligned tabularx
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 
+% fix urls in bibtex
+
+\makeatletter
+\AtBeginDocument{%
+  \def\doi#1{\url{https://doi.org/#1}}}
+\makeatother
 
 % ------------------------------------
 % Code blocks
