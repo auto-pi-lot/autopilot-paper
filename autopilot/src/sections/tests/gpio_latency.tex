@@ -5,13 +5,14 @@
 Neurons compute at millisecond timescales, so any task that links neural computation to behavior needs to have near-millisecond latency. We start by characterizing Autopilot's GPIO control latency in "script mode" --- using the GPIO control classes on their own, without using any of the rest of Autopilot's modules.
 
 \begin{margintable}[0cm]
-\caption{GPIO Latency Materials}
+\caption{GPIO Latency Materials. (Parameters in \{\} are input in separate runs)}
 \label{tab:gpiomaterials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
-\textbf{Code} & \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_tests/scripts/test_gpio.py}{test\_gpio.py} \\
-\textbf{gpiozero} & link to gpiozero class \\
-\textbf{pigpio} & version \\
+\textbf{Code} & \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_paper/scripts/test_gpio.py}{test\_gpio.py} \\
+\textbf{replicate} & \texttt{python test\_gpio.py -w \{0,1,2\} -n 100000}\\
+\textbf{gpiozero} & \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_paper/hardware/zero.py}{1.6.2} \\
+\textbf{pigpio} & \href{https://github.com/sneakers-the-rat/pigpio/commit/3c237159e5995ec58cd673579bdd66a8d819b269}{3c23715} \\
 \bottomrule
 \end{tabularx}
 \end{margintable}
@@ -30,13 +31,14 @@ Pigpio is useful as a general purpose controller because of its ability to run s
 
 \subsection{Roundtrip Input/Output Latency}
 
-\begin{margintable}[0cm]
+\begin{margintable}[2.5cm]
 \caption{Roundtrip Latency Materials}
 \label{tab:gpiomaterials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
-\textbf{Function Generator} & model number \\
-\textbf{Code} & link to code \\
+\textbf{Function Generator} & \href{https://wiki.auto-pi-lot.com/index.php/Koolertron\_CJDS98}{Koolertron CJDS98} \\
+\textbf{Code} & \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_paper/scripts/test\_gpio.py}{test\_gpio.py} \\
+\textbf{Replicate} & \texttt{python test\_gpio.py -w \{3,4\}} \\
 \bottomrule
 \end{tabularx}
 \end{margintable}

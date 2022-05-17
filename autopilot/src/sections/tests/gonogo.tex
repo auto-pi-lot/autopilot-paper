@@ -8,21 +8,21 @@
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
 \textbf{Hardware} & \\
-\textbf{Beam break} & wikilink \\
-\textbf{Monitor} & wikilink \\
-\textbf{Lick Port} & wikilink \\
-\textbf{Light Sensor} & thorlabs \\
+\textbf{Beam Break} & \href{https://wiki.auto-pi-lot.com/index.php/TT_Electronics_OPB901L55}{TT Electronics OPB901L55} \\
+\textbf{Monitor} & \href{https://www.productchart.com/monitors/16901}{Acer S230HL} \\
+\textbf{Lick Port} & \href{https://wiki.auto-pi-lot.com/index.php/Autopilot_Tripoke}{Autopilot Tripoke v1} \\
+\textbf{Light Sensor} & \href{https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=3341}{Thorlabs PM100D} \\
 \midrule
 \textbf{Software} & \\
-\textbf{psychopy} & version \\
-\textbf{glfw} & version \\
+\textbf{psychopy} & v3.1.5 \\
+\textbf{glfw} & v1.8.3 \\
 \bottomrule
 \end{tabularx}
 \end{margintable}
 
 We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}). The code for this task is described in greater detail in \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{the wiki page} for the plugin that accompanies this paper. While the rest of the test presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
 
-\begin{marginfigure}[1cm]
+\begin{marginfigure}[-0cm]
 \includegraphics[]{figures/test_5_gonogo.pdf}
 \caption{Hardware distribution for the distributed go/no-go task}
 \label{fig:gonogo}
@@ -30,11 +30,11 @@ We designed a visual go/no-go task as a proof of concept for distributing task e
 
 In this task, a head-fixed subject would\sidenote{No mice were trained on this task} be running on a wheel in front of a display with a lick-detecting water port able to deliver reward. Above the port is an LED. Whenever the LED is green, if the subject drops below a threshold velocity for a fixation period, a grating stimulus at a random orientation is presented on the monitor. After a random delay, there is a chance that the grating changes orientation by a random amount. If the subject licks the port in trials when the orientation is changed, or refrains from licking when it is not, the subject is rewarded. 
 
-One "parent" pilot controlled the operation of the task, including the coordination of its child\sidenote{Both Raspberry Pi 4s}. The parent was connected to the LED and solenoid valve for reward delivery, as well as a monitor\sidenote{\href{https://www.productchart.com/monitors/16901}{Acer S230HL} - (\texttt{1920x1080px, 60Hz})} to display the gratings\sidenote{Visual stimuli were presented with \href{https://www.psychopy.org/}{Psychopy} (v3.1.5) using the \href{https://www.glfw.org/}{glfw} (v1.8.3) backend while Autopilot was run in a dedicated X11 display server.}. The child continuously streamed velocity data (measured with a USB optical mouse against the surface of the wheel) back to the terminal for storage (see also Figure \ref{fig:datastreams}, which depicts the network topology for this task). The child waited for a message from the parent to initiate measuring velocity, and when a rolling average of recent velocities fell below a given threshold the child sent a TTL trigger back to the parent to start displaying the grating. This split-pilot topology allows us to poll the subject velocity continuously (at \texttt{125Hz} in this example) without competing for resources with psychopy's rendering engine.
+One "parent" pilot controlled the operation of the task, including the coordination of its child. The parent was connected to the LED and solenoid valve for reward delivery, as well as a monitor\sidenote{(\texttt{1920x1080px, 60Hz})} to display the gratings\sidenote{Visual stimuli were presented with \href{https://www.psychopy.org/}{Psychopy} using the \href{https://www.glfw.org/}{glfw} backend while Autopilot was run in a dedicated X11 server.}. The child continuously streamed velocity data (measured with a USB optical mouse against the surface of the wheel) back to the terminal for storage (see also Figure \ref{fig:datastreams}, which depicts the network topology for this task). The child waited for a message from the parent to initiate measuring velocity, and when a rolling average of recent velocities fell below a given threshold the child sent a TTL trigger back to the parent to start displaying the grating. This split-pilot topology allows us to poll the subject velocity continuously (at \texttt{125Hz} in this example) without competing for resources with psychopy's rendering engine.
 
-We measured trigger (TTL pulse from the child) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter\sidenote{\href{https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=3341}{Thorlabs PM100D}} attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
+We measured trigger (TTL pulse from the child) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
 
-\begin{marginfigure}[1.8cm]
+\begin{marginfigure}[-0cm]
 \includegraphics[]{figures/test_6_visual_lags.pdf}
 \caption{Stacked dots are a histogram of individual observations (n=50) underneath the probability density (black line), red lines indicate quartiles.}
 \label{fig:vidlat}
