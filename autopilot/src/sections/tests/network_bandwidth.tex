@@ -4,7 +4,7 @@
 
 \begin{margintable}[2.5cm]
 \caption{Bandwidth Test Materials.}
-\label{tab:gpiomaterials}
+\label{tab:bandwidthmaterials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
 \textbf{Terminal} & Macbook Pro 2019, macOS 12.3.1, 2.4 GHz 8-Core Intel Core i9 \\
@@ -15,7 +15,7 @@
 \end{tabularx}
 \end{margintable}
 
-To test Autopilot's bandwidth, we demonstrate yet another modality of use, using Autopilot's \href{https://docs.auto-pi-lot.com/en/v0.5.0/gui/menus.html#autopilot.gui.menus.tests.Bandwidth_Test}{\texttt{Bandwidth\_Test}} widget, an action available from the Terminal GUI's \texttt{tests} menu that corresponds to a callback "listen" method in the Pilot. This test requests that one or several\sidenote{Since the Raspberry Pi, rather than the receiving Terminal, is overwhelmingly more likely to be the bandwidth bottleneck, so more pis behave like a linear multiple of a single pi, we only test with one here.} pilots send messages at a range of selected frequencies and payload sizes back to the terminal. The messages pass through four networking objects en route: the stations and network nodes running the test for both the terminal and pilots (See Figure \ref{fig:datastreams}). 
+To test Autopilot's bandwidth, we demonstrate yet another modality of use, using Autopilot's \href{https://docs.auto-pi-lot.com/en/v0.5.0/gui/menus.html#autopilot.gui.menus.tests.Bandwidth_Test}{\texttt{Bandwidth\_Test}} widget, an action available from the Terminal GUI's \texttt{tests} menu that corresponds to a callback "listen" method in the Pilot (Table \ref{tab:bandwidthmaterials}). This test requests that one or several pilots send messages at a range of selected frequencies and payload sizes back to the terminal. The messages pass through four networking objects en route: the stations and network nodes running the test for both the terminal and pilots (See Figure \ref{fig:datastreams}). 
 
 The needs for streaming experimental data vary depending on what is being streamed. Electrophysiological data is an n-electrode length vector sampled at a rate of dozens to hundreds of kilohertz, so each individual message isn't very large but there are a lot of them. Video data is a width by height (and for color video, by channel) array that can be relatively large\sidenote{(1920 * 1080 * 3 * 8 bits) / 8 = \~6 megabytes per frame of a 1080p color video, which is why video is rarely streamed uncompressed}, but it is captured at dozens to hundreds of hertz. Different data streams also have different degrees of compressibility: noisy, quasirandom electrical signals compress relatively poorly, while the typical behavioral neuroscientist's video of an animal that takes up 1/10th of the frame against a white background can have compression ratios in the hundreds.
 
@@ -27,7 +27,7 @@ We tested four types of messages with nonzero array\sidenote{In all cases, float
 
 As we increased the size of the array payload\sidenote{n=5,000 for each condition at each size}, the message bandwidth plateaued at a maximum of 29.25MByte per second (Figure \ref{fig:bandwidth}, left). After this plateau, increasing the message size trades off linearly with the rate of messages sent. For all but the compressed array of zeros, the payload bandwidth mirrored the message bandwith with some trivial overhead from the base64 encoding. The compressed array of zeros, however, had an effective payload bandwidth of 169.6MBytes/s, a compromise between the speed of compression with the smaller message size\sidenote{A message with a \~1MByte zero array payload compressed to \~6KBytes.}. The compressed random array had only negligible differences in payload and message bandwidth compared to the uncompressed random array, indicating that the overhead for blosc is trivial. 
 
-The ability to batch messages allows researchers to tune the size of an individual message to their particular need for high bandwidth or low latency. Since the compressibility of real data varies across the entire entropic range from randomness to arrays of all zeros, Autopilot doesn't have a single "bandwidth", but one that ranges between 30 and 170MByte/s\sidenote{In this dataset. There is additional payload bandwidth headroom with larger messages, and we include an additional dataset with a 200MByte/s bandwidth in the supplement.} %
+The ability to batch messages allows researchers to tune the size of an individual message to their particular need for high bandwidth or low latency. Since the compressibility of real data varies across the entire entropic range from randomness to arrays of all zeros, Autopilot doesn't have a single "bandwidth", but one that ranges between 30 and 170MByte/s\sidenote{In this dataset. There is additional payload bandwidth headroom with larger messages, and we include an additional dataset with a 200MByte/s bandwidth in the supplement.}. %
 %
 \begin{figure}[t]
 \includegraphics[]{figures/networking_bandwidth.pdf}

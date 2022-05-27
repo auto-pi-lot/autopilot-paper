@@ -2,9 +2,9 @@
 \section{Distributed Go/No-go Task}
 \label{sec:gonogo}
 
-\begin{margintable}[0cm]
+\begin{margintable}[-1.5cm]
 \caption{Go/No-go Materials}
-\label{tab:gpiomaterials}
+\label{tab:gonogomat}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
 \textbf{Hardware} & \\
@@ -18,21 +18,21 @@
 \textbf{glfw} & v1.8.3 \\
 \bottomrule
 \end{tabularx}
-\end{margintable}
+\end{margintable}{}
 
-We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}). The code for this task is described in greater detail in \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{the wiki page} for the plugin that accompanies this paper. While the rest of the test presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
+We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}, Table \ref{tab:gonogomat}). The code for this task is described in greater detail in \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{the wiki page} for the plugin that accompanies this paper. While the rest of the tests presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
 
 \begin{marginfigure}[-0cm]
 \includegraphics[]{figures/test_5_gonogo.pdf}
-\caption{Hardware distribution for the distributed go/no-go task}
+\caption{Hardware distribution for the distributed go/no-go task. Red lines indicate physical connections between hardware components. The lick sensor, solenoid valve, and LED are physically bundled into one component represented as the mouse's microphone.}
 \label{fig:gonogo}
 \end{marginfigure}
 
 In this task, a head-fixed subject would\sidenote{No mice were trained on this task} be running on a wheel in front of a display with a lick-detecting water port able to deliver reward. Above the port is an LED. Whenever the LED is green, if the subject drops below a threshold velocity for a fixation period, a grating stimulus at a random orientation is presented on the monitor. After a random delay, there is a chance that the grating changes orientation by a random amount. If the subject licks the port in trials when the orientation is changed, or refrains from licking when it is not, the subject is rewarded. 
 
-One "parent" pilot controlled the operation of the task, including the coordination of its child. The parent was connected to the LED and solenoid valve for reward delivery, as well as a monitor\sidenote{(\texttt{1920x1080px, 60Hz})} to display the gratings\sidenote{Visual stimuli were presented with \href{https://www.psychopy.org/}{Psychopy} using the \href{https://www.glfw.org/}{glfw} backend while Autopilot was run in a dedicated X11 server.}. The child continuously streamed velocity data (measured with a USB optical mouse against the surface of the wheel) back to the terminal for storage (see also Figure \ref{fig:datastreams}, which depicts the network topology for this task). The child waited for a message from the parent to initiate measuring velocity, and when a rolling average of recent velocities fell below a given threshold the child sent a TTL trigger back to the parent to start displaying the grating. This split-pilot topology allows us to poll the subject velocity continuously (at \texttt{125Hz} in this example) without competing for resources with psychopy's rendering engine.
+One pilot controlled the operation of the task, including the coordination of a copilot. The pilot was connected to the LED and solenoid valve for reward delivery, as well as a monitor\sidenote{(\texttt{1920x1080px, 60Hz})} to display the gratings\sidenote{Visual stimuli were presented with \href{https://www.psychopy.org/}{Psychopy} using the \href{https://www.glfw.org/}{glfw} backend while Autopilot was run in a dedicated X11 server.}. The copilot continuously streamed velocity data (measured with a USB optical mouse against the surface of the wheel) back to the terminal for storage (see also Figure \ref{fig:datastreams}, which depicts the network topology for this task). The copilot waited for a message from the pilot to initiate measuring velocity, and when a rolling average of recent velocities fell below a given threshold the copilot sent a TTL trigger back to the pilot to start displaying the grating. This split-pilot topology allows us to poll the subject velocity continuously (at \texttt{125Hz} in this example) without competing for resources with psychopy's rendering engine.
 
-We measured trigger (TTL pulse from the child) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
+We measured trigger (TTL pulse from the copilot) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
 
 \begin{marginfigure}[-0cm]
 \includegraphics[]{figures/test_6_visual_lags.pdf}

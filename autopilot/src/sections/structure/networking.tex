@@ -7,13 +7,14 @@ Agents use two types of object to communicate with one another: core \textbf{sta
 
 \begin{marginfigure}[0.8cm]
 \includegraphics[]{figures/side_24_networking.pdf}
-\caption{Autopilot segregates data streams efficiently---eg. raw velocity (red) can be plotted and saved by the terminal while only the task-relevant events (blue) are sent to the pilot. The pilot then sends trial-summarized data to the terminal (green).}
+\caption{Autopilot segregates data streams efficiently---eg. raw velocity (red) can be plotted and saved by the terminal while only the task-relevant events (blue) are sent to the primary pilot. The pilot then sends trial-summarized data to the terminal (green).}
 \label{fig:datastreams}
 \end{marginfigure}
 
 Both types of networking objects are tailored to their hosts by a set of callback functions --- \textbf{listens} --- that define how to handle each type of message. Messages have a uniform key-value structure, where the key indicates the listen used to process the message and the value is the message payload. This system makes adding new network-enabled components trivial:
 
-\begin{pythoncode*}{label=A new networked LED}
+\begin{listing}[H]
+\begin{pythoncode*}{label= \texttt{Listing \ref{lst:netled}: A new networked LED}}
 class LED_RGB(Hardware):
     def __init__(self):
         # call self.color for a 'COLOR' message
@@ -28,7 +29,9 @@ class LED_RGB(Hardware):
 # elsewhere in the code, we change the color to red!
 node.send(to='BEST_LED', key='COLOR', value=[255,0,0])
 \end{pythoncode*}
-
+\captionlistentry{}
+\label{lst:netled}
+\end{listing}
 \begin{marginfigure}[0cm]
 \includegraphics[]{figures/side_25_tree.pdf}
 \caption{Treelike network structure---downstream messages are addressed by successive nodes, but upstream messages can always be pushed until the target is found.}

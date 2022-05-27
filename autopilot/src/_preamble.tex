@@ -40,6 +40,7 @@
 \usepackage[titletoc]{appendix} % add appendices
 \usepackage{fontspec}
 \usepackage{styles/listliketab}
+\usepackage{float}
 
 \usetikzlibrary{tikzmark}
 \usetikzlibrary{calc}
@@ -81,7 +82,14 @@
 
 
 \setlength{\abovecaptionskip}{3pt plus 2pt minus 3pt}
+\setlength{\belowcaptionskip}{0pt}
+\captionsetup[lstfloat]{skip=0pt}
 
+\lstset{aboveskip=0pt,belowskip=0pt}
+\setlength\intextsep{2pt}
+
+
+% \setlength{\partopsep}{-20pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%

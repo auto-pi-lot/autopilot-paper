@@ -19,7 +19,7 @@ Neurons compute at millisecond timescales, so any task that links neural computa
 
 \subsection{Output Latency}
 
-We first tested the software measured latency between when a command to write a value to a GPIO pin is issued and when it completes (Figure \ref{fig:gpiolags}). By default, the pigpio interface we use to control GPIO pins issues a command and then confirms the request was successful by querying the pigpio daemon for the status of the pin (Write+Read). We \href{https://github.com/sneakers-the-rat/pigpio/commit/0782de06f0a5c092063118733ad2df9d65f1f1a0}{extended} pigpio to just issue the command without confirmation to estimate the true time between when the command is issued and when the voltage of the pin changes (Write). Each of these operations takes roughly 40$\mu s$ with minimal jitter (Median $\pm$ IQR --- Write Only: 40.8$\mu s \pm$0.41, Write and Read: 88.4 $\mu s \pm$2.02, n=100,000 each).
+We first tested the software measured latency between when a command to write a value to a GPIO pin is issued and when it completes (Figure \ref{fig:gpiolags}, Table \ref{tab:gpiomaterials}). By default, the pigpio interface we use to control GPIO pins issues a command and then confirms the request was successful by querying the pigpio daemon for the status of the pin (Write+Read). We \href{https://github.com/sneakers-the-rat/pigpio/commit/0782de06f0a5c092063118733ad2df9d65f1f1a0}{extended} pigpio to just issue the command without confirmation to estimate the true time between when the command is issued and when the voltage of the pin changes (Write). Each of these operations takes roughly 40$\mu s$ with minimal jitter (Median $\pm$ IQR --- Write Only: 40.8$\mu s \pm$0.41, Write and Read: 88.4 $\mu s \pm$2.02, n=100,000 each).
 
 \begin{figure}[hb!]
 \caption{Software latency from GPIO write to completion of command. Values are presented as medians $\pm$ IQR with n=100,000 tests for each. A random subsample of 500 (for tractability of plotting) of each type of test are presented (black points) after filtering to the bottom 99th percentile to exclude extreme outliers.  Commands sent using pigpio (red) took roughly 40$\mu s$ each (write and read are effectively two separate commands, Write Only: 40.8$\mu s \pm$0.41, Write and Read: 88.4 $\mu s \pm$2.02). The prototype gpiozero wrapper (blue) using RPi.GPIO as its backend was faster, taking 16.2$\mu s \pm$0.22 to complete.}
@@ -33,7 +33,7 @@ Pigpio is useful as a general purpose controller because of its ability to run s
 
 \begin{margintable}[2.5cm]
 \caption{Roundtrip Latency Materials}
-\label{tab:gpiomaterials}
+\label{tab:roundtrip}
 \noindent\begin{tabularx}{\linewidth}{lX}%
 \toprule
 \textbf{Function Generator} & \href{https://wiki.auto-pi-lot.com/index.php/Koolertron\_CJDS98}{Koolertron CJDS98} \\
@@ -44,7 +44,7 @@ Pigpio is useful as a general purpose controller because of its ability to run s
 \end{margintable}
 
 
-Output commands usually aren't issued in isolation, but as a response to some external or task-driven trigger. We measured the roundtrip latency from a 5V square pulse from an external function generator to when an output pin was flipped from low to high on an oscilloscope. 
+Output commands usually aren't issued in isolation, but as a response to some external or task-driven trigger. We measured the roundtrip latency from a 5V square pulse from an external function generator to when an output pin was flipped from low to high on an oscilloscope (Table \ref{tab:roundtrip}. 
 
 Typically that is as much methodological detail as you would expect in a scientific paper, but actually making those measurements via oscilloscope requires knowing how to set up such a test as well as how to extract the measured data afterwards --- which is not altogether trivially available technical knowledge. As an example of how integrating semantically linked documentation with experimental tools enables a fundamentally deeper kind of reproducibility and methodological transparency, we instead documented these operations, including a code sample and a guide to unlocking additional features on our oscilloscope on the \href{https://wiki.auto-pi-lot.com/index.php/Rigol\_DS1054Z}{autopilot wiki}. The code to extract traces from the oscilloscope is also included in this paper's \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot\_Paper}{plugin}, which links to the oscilloscope page with a \texttt{[[Controls Hardware::Rigol DS1054Z]]} tag, so it is possible to bidirectionally find code examples from the oscilloscope page as well as find further documentation about the hardware used in this paper from the plugin page. The same can be true for any hardware used by any plugin in any paper using Autopilot.
 
