@@ -4,7 +4,7 @@
 
 Neurons compute at millisecond timescales, so any task that links neural computation to behavior needs to have near-millisecond latency. We start by characterizing Autopilot's GPIO control latency in "script mode" --- using the GPIO control classes on their own, without using any of the rest of Autopilot's modules.
 
-\begin{margintable}[0cm]
+\begin{margintable}[0.5cm]
 \caption{GPIO Latency Materials. (Parameters in \{\} are input in separate runs)}
 \label{tab:gpiomaterials}
 \noindent\begin{tabularx}{\linewidth}{lX}%
@@ -44,38 +44,43 @@ Pigpio is useful as a general purpose controller because of its ability to run s
 \end{margintable}
 
 
-Output commands usually aren't issued in isolation, but as a response to some external or task-driven trigger. We measured the roundtrip latency from a 5V square pulse from an external function generator to when an output pin was flipped from low to high on an oscilloscope (Table \ref{tab:roundtrip}. 
+Output commands usually aren't issued in isolation, but as a response to some external or task-driven trigger. We measured the roundtrip latency from a 5V square pulse from an external function generator to when an output pin was flipped from low to high on an oscilloscope (Table \ref{tab:roundtrip}). 
 
 Typically that is as much methodological detail as you would expect in a scientific paper, but actually making those measurements via oscilloscope requires knowing how to set up such a test as well as how to extract the measured data afterwards --- which is not altogether trivially available technical knowledge. As an example of how integrating semantically linked documentation with experimental tools enables a fundamentally deeper kind of reproducibility and methodological transparency, we instead documented these operations, including a code sample and a guide to unlocking additional features on our oscilloscope on the \href{https://wiki.auto-pi-lot.com/index.php/Rigol\_DS1054Z}{autopilot wiki}. The code to extract traces from the oscilloscope is also included in this paper's \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot\_Paper}{plugin}, which links to the oscilloscope page with a \texttt{[[Controls Hardware::Rigol DS1054Z]]} tag, so it is possible to bidirectionally find code examples from the oscilloscope page as well as find further documentation about the hardware used in this paper from the plugin page. The same can be true for any hardware used by any plugin in any paper using Autopilot.
 
-We used the \texttt{assign\_cb} method of the \href{https://docs.auto-pi-lot.com/en/latest/hardware/gpio.html\#autopilot.hardware.gpio.Digital_In.assign_cb}{\texttt{Digital\_In}} class to test the typical roundtrip latency that Autopilot objects can deliver. This gave us a median 474 $\mu s$ (IQR: 52.5$\mu s$) latency (Red bar in Figure \ref{fig:gpiort}). GPIO callbacks are flexible, and can use arbitrary python functions, but if all that's needed is to trigger one pin off of another with some simple logic like a parametric digital waveform or static "on" time, pigpio also allows us to directly program pin to pin logic as a "\href{http://abyz.me.uk/rpi/pigpio/pigs.html}{pigs}" script (literally Figure \ref{fig:pigsscript}) that runs within the pigpio daemon. The pigs script gave us roughly three orders of magnitude lower latency (Median $\pm$ IQR: 380ns $\pm$ 140, blue bar in \ref{fig:gpiort}). 
+We used the \texttt{assign\_cb} method of the \href{https://docs.auto-pi-lot.com/en/latest/hardware/gpio.html\#autopilot.hardware.gpio.Digital_In.assign_cb}{\texttt{Digital\_In}} class to test the typical roundtrip latency that Autopilot objects can deliver. This gave us a median 474 $\mu s$ (IQR: 52.5$\mu s$) latency (Red in Figure \ref{fig:gpiort}). GPIO callbacks are flexible, and can use arbitrary python functions, but if all that's needed is to trigger one pin off of another with some simple logic like a parametric digital waveform or static "on" time, pigpio also allows us to directly program pin to pin logic as a "\href{http://abyz.me.uk/rpi/pigpio/pigs.html}{pigs}" script (literally Figure \ref{fig:pigsscript}) that runs within the pigpio daemon. The pigs script gave us roughly three orders of magnitude lower latency (Median $\pm$ IQR: 370ns $\pm$ 140, blue in \ref{fig:gpiort}). 
 
-\begin{marginfigure}[-7cm]
+\begin{marginfigure}[-10cm]
 \begin{pythoncode*}{
 label= \texttt{Pigs Trigger Script},
 frame=lines,
 linenos=false}
 " ".join([
   "tag 999",
+  # read input pin
   f"r {pin_in.pin_bcm}",
-  f"jz 998", # if off, goto 998
+  # if off, goto 998
+  f"jz 998", 
   # else, turn on
   f"w {pin_out.pin_bcm} 1",
-  "jp 999", # then goto 999
+  # then goto 999
+  "jp 999", 
   "tag 998",
+  # turn off
   f"w {pin_out.pin_bcm} 0",
+  # jump to beginning
   f"jp 999"
 ])
 \end{pythoncode*}
-\caption{The pigs script used to trigger one pin (pin\_out), from another (pin\_in). At the expense of a little bit of complexity having to write a script in its scripting language, we are able to reduce latency by three orders of magnitude}
+\caption{The pigs script used to trigger one pin (pin\_out), from another (pin\_in). At the expense of a little bit of complexity having to write a script in its scripting language, we are able to reduce latency by three orders of magnitude.}
 \label{fig:pigsscript}
 \end{marginfigure}
 
 
 \begin{figure}[hb!]
-\caption{Roundtrip latency from external trigger to digital output using two methods: Red (Median $\pm$ IQR: 474 $\mu s \pm$ 52.5) -- Typical Autopilot callback function given to a \texttt{Digital\_In} object that turns a \texttt{Digital\_Out} pin on for 1ms when an input pin changes state. Blue (380ns $\pm$ 140) -- Pigs script that runs entirely within the pigpio daemon. For each, black points represent individual measurements (n=525). Note the difference in x-axis scale}
+\caption{Roundtrip latency from external trigger to digital output using two methods: Typical Autopilot callback function given to a \texttt{Digital\_In} object that turns a \texttt{Digital\_Out} pin on for 1ms when an input pin changes state (Red, Left, Median $\pm$ IQR: 474 $\mu s \pm$ 52.5). Pigs script that runs entirely within the pigpio daemon (Blue, Right, 380ns $\pm$ 140). For each, black points represent individual measurements (n=525), annotations are quartiles.}
 \label{fig:gpiort}
-\includegraphics{figures/gpio_roundtrip.pdf}
+\includegraphics{figures/gpio_roundtrip_density.pdf}
 \end{figure}
 
 

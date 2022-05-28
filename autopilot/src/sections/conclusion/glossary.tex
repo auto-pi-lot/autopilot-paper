@@ -8,7 +8,7 @@
 
 %\begin{itemize}[label={}, labelindent=5pt, itemindent=-15pt]
  \textbf{Agent} & \ref{sec:agents} & The executable part of Autopilot. A set of startup routines (eg. opening a GUI or starting an audio server), runtime behavior (eg. opening as a window or running as a background system process), and event handling methods (ie. \textbf{listens}) that constitute the role of the particular Autopilot instance in the \textbf{swarm}. \\
- \textbf{Child} & \ref{sec:agents} & An \textbf{agent} that performs some auxiliary, supporting role in a \textbf{task}---primarily used for offloading some hardware responsibilities from a \textbf{pilot}. \\
+ \textbf{Copilot} & \ref{sec:agents} & An \textbf{agent} that performs some auxiliary, supporting role in a \textbf{task}---primarily used for offloading some hardware responsibilities from a \textbf{pilot}. \\
  \textbf{Graduation} & \ref{sec:tasks} & Moving between successive \textbf{tasks} in a \textbf{protocol} when some criterion is met.  \\
  \textbf{Listen} & \ref{sec:networking} & A method belonging to the \textbf{station} or \textbf{node} of a particular \textbf{agent} that defines how to process a particular type of message (ie. a message with a particular \texttt{key}). \\
  \textbf{Node} & \ref{sec:networking} & A networking object that some module (eg. hardware, \textbf{tasks}, GUI routines) or method (eg. a \textbf{listen}) uses to communicate with other \textbf{nodes}. Messages to other \textbf{agents} in the swarm are relayed through their \textbf{Station} \\

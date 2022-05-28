@@ -2,6 +2,7 @@ library(ggplot2)
 library(rio)
 library(here)
 library(tidyverse)
+library(magrittr)
 # library(extrafont)
 # loadfonts()
 here::i_am('code/plots/gpio_latency.R')
@@ -67,7 +68,6 @@ g_latency_points
 
 ggsave(here('code',"rendered_figures", 'gpio_latency_render.pdf'), plot=g_latency_points, width=4.1, height=1.3, units="in", useDingbats=FALSE)
 
-
 # ------------------------------------
 # roundtrip input/output latency
 
@@ -108,4 +108,56 @@ lat_script
 ggsave(here('code',"rendered_figures", 'gpio_roundtrip_python.pdf'), plot=lat_python, width=4.1, height=0.8, units="in", useDingbats=FALSE)
 
 ggsave(here('code',"rendered_figures", 'gpio_roundtrip_script.pdf'), plot=lat_script, width=4.1, height=0.8, units="in", useDingbats=FALSE)
+
+# ------------
+# density version
+
+# filter one anomalous near-zero latency
+rt <- rt[rt$latency>2e-07,]
+
+calc_ribbon <- function(df, group){
+  dens <- density(df$latency, na.rm=TRUE)
+  dens_df <- data.frame(x=dens$x, y=dens$y)
+  dens_df$y <- dens_df$y / max(dens_df$y)
+  probs <- c(0.25, 0.5, 0.75)
+  quantiles <- quantile(df$latency, prob=probs)
+  dens_df$quant <- factor(findInterval(dens_df$x,quantiles))
+  # add a single zero value so the line extends to zero (but doesnt affect stats)
+  
+  dens_df$group <- group$type
+  
+  return(dens_df)
+}
+
+df_ribbon <- rt %>% group_by(type) %>%
+  group_modify(calc_ribbon) %>% ungroup()
+df_ribbon$type <- df_ribbon$group
+
+include_zero <- function(limits){
+  return(c(0,limits[2]))
+}
+
+g_rt_density <- ggplot(rt)+
+  geom_ribbon(data=df_ribbon, aes(x=x, y=y,ymin=0, ymax=y, fill=quant))+
+  geom_line(data=df_ribbon, aes(x=x,y=y))+
+  geom_point(aes(x=latency, y=-0.5*0.75),
+             position=position_jitter(height=0.5*0.75, width=0),
+             alpha=0.1, size=0.5)+
+  scale_fill_manual(values=c("#ffcccc","#ffaaaa" ,"#ff6666" , "#ff0000"), guide="none")+
+  # scale_x_continuous(limits=include_zero)+
+  theme_minimal()+
+  theme(
+    plot.background = element_rect(fill="#ffffff"),
+    panel.grid = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.text.y=element_blank(),
+    strip.background = element_blank(),
+    strip.text = element_blank()
+  )+
+  labs(x="Latencies (ms)", y="density") + 
+  facet_wrap(.~type, scales="free")
+g_rt_density
+ggsave(here('code',"rendered_figures","gpio_roundtrip_latency_density.pdf"), g_rt_density,
+       width=4.1,height=1.25, units="in")
+
 

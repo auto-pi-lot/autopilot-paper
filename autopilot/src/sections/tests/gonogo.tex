@@ -2,7 +2,7 @@
 \section{Distributed Go/No-go Task}
 \label{sec:gonogo}
 
-\begin{margintable}[-1.5cm]
+\begin{margintable}[0.4cm]
 \caption{Go/No-go Materials}
 \label{tab:gonogomat}
 \noindent\begin{tabularx}{\linewidth}{lX}%
@@ -20,7 +20,7 @@
 \end{tabularx}
 \end{margintable}{}
 
-We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}, Table \ref{tab:gonogomat}). The code for this task is described in greater detail in \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Autopilot_Paper}{the wiki page} for the plugin that accompanies this paper. While the rest of the tests presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
+We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}, Table \ref{tab:gonogomat}). While the rest of the tests presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
 
 \begin{marginfigure}[-0cm]
 \includegraphics[]{figures/test_5_gonogo.pdf}
@@ -44,16 +44,18 @@ We observed a bimodal distribution of latencies (Quartiles: \texttt{28, 30, 36ms
 
 We further tested the Pi's framerate by using Psychopy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test---a script that draws stimuli without any Autopilot components running---to see if the framerate limits were imposed by the hardware of the Raspberry Pi or overhead from Autopilot (Table \ref{tab:fpstests}). We tested a series of Gabor filters and \href{https://www.psychopy.org/api/visual/dotstim.html#psychopy.visual.DotStim}{random dot stimuli} (dots travel in random directions with equal velocity, default parameters) at different screen resolutions and stimulus complexities. The Raspberry Pi was capable of moderately high framerates (\texttt{>60 FPS}) for smaller, lower resolution stimuli, but struggled (\texttt{<30 FPS}) for full HD, fullscreen stimuli.
 
-\begin{marginfigure}[-0.7cm]
+\clearpage
+
+\begin{marginfigure}[0.5cm]
 \includegraphics[]{figures/test_7_fps.pdf}
 \caption{Probability density of framerates for 960 x 540px grating rendered at 1080p. Red lines indicate quartiles}
 \label{fig:framerate}
 \end{marginfigure}
 
-Autopilot is appropriate for realtime rendering of simple stimuli, and the proof-of-concept API we built around Psychopy doesn't impose discernible overhead (Mean framerate for a \texttt{960 x 540px} grating at \texttt{1080p} in Autopilot: \texttt{36.2 fps}, vs. \texttt{timeByFrames}: \texttt{35.0 fps}). In the future we will investigate prerendering and caching complex stimuli in order to increase performance. A straightforward option for higher-performance video would be to deploy an Autopilot agent running on a desktop computer with a high-performance GPU, or to use a single-board computer with a GPU like the \href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/}{NVIDIA Jetson} (\$99)\sidenote{as we did in \citep{kaneRealtimeLowlatencyClosedloop2020a}}.
+Autopilot is appropriate for realtime rendering of simple stimuli, and the proof-of-concept API we built around Psychopy doesn't impose discernible overhead (Mean framerate for a \texttt{960 x 540px} grating at \texttt{1080p} in Autopilot: \texttt{36.2 fps}, vs. \texttt{timeByFrames}: \texttt{35.0 fps}). In the future we will investigate prerendering and caching complex stimuli in order to increase performance. A straightforward option for higher-performance video would be to deploy an Autopilot agent running on a desktop computer with a high-performance GPU, or to use a single-board computer with a GPU like the \href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/}{NVIDIA Jetson} (\$99)\sidenote[][0.3cm]{as we did in \citep{kaneRealtimeLowlatencyClosedloop2020a}}.
 
 \begin{table}
-\caption{Tests performed over 1000 frames with PsychoPy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test.}
+\caption[][1cm]{Tests performed over 1000 frames with PsychoPy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test.}
     \begin{tabular}{rrr|rr}
         \toprule
         \textbf{Stimulus} & \textbf{Resolution} & \textbf{Size / \# Dots}& \textbf{Mean FPS} & \textbf{$\sigma$ FPS} \\
