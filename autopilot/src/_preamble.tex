@@ -26,7 +26,7 @@
             citecolor = DarkOrchid,
             backref= section,
             pdfauthor=Jonny L Saunders\, Michael Wehr,
-            pdfcreator={Jonny L Saunders},
+            pdfcreator={Jonny L Saunders}
             baseurl=https://www.biorxiv.org/content/10.1101/807693v1
             ]{hyperref}
 \usepackage{tikz}
@@ -57,6 +57,8 @@
 \fvset{fontsize=\normalsize}
 
 \usepackage{styles/extra}
+
+\special{pdf:minorversion 6}
 
 % ---------------------------
 % Geometry and spacing
@@ -130,6 +132,15 @@
   UprightFont = *-Retina ,
   BoldFont = *-Bold ,
   Scale=MatchLowercase
+]
+
+\setsansfont{WorkSans}[
+  Path = worksans/ ,
+  Extension = .otf ,
+  UprightFont = *-Regular ,
+  BoldFont = *-SemiBold ,
+  ItalicFont = *-Italic ,
+  BoldItalicFont = *-SemiBoldItalic
 ]
 
 
@@ -208,7 +219,7 @@
      bottomline=false,topline=false,rightline=false,
      innerrightmargin=0pt,innertopmargin=0pt,innerbottommargin=0pt,
      innerleftmargin=1em,% Distance between vertical rule & proof content
-     skipabove=.5\baselineskip
+     skipabove=0\baselineskip
    ]
 }{%
 \end{mdframed}
@@ -252,9 +263,8 @@
 \definecolor{RED}{HTML}{FF0000}
 %%
 % Book metadata
-\title{Auto\textcolor{RED}{pi}lot\\
-\large Automating behavioral experiments with lots of Raspberry Pis}
-\author{JONNY L. SAUNDERS, LUCAS A. OTT, MICHAEL WEHR \href{mailto:wehr@uoregon.edu}{@}}
+\title{Autopilot: Automating behavioral experiments with lots of Raspberry Pis}
+\author{Jonny L. Saunders, Lucas A. Ott, Michael Wehr}
 
 % filthy hack putting the affiliations in the tufte-common.cls file. 
 % goddamn hate latex.
