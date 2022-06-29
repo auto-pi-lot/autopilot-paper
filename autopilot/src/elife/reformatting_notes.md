@@ -38,6 +38,7 @@ using pycontrol paper as a guide:
 
 ## Reformatting
 
+- Add line numbers lmao
 - Sectioning
 	- Rename "Program Structure" as "Results"
 	- Make Tests a subsection in "Results"
