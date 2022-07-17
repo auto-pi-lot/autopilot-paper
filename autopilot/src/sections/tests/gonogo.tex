@@ -23,7 +23,7 @@
 We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}, Table \ref{tab:gonogomat}). While the rest of the tests presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
 
 \begin{marginfigure}[-0cm]
-\includegraphics[]{figures/test_5_gonogo.pdf}
+\includegraphics[]{autopilot/autopilot/src/figures/test_5_gonogo.pdf}
 \caption{Hardware distribution for the distributed go/no-go task. Red lines indicate physical connections between hardware components. The lick sensor, solenoid valve, and LED are physically bundled into one component represented as the mouse's microphone.}
 \label{fig:gonogo}
 \end{marginfigure}
@@ -35,7 +35,7 @@ One pilot controlled the operation of the task, including the coordination of a 
 We measured trigger (TTL pulse from the copilot) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
 
 \begin{marginfigure}[-0cm]
-\includegraphics[]{figures/test_6_visual_lags.pdf}
+\includegraphics[]{autopilot/autopilot/src/figures/test_6_visual_lags.pdf}
 \caption{Stacked dots are a histogram of individual observations (n=50) underneath the probability density (black line), red lines indicate quartiles.}
 \label{fig:vidlat}
 \end{marginfigure}
@@ -47,7 +47,7 @@ We further tested the Pi's framerate by using Psychopy's \href{https://github.co
 \clearpage
 
 \begin{marginfigure}[0.5cm]
-\includegraphics[]{figures/test_7_fps.pdf}
+\includegraphics[]{autopilot/autopilot/src/figures/test_7_fps.pdf}
 \caption{Probability density of framerates for 960 x 540px grating rendered at 1080p. Red lines indicate quartiles}
 \label{fig:framerate}
 \end{marginfigure}

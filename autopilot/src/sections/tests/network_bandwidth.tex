@@ -30,7 +30,7 @@ As we increased the size of the array payload\sidenote{n=5,000 for each conditio
 The ability to batch messages allows researchers to tune the size of an individual message to their particular need for high bandwidth or low latency. Since the compressibility of real data varies across the entire entropic range from randomness to arrays of all zeros, Autopilot doesn't have a single "bandwidth", but one that ranges between 30 and 170MByte/s\sidenote{In this dataset. There is additional payload bandwidth headroom with larger messages, and we include an additional dataset with a 200MByte/s bandwidth in the supplement.}. %
 %
 \begin{figure}[t]
-\includegraphics[]{figures/networking_bandwidth.pdf}
+\includegraphics[]{autopilot/autopilot/src/figures/networking_bandwidth.pdf}
 \caption{Bandwidth measurements between a pilot and terminal for compressed (solid lines) or uncompressed (dotted lines) arrays of random numbers (black) or zeros (red, each point n=5000 messages). As message size increased, the bandwidth for the rate of bytes transferred in serialized messages ("message bandwidth," left) plateaued at 29.25MBytes/s, while the effective bandwidth of arrays before and after compression ("payload bandwidth," right) reached 169.63MBytes/s. Real data will fall somewhere in this effective bandwidth range, depending on its compressibility.}
 \label{fig:bandwidth}
 \end{figure}%

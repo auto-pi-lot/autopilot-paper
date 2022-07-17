@@ -1,112 +1,113 @@
 %!TEX jobname = autopilot_v2
-%!TEX output_directory = ../build/autopilot_v2
-%!TEX root = _preamble.tex
-% r.3 full title page
-\maketitle%
+%!TEX output_directory = ../../../../build/autopilot_v2
+%!TEX root = ../../../_preamble.tex
+% r.3 full title pag
 %
 %
+
+\begin{fullwidth}%
+  {
+  \vspace{6pc}\sffamily%
+  \fontsize{72}{60}\selectfont\par\noindent AUTO\textcolor{RED}{PI}LOT\vspace{6pt}\\
+\normalfont\fontsize{20}{32}\selectfont\textit{ Automating experiments with lots of Raspberry Pis}}\\
+\makebox[0pt][l]{%
+  \raisebox{-27.1pc}[0pt][0pt]{%
+    \hspace{15pc}\includegraphics[width=4.25in]{autopilot/autopilot/src/figures/autopilot_logo_titlepage.pdf}}}
+  \end{fullwidth}
+
 \begin{abstract}
 
 Neuroscience needs behavior, and behavioral experiments require the coordination of large numbers of heterogeneous hardware components and data streams. Currently available tools strongly limit the complexity and reproducibility of experiments. Here we introduce Autopilot, a complete,  open-source Python framework for experimental automation that distributes experiments over networked swarms of Raspberry Pis. Autopilot enables qualitatively greater experimental flexibility by allowing arbitrary numbers of hardware components to be combined in arbitrary experimental designs. Research is made reproducible by documenting all data and task design parameters in a human-readable and publishable format at the time of collection. Autopilot provides a high-level set of programming tools while maintaining submillisecond performance at a fraction of the cost of traditional tools. Taking seriously the social nature of code, we scaffold shared knowledge and practice with a publicly editable semantic wiki and a permissive plugin system. Autopilot's flexible, scalable architecture allows neuroscientists to work together to design the next generation of experiments to investigate the behaving brain.
 
 \end{abstract}%
-\texttt{version: \input{version}}
 
 \vspace{20pt}
 
-\linkfigure{figures/autopilot_logo_small_notext.pdf}{DOCS}{https://docs.auto-pi-lot.com} 
+\linkfigure{autopilot/autopilot/src/figures/autopilot_logo_small_notext.pdf}{DOCS}{https://docs.auto-pi-lot.com} 
 
-\linkfigure{figures/gh_logo.pdf}{SOURCE}{https://github.com/auto-pi-lot/autopilot}
+\linkfigure{autopilot/autopilot/src/figures/gh_logo.pdf}{SOURCE}{https://github.com/auto-pi-lot/autopilot}
 
-\linkfigure{figures/question-circle-solid.pdf}{WIKI}{https://wiki.auto-pi-lot.com}
+\linkfigure{autopilot/autopilot/src/figures/question-circle-solid.pdf}{WIKI}{https://wiki.auto-pi-lot.com}
 
-\linkfigure{figures/paper.pdf}{PAPER SOURCE}{https://github.com/auto-pi-lot/autopilot-paper}
+\linkfigure{autopilot/autopilot/src/figures/paper.pdf}{PAPER SOURCE}{https://github.com/auto-pi-lot/autopilot-paper}
 
-\linkfigure{figures/plugin.pdf}{PAPER PLUGIN}{https://github.com/auto-pi-lot/plugin-paper}
+\linkfigure{autopilot/autopilot/src/figures/plugin.pdf}{PAPER PLUGIN}{https://github.com/auto-pi-lot/plugin-paper}
 
 
 \clearpage
-\input{sections/introduction/epigraph}
 
 %
 % r.5 contents
-\tableofcontents%
-%
-\mainmatter%
+
 %
 \chapter{Introduction}
 
-\input{sections/introduction/intro}
+\input{autopilot/autopilot/src/sections/introduction/intro}
 
-\input{sections/introduction/existing_systems}
+\input{autopilot/autopilot/src/sections/introduction/existing_systems}
 
-\input{sections/introduction/limitations}
+\input{autopilot/autopilot/src/sections/introduction/limitations}
 
 \chapter{Design}
 \label{sec:design}
 
-\input{sections/design/principles}
+\input{autopilot/autopilot/src/sections/design/principles}
 
-\input{sections/design/efficiency}
+\input{autopilot/autopilot/src/sections/design/efficiency}
 
-\input{sections/design/flexibility}
+\input{autopilot/autopilot/src/sections/design/flexibility}
 
-\input{sections/design/reproducibility}
+\input{autopilot/autopilot/src/sections/design/reproducibility}
 
 \chapter{Program Structure}
 \label{sec:structure}
 
-\input{sections/structure/structure}
+\input{autopilot/autopilot/src/sections/structure/structure}
 
-\input{sections/structure/userdir}
+\input{autopilot/autopilot/src/sections/structure/userdir}
 
-\input{sections/structure/data}
+\input{autopilot/autopilot/src/sections/structure/data}
 
-\input{sections/structure/tasks}
+\input{autopilot/autopilot/src/sections/structure/tasks}
 
-\input{sections/structure/hardware}
+\input{autopilot/autopilot/src/sections/structure/hardware}
 
-\input{sections/structure/transforms}
+\input{autopilot/autopilot/src/sections/structure/transforms}
 
-\input{sections/structure/stimuli}
+\input{autopilot/autopilot/src/sections/structure/stimuli}
 
-\input{sections/structure/agents}
+\input{autopilot/autopilot/src/sections/structure/agents}
 
-\input{sections/structure/networking}
+\input{autopilot/autopilot/src/sections/structure/networking}
  
-\input{sections/structure/gui}
+\input{autopilot/autopilot/src/sections/structure/gui}
 
 \chapter{Tests}
 \label{sec:tests}
 
-\input{sections/tests/tests}
+\input{autopilot/autopilot/src/sections/tests/tests}
 
-\input{sections/tests/gpio_latency}
+\input{autopilot/autopilot/src/sections/tests/gpio_latency}
 
-\input{sections/tests/sound_latency}
+\input{autopilot/autopilot/src/sections/tests/sound_latency}
 
-\input{sections/tests/network_latency}
+\input{autopilot/autopilot/src/sections/tests/network_latency}
 
-\input{sections/tests/network_bandwidth}
+\input{autopilot/autopilot/src/sections/tests/network_bandwidth}
 
-\input{sections/tests/gonogo}
+\input{autopilot/autopilot/src/sections/tests/gonogo}
 
 \chapter{Limitations and Future Directions}
 \label{sec:future}
 \begin{fullwidth}
 
-\input{sections/conclusion/future_directions}
+\input{autopilot/autopilot/src/sections/conclusion/future_directions}
 
-\chapter{Glossary}
+\chapter*{Glossary}
 
-\input{sections/conclusion/glossary}
+\input{autopilot/autopilot/src/sections/conclusion/glossary}
 
-\backmatter
-\begin{fullwidth}
-\bibliography{autopilot}
-\bibliographystyle{unsrtnat}
 
-\end{fullwidth}
 
 
 

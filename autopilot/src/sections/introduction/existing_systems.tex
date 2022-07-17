@@ -6,21 +6,21 @@ At minimum, a complete system to automate behavioral experiments has 6 requireme
 
 \begin{enumerate}
 
-\item \hyperref[sec:hardware]{Hardware}\marginnote{\includegraphics[]{figures/side_2_hw.pdf}} to interact with the experimental subject, including \textbf{sensors} (eg. photodiodes, cameras, rotary encoders) to receive input and \textbf{actuators} (eg. lights, motors, solenoids) to provide feedback.
-\item Some\marginnote{\includegraphics[]{figures/side_3_stim.pdf}} capability to synthesize and present sensory \hyperref[sec:stim]{stimuli}. Ideally both discrete stimuli, like individual tone pips or grating patches, and continuous stimuli, like those used in virtual reality experiments, should be possible.
-\item A \marginnote{\includegraphics[]{figures/side_4_task.pdf}} framework to coordinate hardware and stimuli as a \hyperref[sec:tasks]{task}. Task definition should be flexible such that it facilitates rather than constrains experimental design.
-\item A \hyperref[sec:data]{data management}\marginnote{\includegraphics[]{figures/side_5_data.pdf}} system that allows fine control of data collection and format. Data should be human readable and include complete metadata that allows independent analysis and reproduction. Ideally the program would also allow some means of realtime data processing of sensor values for use in a task.
-\item Some\marginnote{\includegraphics[]{figures/side_6_viz.pdf}} means of \hyperref[sec:plotting]{visualizing data} as it is collected in order to  observe task status. It should be possible to customize visualization to the needs and structure of the task.
-\item Finally,\marginnote{\includegraphics[]{figures/side_7_ui.pdf}} a \hyperref[sec:ui]{user interface} to control task operation. The UI should make it possible for someone who does not program to operate the system.
+\item \hyperref[sec:hardware]{Hardware}\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_2_hw.pdf}} to interact with the experimental subject, including \textbf{sensors} (eg. photodiodes, cameras, rotary encoders) to receive input and \textbf{actuators} (eg. lights, motors, solenoids) to provide feedback.
+\item Some\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_3_stim.pdf}} capability to synthesize and present sensory \hyperref[sec:stim]{stimuli}. Ideally both discrete stimuli, like individual tone pips or grating patches, and continuous stimuli, like those used in virtual reality experiments, should be possible.
+\item A \marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_4_task.pdf}} framework to coordinate hardware and stimuli as a \hyperref[sec:tasks]{task}. Task definition should be flexible such that it facilitates rather than constrains experimental design.
+\item A \hyperref[sec:data]{data management}\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_5_data.pdf}} system that allows fine control of data collection and format. Data should be human readable and include complete metadata that allows independent analysis and reproduction. Ideally the program would also allow some means of realtime data processing of sensor values for use in a task.
+\item Some\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_6_viz.pdf}} means of \hyperref[sec:plotting]{visualizing data} as it is collected in order to  observe task status. It should be possible to customize visualization to the needs and structure of the task.
+\item Finally,\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_7_ui.pdf}} a \hyperref[sec:ui]{user interface} to control task operation. The UI should make it possible for someone who does not program to operate the system.
 \end{enumerate}
 
-We\marginnote[-0.6cm]{\includegraphics[]{figures/side_8_checks.pdf}} will briefly describe two other systems that meet this definition of completeness: pyControl and Bpod.
+We\marginnote[-0.6cm]{\includegraphics[]{autopilot/autopilot/src/figures/side_8_checks.pdf}} will briefly describe two other systems that meet this definition of completeness: pyControl and Bpod.
 
 %\vspace{16pt}
 %\sffamily{\textbf{\Large{pyControl}}}\normalfont
 \subsection{pyControl}
 
-\href{https://pycontrol.readthedocs.io/en/latest/}{pyControl}\citep{akamOpensourcePythonbasedHardware2022}\marginnote[0cm]{\includegraphics[]{figures/side_9_pyc.pdf}} is a behavioral framework built in Python by the Champalimaud Foundation. It uses the \href{https://micropython.org/}{micropython microcontroller} ("pyboard") as its primary hardware device along with several extension boards \href{http://www.open-ephys.org/store/pycontrol}{sold by openephys}. The pyboard has four I/O ports, or eight with a multiplexing expander board. Schematics are available for many other hardware components like solenoid valve drivers and rotary encoders. Multiple pyboards can be connected to a computer via USB and run independent tasks simultaneously with a GUI.
+\href{https://pycontrol.readthedocs.io/en/latest/}{pyControl}\citep{akamOpensourcePythonbasedHardware2022}\marginnote[0cm]{\includegraphics[]{autopilot/autopilot/src/figures/side_9_pyc.pdf}} is a behavioral framework built in Python by the Champalimaud Foundation. It uses the \href{https://micropython.org/}{micropython microcontroller} ("pyboard") as its primary hardware device along with several extension boards \href{http://www.open-ephys.org/store/pycontrol}{sold by openephys}. The pyboard has four I/O ports, or eight with a multiplexing expander board. Schematics are available for many other hardware components like solenoid valve drivers and rotary encoders. Multiple pyboards can be connected to a computer via USB and run independent tasks simultaneously with a GUI.
 
 There is limited support for some parametrically defined sound stimuli, presented from a separate amplifier connected using the I2C protocol. Visual stimuli are unsupported.
 
@@ -46,13 +46,13 @@ There is only one plot type available in the GUI, a raster plot of events, and n
 %\sffamily{\textbf{\Large{Bpod}}}\normalfont
 \subsection{Bpod}
 
-Bpod\marginnote{\includegraphics[]{figures/side_10_bpod.pdf}} is primarily a collection of hardware designs and an assembly service run by \href{https://www.sanworks.io/about/about.php}{Sanworks LLC.} Similar to pyControl, each Bpod behavior box is based on a finite-state machine microcontroller with four I/O ports. Additional hardware modules provide extended functionality. Bpod is controlled using its own \href{https://github.com/sanworks/Bpod_Gen2}{MATLAB package}, though there are at least two other third-party software packages, \href{https://brodylabwiki.princeton.edu/bcontrol/index.php/Main_Page}{BControl} and \href{https://pybpod.github.io/}{pyBpod}, that can control Bpod hardware. A task is implemented as a MATLAB script that constructs a new state machine for each trial, uploads it to the Bpod, and waits for the trial to finish. As a result, only one Bpod can be used per host computer, or at least per MATLAB session. Data are stored as trial-split events in a MATLAB structure.
+Bpod\marginnote{\includegraphics[]{autopilot/autopilot/src/figures/side_10_bpod.pdf}} is primarily a collection of hardware designs and an assembly service run by \href{https://www.sanworks.io/about/about.php}{Sanworks LLC.} Similar to pyControl, each Bpod behavior box is based on a finite-state machine microcontroller with four I/O ports. Additional hardware modules provide extended functionality. Bpod is controlled using its own \href{https://github.com/sanworks/Bpod_Gen2}{MATLAB package}, though there are at least two other third-party software packages, \href{https://brodylabwiki.princeton.edu/bcontrol/index.php/Main_Page}{BControl} and \href{https://pybpod.github.io/}{pyBpod}, that can control Bpod hardware. A task is implemented as a MATLAB script that constructs a new state machine for each trial, uploads it to the Bpod, and waits for the trial to finish. As a result, only one Bpod can be used per host computer, or at least per MATLAB session. Data are stored as trial-split events in a MATLAB structure.
 
 There are a few basic plots for two-alternative forced choice tasks, but there doesn't seem to be a prescribed way to add additional plots. Bpod has a reasonably complete GUI for managing the hardware and running tasks, but it is relatively technical (Figure \ref{fig:bpodgui}).
 
 \begin{marginfigure}
-\noindent\includegraphics[]{figures/side_11_bplot.jpg}
-\includegraphics[]{figures/Bconsole.jpg}
+\noindent\includegraphics[]{autopilot/autopilot/src/figures/side_11_bplot.jpg}
+\includegraphics[]{autopilot/autopilot/src/figures/Bconsole.jpg}
 \caption{A Bpod event plot (above) showing the results of individual behavioral trials, and the Bpod GUI (below).} 
 \label{fig:bpodgui}
 \end{marginfigure}

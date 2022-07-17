@@ -5,7 +5,7 @@
 In v0.3.0, we introduced the \texttt{transform} module, a collection of tools for transforming data. The raw data off a sensor is often not in itself useful for performing an experiment: we want to compare it to some threshold, extract positions of objects in a video feed, and so on. Transforms are like building blocks, each performing some simple operation with a standard object structure, and then composed into a pipeline (Figure \ref{fig:transform_example}). Pipelines are portable, and can be created on the fly from a JSON representation of their arguments, so it's easy to offload expensive operations to a more capable machine for distributed realtime experimental control (See \citep{kaneRealtimeLowlatencyClosedloop2020a}). 
 
 \begin{marginfigure}[-8cm]
-\includegraphics[width=\linewidth]{figures/transform_marginfig.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/transform_marginfig.pdf}
 \end{marginfigure}
 
 \begin{marginfigure}[-3.5cm]

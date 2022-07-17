@@ -36,7 +36,7 @@ On setup, Autopilot creates a user directory that contains all local files that 
 \item \textbf{\texttt{logs}} --- Every Autopilot object is capable of full debug logging, neatly formatted by object type and instance ID and grouped within module-level logging files. Logs are both written to disk, and output to \texttt{stderr} using the \href{https://rich.readthedocs.io/en/latest/reference/logging.html#logging}{rich logging handler} for clean and readable inspection during program operation (Figure \ref{fig:logging}). Logs can be parsed back into python objects to make it straightforward to diagnose problems or recover data in the case of an error.
 \end{itemize}
 \begin{figure*}
-\includegraphics[width=\linewidth]{figures/logging.png}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/logging.png}
 \label{fig:logging}
 \caption{Logs printed to \texttt{stderr} are formatted and colorized by the \href{https://rich.readthedocs.io/en/latest/reference/logging.html\#logging}{rich logging handler}. Logfiles are created by module, and log entries are identified by the individual objects instantiated from them. Logfiles are rotated and size-limited for configurable backups.}
 \end{figure*}

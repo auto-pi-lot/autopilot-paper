@@ -24,7 +24,7 @@ We first tested the software measured latency between when a command to write a 
 \begin{figure}[hb!]
 \caption{Software latency from GPIO write to completion of command. Values are presented as medians $\pm$ IQR with n=100,000 tests for each. A random subsample of 500 (for tractability of plotting) of each type of test are presented (black points) after filtering to the bottom 99th percentile to exclude extreme outliers.  Commands sent using pigpio (red) took roughly 40$\mu s$ each (write and read are effectively two separate commands, Write Only: 40.8$\mu s \pm$0.41, Write and Read: 88.4 $\mu s \pm$2.02). The prototype gpiozero wrapper (blue) using RPi.GPIO as its backend was faster, taking 16.2$\mu s \pm$0.22 to complete.}
 \label{fig:gpiolags}
-\includegraphics{figures/gpio_latency_small.pdf}
+\includegraphics{autopilot/autopilot/src/figures/gpio_latency_small.pdf}
 \end{figure}
 
 Pigpio is useful as a general purpose controller because of its ability to run scripts within its daemon, use hardware PWM via direct memory access, and consistently poll for pin state, but takes a latency penalty because the python interface communicates with it through a local TCP socket. To demonstrate the flexibility of Autopilot in incorporating additional software libraries, we wrote a \href{https://github.com/auto-pi-lot/plugin-paper/blob/main/plugin_tests/hardware/zero.py}{thin wrapper} around \href{https://gpiozero.readthedocs.io/en/stable/}{gpiozero}, which can use \href{https://pypi.org/project/RPi.GPIO/}{RPi.GPIO} to directly write to the GPIO registers. For simple output, this wrapper proved to be faster (16.2 $\mu s \pm 0.22$, n=100,000), and with \~63 lines of code is now available in the plugin accompanying this paper to be used, repurposed, and extended.
@@ -80,7 +80,7 @@ linenos=false}
 \begin{figure}[hb!]
 \caption{Roundtrip latency from external trigger to digital output using two methods: Typical Autopilot callback function given to a \texttt{Digital\_In} object that turns a \texttt{Digital\_Out} pin on for 1ms when an input pin changes state (Red, Left, Median $\pm$ IQR: 474 $\mu s \pm$ 52.5). Pigs script that runs entirely within the pigpio daemon (Blue, Right, 380ns $\pm$ 140). For each, black points represent individual measurements (n=525), annotations are quartiles.}
 \label{fig:gpiort}
-\includegraphics{figures/gpio_roundtrip_density.pdf}
+\includegraphics{autopilot/autopilot/src/figures/gpio_roundtrip_density.pdf}
 \end{figure}
 
 \clearpage

@@ -25,7 +25,7 @@ To test the latency of Autopilot's networking modules, we switch from "script mo
 \begin{figure}
 \caption{Network latency from when a message is sent from one pilot to when it is received by another. Messages took 0.975ms to send and receive (median, $\pm$ 0.1 IQR, n=10,000, overlaid numbers and red shading in density plot indicate quartiles). There is a clear bimodality in latencies for individual messages (black dots, jittered in y-axis) with unclear cause.}
 \label{fig:netlag}
-\includegraphics{figures/networking_latency_raster.pdf}
+\includegraphics{autopilot/autopilot/src/figures/networking_latency_raster.pdf}
 \end{figure}
 
 Point to point latency was 0.975ms (median, $\pm$ 0.1 IQR, n=10,000, Figure \ref{fig:netlag}) with some clear bimodality where a subset of messages (\~2,300 of 10,000) took longer (median 1.567ms). The source of the bimodality is unclear to us, though it could be due to network congestion or interruption by other processes as the networking modules are not run in their own process like the sound server. This latency includes message serialization and deserialization by the builtin JSON library, which is on the order of roughly 100$\mu s$ each for even the very small messages sent in this test. In future versions we will explore other serialization tools like \href{https://msgpack.org/}{msgpack} and offer them as alternate serialization backends.
