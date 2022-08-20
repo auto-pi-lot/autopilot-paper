@@ -36,15 +36,13 @@ class Biography(Attributes):|$\tikzmark{attributes}$|
 \end{pythoncode*}
 \captionlistentry{}%
 \label{lst:biography}%
-\end{listing}%
-%
 \begin{tikzpicture}[overlay, remember picture, font=\footnotesize]
 \draw[<-] (pic cs:typing) ++(0.1,0.1) to[left]%
- ++(5.2,0) --++(0.2,0)%
+ ++(5.2,0) --++(0,0.5) --++(0.2,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 Data models use builtin Python type hints. \href{https://docs.python.org/3/library/typing.html}{Type hints} are colon delimited annotations like \mintinline{python}{x:int} that indicate the type (integer, string, etc.) of the variable. Though typically Python does not, Pydantic both validates that a type matches its hint and coerces it to the correct type if possible.};
 \draw[<-] (pic cs:union) ++(-0.4,-0.1) --++(0,-0.3)%
- --++(7.3,0) --++(0,0.5) --++(0.2,0)%
+ --++(7.3,0) --++(0,0.8) --++(0.2,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 The \texttt{Union} type means that a field can be one of several possible types, in this case the box can be identified with either a string or integer.};
 \draw[<-] (pic cs:optional) ++(0,0.1) to[left]%
@@ -59,19 +57,20 @@ Descriptions are stored in the data model schema to make shared data self-docume
  ++(6.3,0) --++(0.2,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 The class that our model inherits from indicates how Autopilot should treat it in a given storage interface. For HDF5 files, subclasses of the Attributes class are stored as node metadata, while subclasses of Table make tables.};
-\draw[<-] (pic cs:datetime) ++(-0.6,0.2) --++(0,0.2)%
- --++(8.62,0) --++(0.2,0)%
+\draw[<-] (pic cs:datetime) ++(-0.6,0.2) --++(0,0.1)%
+ --++(8.62,0) --++(0,-0.3) --++(0.2,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Autopilot's format interfaces define mappings from nonstandard types to types supported by the format. For HDF5 files, \href{https://docs.python.org/3/library/datetime.html\#datetime-objects}{datetime} objects are converted to ISO 8601 formatted strings};
 \draw[<-] (pic cs:recursive) ++(-1,-0.1) --++(0,-0.2)%
- --++(6.3,0) --++(0,0.3) --++(0.2,0)%
+ --++(6.3,0) --++(0,-0.3) --++(0.2,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Data models can be recursive, or use other models as types for their own fields. In this case the subject's Enclosure can be optionally specified in its Biography.};
 \draw[<-] (pic cs:property) ++(0.1,0.1) to[left]%
- ++(8.55,0) --++(0,-0.2) --++(0.2,0)%
+ ++(8.55,0) --++(0,-1) --++(0.2,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Properties are model fields that are automatically computed based on the values of other fields. The age of the animal can be accessed like a normal instance attribute that returns a \href{https://docs.python.org/3/library/datetime.html\#timedelta-objects}{timedelta} object.};
 \end{tikzpicture}
+\end{listing}%
 %
 A new subject could then be created with a biography like this, storing it in the HDF5 file and made accessible through the Subject interface:%
 %
@@ -115,7 +114,7 @@ The models are declared using a combination of python type hints and \texttt{Fie
 
 Out of the box, pydantic models can create explicit and interoperable \href{https://pydantic-docs.helpmanual.io/usage/schema/}{schemas} in \href{https://json-schema.org/draft/2020-12/json-schema-core.html}{JSON Schema} and \href{https://github.com/OAI/OpenAPI-Specification}{OpenAPI} formats, and Autopilot extends them with additional interfaces and representations. Autopilot can create a GUI form for filling in fields for models, for example, to create a new Subject or declare parameters for a task (Figure \ref{fig:modelform}). \texttt{Attribute} models that consist of scalar key-value pairs can be reliably stored and retrieved from metadata attribute sets in HDF5 groups, but Autopilot knows that \texttt{Table} models should be created as HDF5 tables as they will have multiple values for each field. An additional \texttt{Trial\_Data} class that inherits from \texttt{Table} can be exported to NWB trial data, and the \texttt{Subject.get\_trial\_data} method uses the model to load trial data and convert it to a correctly typed pandas\citep{mckinneyPandasFoundationalPython2011} DataFrame.
 
-\begin{marginfigure}
+\begin{marginfigure}[-3cm]
 \includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/model_form.png}
 \caption{An Autopilot Data model can automatically generate a GUI form to fill in its properties, in this example to define a new experimental Subject's biography.}
 \label{fig:modelform}

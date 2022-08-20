@@ -16,7 +16,6 @@ Multiple tasks are combined to make \textbf{protocols}, in which animals move be
 \label{sec:taskcomponents}
 
 The following is a basic two-alternative choice (2AFC) task---a sound is played and an animal is rewarded for poking its nose in a designated target nosepoke. While simple, it is included here in full to show how one can program a task, including an explicit data and plotting structure, in roughly 60 lines of generously spaced Python.
-\clearpage
 
 Every task begins by describing four elements: 
 
@@ -56,22 +55,20 @@ class Nafc(Task):
 \end{pythoncode*}
 \captionlistentry{}%
 \label{lst:taskparams}%
-\end{listing}%
-%
 \begin{tikzpicture}[overlay, remember picture]
 \draw[<-] (pic cs:params) ++(0,0.1) to[left] ++(6.0,0) --++(0,0.75) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \textcolor{red}{1) A \texttt{Task\_Params} model} defines what parameters are needed to run the task.};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:tag)+(0,11pt)$) -- ($(pic cs:tag)-(0,14pt)$) coordinate[midway](midWay);
 \draw[-] (midWay)++(.15,0) --++(3.9,0) node[below right, yshift=8pt, text width=2.4in]{We use \texttt{Field} objects as in listing \ref{lst:biography}, and can also use some special types like \texttt{Sounds} to declare complex parameters};
 \draw[<-] (pic cs:units) ++(-0.1,-0.2) --++(0,-0.5) --++(7.2,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \texttt{units} work like numbers but avoid ambiguity, so eg. the \texttt{Solenoid} class below knows this is a volume, rather than a duration};
-\draw[<-] (pic cs:data) ++(0,0.1) to[left] ++(5.5,0) --++(0,-0.7) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{2) A \texttt{Trial\_Data} model} defines what data will be returned from the task. };
+\draw[<-] (pic cs:data) ++(0,0.1) to[left] ++(5.5,0) --++(0,-0.9) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{2) A \texttt{Trial\_Data} model} defines what data will be returned from the task. };
 \draw[<-] (pic cs:plot) ++(0,0.1) to[left] ++(8.7,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{3) A \texttt{PLOT} dictionary} maps the data output to graphical elements in the GUI. (In future versions this will be incorporated into the \texttt{Field}s of \texttt{TrialData})};
 \draw[<-] (pic cs:hardware) ++(0,0.1) to[left] ++(8.2,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{4) A \texttt{HARDWARE} dictionary} that describes what hardware will be needed to run the task.};
 \draw[<-] (pic cs:hwdetail) ++(0,0.1) to[left] ++(6.3,0)node[below right, yshift=8pt, text width=2.4in]{The specific implementation of the hardware (eg. where it is connected, how to interact with it) is independent of the task. The task just knows about a \texttt{PORT} named \mintinline{python}{'C'} that is a \texttt{Solenoid}.};
 \end{tikzpicture}
+\end{listing}%
+%
 
 Created tasks receive some common methods, like input/trigger handling and networking, from an inherited metaclass. Python inheritance can also be used to make small alterations to existing tasks\sidenote{An example of subclassing a generic `Task' class is included in Autopilot's \href{https://docs.auto-pi-lot.com/en/latest/examples.html}{user guide}} rather than rewriting the whole thing. The GUI will use the \texttt{Params} model and the \texttt{PLOT} dictionary to generate forms for parameterizing the task within a protocol and display the data as it is collected. The \texttt{Subject} class will use the \texttt{TrialData} model to create HDF5 tables to store the data, and the \texttt{Task} metaclass will instantiate the described \texttt{HARDWARE} objects from their system-specific configuration in the \texttt{prefs.json} file so they are available in the rest of the class like \mintinline{python}{self.hardware['POKES']['L'].state}
-
-\clearpage
 
 \subsection{Stage Methods}
 
@@ -112,7 +109,6 @@ The logic of tasks is described in one or a series of methods (stages). The orde
 \end{pythoncode*}
 \captionlistentry{}%
 \label{lst:methods}%
-\end{listing}%
 \begin{tikzpicture}[overlay, remember picture]
 \draw[<-] (pic cs:init) ++(0,0.1) to[left] ++(3.5,0) --++(0,1.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{In Python, \mintinline{python}{def} defines new methods. The \mintinline{python}{__init__} method is called when a new object is initialized};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:mgrs)+(0,22pt)$) -- ($(pic cs:mgrs)-(0,3pt)$) coordinate[midway](midWay);
@@ -127,10 +123,11 @@ The logic of tasks is described in one or a series of methods (stages). The orde
 \draw[<-] (pic cs:args) ++(0,0.1) to[left] ++(4.75,0)node[below right, yshift=8pt, text width=2.4in]{In this example, the response port is passed from the trigger handling function. If it matches the stored target variable, the animal answered correctly.};
 \draw[<-] (pic cs:callagain) ++(0,0.1) to[left] ++(6.25,0) --++(0,0.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{Finally, the task is repeated by calling the next stage.};
 \end{tikzpicture}%
+\end{listing}%
 %
 Autopilot is not prescriptive about how tasks are written. The same task could have two separate methods for correct and incorrect answers rather than a single reinforcement method, or only a single stage that blocks the program while it waits for a response.
 
-\begin{marginfigure}[1cm]
+\begin{marginfigure}[0cm]
 \begin{minted}[frame=lines,fontsize=\small]{json}
 {
 "step_name": "Simple 2AFC",
@@ -186,14 +183,15 @@ class Actimeter(Hardware):
 \end{pythoncode*}
 \captionlistentry{}%
 \label{lst:actimeter}%
-\end{listing}%
-%
 \begin{tikzpicture}[overlay, remember picture]
 \draw[<-] (pic cs:finishcb) ++(0,0.1) to[left] ++(3.75,0)node[below right, yshift=8pt, text width=2.4in]{See line \ref{callback} below};
 \end{tikzpicture}
+\end{listing}%
+%
 %
 The task follows, with parameters and network methods for sending data omitted for clarity.
-\begin{listing}[H]
+
+\begin{listing}[h!]
 \begin{pythoncode*}{label= \texttt{Listing \ref{lst:maze}: \textbf{maze - task}}, firstnumber=last}
 class Maze(Task):
     def __init__(self):
@@ -208,12 +206,11 @@ class Maze(Task):
 \end{pythoncode*}
 \captionlistentry{}%
 \label{lst:maze}%
-\end{listing}%
-%
 \begin{tikzpicture}[overlay, remember picture]
 \draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(2.6,0) --++(0,1) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
 \draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(4.25,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
-\end{tikzpicture}\clearpage
+\end{tikzpicture}
+\end{listing}
 
 How would such a task be programmed in a finite-state machine formalism? Since the path matters, each "state" needs to consist of the current position and all the positions before it. But, since the animal can double back and have arbitrarily many state transitions before reaching the target corner, this task is impossible to represent with a finite-state machine, as a full representation would necessitate infinitely many states (this is one example of the \textit{pumping lemma}, see \citep{kozenLimitationsFiniteAutomata1997}).
 
@@ -226,7 +223,7 @@ Some of these problems are avoidable by using extended versions of finite state 
 \begin{figure*}[hb!]
 \caption{State transition tree for a simplified maze task.}
 \label{fig:fsmtree}
-\includegraphics[]{autopilot/autopilot/src/figures/maze.pdf}
+\includegraphics[width=\linewidth+\marginparwidth]{autopilot/autopilot/src/figures/maze.pdf}
 \end{figure*}
 
 

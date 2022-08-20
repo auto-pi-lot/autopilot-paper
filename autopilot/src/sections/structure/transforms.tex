@@ -4,11 +4,11 @@
 
 In v0.3.0, we introduced the \texttt{transform} module, a collection of tools for transforming data. The raw data off a sensor is often not in itself useful for performing an experiment: we want to compare it to some threshold, extract positions of objects in a video feed, and so on. Transforms are like building blocks, each performing some simple operation with a standard object structure, and then composed into a pipeline (Figure \ref{fig:transform_example}). Pipelines are portable, and can be created on the fly from a JSON representation of their arguments, so it's easy to offload expensive operations to a more capable machine for distributed realtime experimental control (See \citep{kaneRealtimeLowlatencyClosedloop2020a}). 
 
-\begin{marginfigure}[-8cm]
+\begin{marginfigure}[-2cm]
 \includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/transform_marginfig.pdf}
 \end{marginfigure}
 
-\begin{marginfigure}[-3.5cm]
+\begin{marginfigure}[0cm]
 \begin{pythoncode*}{
 label= \texttt{Transform - DLC Live!},
 frame=lines,
@@ -46,7 +46,7 @@ In addition to computing derived values, we use transforms in a few ways, includ
 
 Like Tasks and Hardware, the transform module provides a scaffolding for writing reference implementations of algorithms commonly needed for realtime behavioral experiments. For example, neuroscientists often want to quickly measure a research subject's velocity or orientation, which is possible with inexpensive inertial motion sensors (IMUs), but since anything worth measuring will be swinging the sensor around with wild abandon the readings first need to be rotated back to a geocentric coordinate frame. Since the readings from an accelerometer are noisy, we found a few whitepapers describing using a Kalman filter for fusing the accelerometer and gyroscope data for a more accurate orientation estimate (\citep{abyarjooImplementingSensorFusion2015b,patonisFusionMethodCombining2018a}), but couldn't find an implementation. We \href{https://docs.auto-pi-lot.com/en/latest/_modules/autopilot/transform/geometry.html\#IMU_Orientation}{wrote one} and integrated it into the IMU class (Figure \ref{fig:imu}). Since it's an independent transform, it's available to anyone even if they use nothing else from Autopilot.
 
-\begin{marginfigure}[-1.5cm]
+\begin{marginfigure}[-4cm]
 \begin{pythoncode*}{
 label=Geocentric Velocity,
 frame=lines,
@@ -73,6 +73,4 @@ z_accel = reorient.process(
 \end{marginfigure} 
 
 Transforms were made to be composed, so we broke it into independent sub-operations: A \href{https://docs.auto-pi-lot.com/en/latest/transform/timeseries.html\#autopilot.transform.timeseries.Kalman}{Kalman} filter, \href{https://docs.auto-pi-lot.com/en/latest/transform/geometry.html\#autopilot.transform.geometry.Rotate}{rotation}, and a \href{https://docs.auto-pi-lot.com/en/latest/transform/geometry.html\#autopilot.transform.geometry.Spheroid}{spheroid correction} to calibrate accelerometers. Then we combined it with the DLC-Live transform for a fast but accurate motion estimate from position, velocity, and acceleration measurements from three independent sensors. Since each step of the transformation is exposed in a clean API, it was straightforward to \href{https://github.com/auto-pi-lot/autopilot-plugin-parallax/blob/759dbb382b90a99f71edf5070772ac18555b67dd/kalman\_position.py}{extend the Kalman filter} to accomodate the the wildly different sampling rates of the camera and IMU. It's still got its quirks, but that's the purpose of plugins --- to make the code \href{https://wiki.auto-pi-lot.com/index.php/Plugin:Parallax}{available and documented} without formally integrating it in the library. 
-
-\clearpage
 

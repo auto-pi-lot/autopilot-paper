@@ -22,16 +22,16 @@ Rotary Encoder & \$0 &  \href{https://sanworks.io/shop/viewproduct?productID=102
 \end{margintable}
 
 \begin{marginfigure}[0cm]
-\includegraphics[]{autopilot/autopilot/src/figures/behavior_box.png}
-\includegraphics[]{autopilot/autopilot/src/figures/tripoke_assembly_order.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/behavior_box.png}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/tripoke_assembly_order.pdf}
 \caption{Two examples of parts with assembly guides available on the autopilot wiki: A modular \href{https://wiki.auto-pi-lot.com/index.php/Autopilot_Behavior_Box}{behavior box} with magnetic snap-in panels (top), and a \href{https://wiki.auto-pi-lot.com/index.php/Autopilot_Tripoke}{three-nosepoke panel} (bottom).}
 \label{fig:pokeport}
 \end{marginfigure}%
 
 Autopilot controls hardware with an extensible inheritance hierarchy of Python classes intended to be built into a library of hardware controllers analogously to tasks. Autopilot uses \href{http://abyz.me.uk/rpi/pigpio/}{pigpio} to interact with its GPIO pins, giving Autopilot $5 \mu s$ measurement precision and enabling protocols that require high precision (such as Serial, PWM, and I2C) for nearly all of the pins.  Currently, Autopilot also has a family of objects to control cameras (both the \href{https://docs.auto-pi-lot.com/en/latest/hardware/cameras.html\#autopilot.hardware.cameras.PiCamera}{Raspberry Pi Camera} and \href{https://docs.auto-pi-lot.com/en/latest/hardware/cameras.html\#autopilot.hardware.cameras.Camera_Spinnaker}{high-speed GENICAM-compliant} cameras), i2c-based \href{https://docs.auto-pi-lot.com/en/latest/hardware/i2c.html\#autopilot.hardware.i2c.I2C_9DOF}{motion} and \href{https://docs.auto-pi-lot.com/en/latest/hardware/i2c.html\#autopilot.hardware.i2c.MLX90640}{heat} sensors, and \href{https://docs.auto-pi-lot.com/en/latest/hardware/usb.html\#autopilot.hardware.usb.Wheel}{USB mice}.  In the \hyperref[sec:future]{future} we intend to improve performance further by replacing time-critical hardware operations with low-level interfaces written in Rust.
 
-\begin{table}[b]
-\caption[][0cm]{Specifications of reviewed behavior hardware. BPod's state machine uses the Teensy 3.6 microcontroller, and PyControl uses the Micropython Pyboard.}
+\begin{table}[hb!]
+\caption{Specifications of reviewed behavior hardware. BPod's state machine uses the Teensy 3.6 microcontroller, and PyControl uses the Micropython Pyboard.}
 \label{hwtab}
 \begin{tabularx}{\linewidth}{Rp{3.5cm}p{2cm}p{2cm}}\toprule
 & \href{https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/}{\textbf{Raspberry Pi 4B}} & \href{https://www.pjrc.com/teensy/techspecs.html}{\textbf{Teensy 3.6}} & \href{https://micropython.org/}{\textbf{pyboard}}\\

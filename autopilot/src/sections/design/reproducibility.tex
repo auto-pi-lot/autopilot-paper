@@ -15,7 +15,11 @@ We take a broad view on reproducibility: including not only the ability to share
 The implementation and fine details of a behavioral experiment matter. Seemingly trivial details like milliseconds of delay between trial phases and microliters of reward volume can be the difference between a successful and unsuccessful task (Figure \ref{fig:calibration}). \textit{Reporting} those details can thus be the difference between a reproducible and unreproducible result.  Researchers also often use "auxiliary" logic in tasks---such as methods for correcting response bias---that are never completely neutral for the interpretation of results. These too can be easily omitted due to brevity or memory in plain-English descriptions of a task, such as those found in Methods sections. Even if all details of an experiment were faithfully reported, the balkanization of behavioral software into systems peculiar to each lab (or even to individuals within a lab) makes actually performing a replication of a behavior result expensive and technically challenging. Widespread use of experimental tools that are not explicitly designed to preserve every detail of their operation presents a formidable barrier to rigorous and reproducible science\citep{wallReliabilityStartsExperimental2019}.
 
 %
-\begin{marginfigure}[1.5cm]
+%
+%
+Autopilot splits experiments into a) the \textbf{code} that runs the experiment, which is intended to be standardized and shared across implementations, and b) the \textbf{parameters} (Figure \ref{fig:params}) that define your particular experiment and system configuration. For example, two-alternative forced choice tasks have a shared structure regardless of the stimulus modality, but only your task plays pitch-shifted national anthems. This division of labor, combined with Autopilot's structured plugin system, help avoid the ubiquitous problem of rig-specific code and hard-coded variables making experimental code only useful on the single rig it was designed for --- enabling the possibility of a shared library of tasks as described in \hyperref[sec:expansion]{section \ref{sec:expansion}}%
+
+\begin{marginfigure}[0cm]
 \begin{minted}[frame=lines,fontsize=\small]{json}
 {
 "step_name"    : "tone_discrim",
@@ -42,9 +46,6 @@ The implementation and fine details of a behavioral experiment matter. Seemingly
 \caption{Task parameters are stored as portable JSON, formatting has been abbreviated for clarity.}
 \label{fig:params}
 \end{marginfigure}%
-%
-%
-Autopilot splits experiments into a) the \textbf{code} that runs the experiment, which is intended to be standardized and shared across implementations, and b) the \textbf{parameters} (Figure \ref{fig:params}) that define your particular experiment and system configuration. For example, two-alternative forced choice tasks have a shared structure regardless of the stimulus modality, but only your task plays pitch-shifted national anthems. This division of labor, combined with Autopilot's structured plugin system, help avoid the ubiquitous problem of rig-specific code and hard-coded variables making experimental code only useful on the single rig it was designed for --- enabling the possibility of a shared library of tasks as described in \hyperref[sec:expansion]{section \ref{sec:expansion}}%
 
 The practice of reporting exactly the parameter description used by the software to run the experiment removes any chance for incompleteness in reporting. Because all task parameters are included in the produced data files, tasks are fully portable and can be reimplemented exactly by anyone that has comparable hardware to yours. 
 
@@ -69,11 +70,11 @@ As of v0.5.0, we have built a formal data modeling system into Autopilot, allowi
 
 Open-source scientific software does away with prior limitations to access and inspection imposed by proprietary tools. It also exposes the research process to bugs in software written by semi-amateurs that can yield errors in the resulting data, analysis, and interpretation\citep{soergelRampantSoftwareErrors2015,eklundClusterFailureWhy2016a,bhandarineupaneCharacterizationLeptazolinesPolar2019,millerScientistNightmareSoftware2006}. Autopilot tries to bring best practices in software development to experimental software, including a set of automated tests for continuous integration. 
 
-We are still formalizing our contribution process, and our tests are still far from achieving full coverage\sidenote[][-3.25cm]{Coverage statistics for Autopilot are available on coveralls.io at \url{https://coveralls.io/github/auto-pi-lot/autopilot}}, but we currently require tests and documentation for all new code added to the library. Writing good tests is hard, and we are in the process of building a set of hardware simulators and test fixtures to ease contribution.  
+We are still formalizing our contribution process, and our tests are still far from achieving full coverage\sidenote{Coverage statistics for Autopilot are available on coveralls.io at \url{https://coveralls.io/github/auto-pi-lot/autopilot}}, but we currently require tests and documentation for all new code added to the library. Writing good tests is hard, and we are in the process of building a set of hardware simulators and test fixtures to ease contribution.  
 
 Tests are effectively provable statements about how a program functions (Figure \ref{fig:tests}), which are particularly important for a library that aspires to be baseline lab infrastructure like Autopilot. Tests make it possible to use and contribute to the library with confidence: all tests are run on every commit, making it possible to determine if some new contribution breaks existing code without manually reading and testing every line. As we work to complete our test coverage, we hope to provide researchers with a tool that they can trust and elevates the verifiability of scientific results at large.
 
-\begin{marginfigure}[-7cm]
+\begin{marginfigure}[-0cm]
 \begin{minted}[frame=lines,fontsize=\small]{python}
 def test_set_gpio():
     """
@@ -100,7 +101,6 @@ def test_set_gpio():
 Autopilot is an order of magnitude less expensive than comparable behavioral systems (Table \ref{tab:cost}). We think the expense of a system is important for two reasons: scientific equity and statistical power. 
 
 The distribution of scientific funding is highly skewed, with a large proportion of research funding concentrated in relatively few labs\citep{katzBiomedicalEliteInequality2017}. Lower research costs benefit all scientists, but lower instrumentation costs directly increase the accessibility of state-of-the-art experiments to labs with less funding. Since well-funded labs also tend to be concentrated at a few (well-funded) institutions, lower research costs also broaden the base of scientists outside traditional research institutions that can stay at the cutting edge\citep{ashkenasEvenAffirmativeAction2017,clausetSystematicInequalityHierarchy2015,pearceExpandingEquitableAccess2019}.
-\clearpage%
 %
 \begin{marginfigure}[0.5cm]
 \includegraphics[]{autopilot/autopilot/src/figures/fpr.pdf}
@@ -116,7 +116,7 @@ Neuroscience also stands to benefit from the lessons learned from the replicatio
 Although the expense of multi-photon imaging and high-density electrophysiology will always impose an experimental bottleneck, behavioral training time is often the greater determinant of study sample size. Typical behavioral experiments require daily training sessions often carried out over weeks and months, while far fewer imaging or electrophysiology sessions are carried out per animal.  Training large cohorts of animals in parallel is thus the necessary basis of a well-powered imaging or electrophysiology experiment.
 
 
-\begin{table}
+\begin{table}[hb!]
 \caption{\textbf{Cost for Basic 2AFC System}\\
 \noindent"Nosepoke" includes a solenoid valve, IR sensor, water tube, LED, housing, and any necessary driver PCBs. For PyControl and Autopilot, we included the cost of one \href{https://wiki.auto-pi-lot.com/index.php/Lee_LHDA0531115H}{Lee LHDA0531115H} solenoid valve per nosepoke (\$63.35). For PyControl, we estimated a typical USB hub with 5 ports to control 5 pyControl systems from one computer. We note that the Bpod and PyControl systems both include cost of assembly for the control CPUs and nosepokes, but also that Autopilot does not require assembly for its control CPU and its default nosepoke is a snap-together 3D printed part and PCB without surface mounted components that can be assembled by an amateur in roughly half an hour.}
 \label{tab:cost}

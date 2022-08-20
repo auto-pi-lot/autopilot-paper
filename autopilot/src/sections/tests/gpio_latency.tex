@@ -50,7 +50,7 @@ Typically that is as much methodological detail as you would expect in a scienti
 
 We used the \texttt{assign\_cb} method of the \href{https://docs.auto-pi-lot.com/en/latest/hardware/gpio.html\#autopilot.hardware.gpio.Digital_In.assign_cb}{\texttt{Digital\_In}} class to test the typical roundtrip latency that Autopilot objects can deliver. This gave us a median 474 $\mu s$ (IQR: 52.5$\mu s$) latency (Red in Figure \ref{fig:gpiort}). GPIO callbacks are flexible, and can use arbitrary python functions, but if all that's needed is to trigger one pin off of another with some simple logic like a parametric digital waveform or static "on" time, pigpio also allows us to directly program pin to pin logic as a "\href{http://abyz.me.uk/rpi/pigpio/pigs.html}{pigs}" script (literally Figure \ref{fig:pigsscript}) that runs within the pigpio daemon. The pigs script gave us roughly three orders of magnitude lower latency (Median $\pm$ IQR: 370ns $\pm$ 140, blue in \ref{fig:gpiort}). 
 
-\begin{marginfigure}[-10cm]
+\begin{marginfigure}[0cm]
 \begin{pythoncode*}{
 label= \texttt{Pigs Trigger Script},
 frame=lines,
