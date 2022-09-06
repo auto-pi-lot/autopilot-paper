@@ -22,7 +22,7 @@ A hardware object would control a speaker, whereas stimulus objects are the indi
 Autopilot controls the realtime audio server \href{http://jackaudio.org/}{jack} from an independent Python process that dumps samples directly into jack's buffer (Figure \ref{fig:soundpath}), giving it a trigger-to-playback latency very near the theoretical minimum (Section \ref{sec:soundlatency}). Sounds can be pre-buffered in memory or synthesized on demand to play continuous sounds. Because the realtime server is independent from the logic of sound synthesis and storage, stimuli can be controlled independently from different threads without interrupting audio or dropping frames.
 
 \begin{marginfigure}[0cm]
-\includegraphics[]{autopilot/autopilot/src/figures/side_19_soundpath.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/side_19_soundpath.pdf}
 \caption{Our sound server keeps audio samples buffered until a \texttt{.play()} method is called, and then dumps them directly into the jack audio daemon.}
 \label{fig:soundpath}
 \end{marginfigure}

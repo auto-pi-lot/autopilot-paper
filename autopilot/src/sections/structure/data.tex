@@ -38,35 +38,35 @@ class Biography(Attributes):|$\tikzmark{attributes}$|
 \label{lst:biography}%
 \begin{tikzpicture}[overlay, remember picture, font=\footnotesize]
 \draw[<-] (pic cs:typing) ++(0.1,0.1) to[left]%
- ++(5.2,0) --++(0,0.5) --++(0.2,0)%
+ ++(4.9,0) --++(0,0.5) --++(0.1,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 Data models use builtin Python type hints. \href{https://docs.python.org/3/library/typing.html}{Type hints} are colon delimited annotations like \mintinline{python}{x:int} that indicate the type (integer, string, etc.) of the variable. Though typically Python does not, Pydantic both validates that a type matches its hint and coerces it to the correct type if possible.};
 \draw[<-] (pic cs:union) ++(-0.4,-0.1) --++(0,-0.3)%
- --++(7.3,0) --++(0,0.8) --++(0.2,0)%
+ --++(7.0,0) --++(0,0.8) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 The \texttt{Union} type means that a field can be one of several possible types, in this case the box can be identified with either a string or integer.};
 \draw[<-] (pic cs:optional) ++(0,0.1) to[left]%
- ++(7.4,0) --++(0,0.9) --++(0.2,0)%
+ ++(7.1,0) --++(0,0.9) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Optional fields can have default fields, either a single value like \mintinline{python}{None} or a function that computes a default value like the current date.};
 \draw[<-] (pic cs:description) ++(0,0.1) to[left]%
- ++(0.5,0) --++(0,0.25) --++(0.2,0)%
+ ++(0.2,0) --++(0,0.25) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Descriptions are stored in the data model schema to make shared data self-documenting, and also used by GUI widgets for tooltips that clarify what fields mean.};
 \draw[<-] (pic cs:attributes) ++(0,0.1) to[left]%
- ++(6.3,0) --++(0.2,0)%
+ ++(6.0,0) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 The class that our model inherits from indicates how Autopilot should treat it in a given storage interface. For HDF5 files, subclasses of the Attributes class are stored as node metadata, while subclasses of Table make tables.};
 \draw[<-] (pic cs:datetime) ++(-0.6,0.2) --++(0,0.1)%
- --++(8.62,0) --++(0,-0.3) --++(0.2,0)%
+ --++(8.32,0) --++(0,-0.3) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Autopilot's format interfaces define mappings from nonstandard types to types supported by the format. For HDF5 files, \href{https://docs.python.org/3/library/datetime.html\#datetime-objects}{datetime} objects are converted to ISO 8601 formatted strings};
 \draw[<-] (pic cs:recursive) ++(-1,-0.1) --++(0,-0.2)%
- --++(6.3,0) --++(0,-0.3) --++(0.2,0)%
+ --++(6.0,0) --++(0,-0.3) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Data models can be recursive, or use other models as types for their own fields. In this case the subject's Enclosure can be optionally specified in its Biography.};
 \draw[<-] (pic cs:property) ++(0.1,0.1) to[left]%
- ++(8.55,0) --++(0,-1) --++(0.2,0)%
+ ++(8.25,0) --++(0,-1) --++(0.1,0)%
   node[below right, yshift=8pt, text width=2.4in]{%
 Properties are model fields that are automatically computed based on the values of other fields. The age of the animal can be accessed like a normal instance attribute that returns a \href{https://docs.python.org/3/library/datetime.html\#timedelta-objects}{timedelta} object.};
 \end{tikzpicture}
@@ -90,19 +90,19 @@ assert sub.info == bio|$\tikzmark{samebio}$|
 \label{lst:subject}%
 \begin{tikzpicture}[overlay, remember picture, font=\footnotesize]
 \draw[<-] (pic cs:subject) ++(0.1,0.1) to[left]%
- ++(5.2,0) --++(0,0.5) --++(0.2,0)%
+ ++(4.9,0) --++(0,0.5) --++(0.1,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 The \texttt{Subject} class is the primary means by which Autopilot stores, organizes, and interacts with data.};
 \draw[<-] (pic cs:modelmodule) ++(0.1,0.1) to[left]%
- ++(2,0) --++(0.2,0)%
+ ++(1.7,0) --++(0.1,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 Several basic models are built into Autopilot, and in future versions it will be possible to extend and replace these models with plugins, making storage formats fully customizable while still being explicit and understandable.};
 \draw[<-] (pic cs:coercion) ++(0.1,0.1) to[left]%
- ++(5.8,0) --++(0,-0.6) --++(0.2,0)%
+ ++(5.5,0) --++(0,-0.6) --++(0.1,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 If we don't give the type specified in the model, it will try and coerce it to the correct type and raise an error if it can't.};
 \draw[<-] (pic cs:samebio) ++(0.1,0.1) to[left]%
- ++(7.1,0) --++(0.2,0)%
+ ++(6.8,0) --++(0.1,0)%
  node[below right, yshift=8pt, text width=2.4in]{%
 An \mintinline{python}{assert}ion declares that some logical statement is \mintinline{python}{True} and raises an exception if it isn't. Autopilot's unit tests ensure that subject data can be stored and retrieved without losing information or changing types.};
 \end{tikzpicture}

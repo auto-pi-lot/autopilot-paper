@@ -2,7 +2,7 @@
 \section{Tasks}
 \label{sec:tasks}
 \begin{marginfigure}[0cm]
-\includegraphics[]{autopilot/autopilot/src/figures/side_17_protocol.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/side_17_protocol.pdf}
 \caption{Protocols consist of one or multiple tasks, tasks consist of one or multiple stages. Completion of all of a task's stages constitutes a trial, and meeting some graduation criterion like accuracy progresses a subject between tasks.}
 \label{fig:taskstx}
 \end{marginfigure}
@@ -56,14 +56,14 @@ class Nafc(Task):
 \captionlistentry{}%
 \label{lst:taskparams}%
 \begin{tikzpicture}[overlay, remember picture]
-\draw[<-] (pic cs:params) ++(0,0.1) to[left] ++(6.0,0) --++(0,0.75) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \textcolor{red}{1) A \texttt{Task\_Params} model} defines what parameters are needed to run the task.};
+\draw[<-] (pic cs:params) ++(0,0.1) to[left] ++(5.7,0) --++(0,0.75) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \textcolor{red}{1) A \texttt{Task\_Params} model} defines what parameters are needed to run the task.};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:tag)+(0,11pt)$) -- ($(pic cs:tag)-(0,14pt)$) coordinate[midway](midWay);
-\draw[-] (midWay)++(.15,0) --++(3.9,0) node[below right, yshift=8pt, text width=2.4in]{We use \texttt{Field} objects as in listing \ref{lst:biography}, and can also use some special types like \texttt{Sounds} to declare complex parameters};
-\draw[<-] (pic cs:units) ++(-0.1,-0.2) --++(0,-0.5) --++(7.2,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \texttt{units} work like numbers but avoid ambiguity, so eg. the \texttt{Solenoid} class below knows this is a volume, rather than a duration};
-\draw[<-] (pic cs:data) ++(0,0.1) to[left] ++(5.5,0) --++(0,-0.9) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{2) A \texttt{Trial\_Data} model} defines what data will be returned from the task. };
-\draw[<-] (pic cs:plot) ++(0,0.1) to[left] ++(8.7,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{3) A \texttt{PLOT} dictionary} maps the data output to graphical elements in the GUI. (In future versions this will be incorporated into the \texttt{Field}s of \texttt{TrialData})};
-\draw[<-] (pic cs:hardware) ++(0,0.1) to[left] ++(8.2,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{4) A \texttt{HARDWARE} dictionary} that describes what hardware will be needed to run the task.};
-\draw[<-] (pic cs:hwdetail) ++(0,0.1) to[left] ++(6.3,0)node[below right, yshift=8pt, text width=2.4in]{The specific implementation of the hardware (eg. where it is connected, how to interact with it) is independent of the task. The task just knows about a \texttt{PORT} named \mintinline{python}{'C'} that is a \texttt{Solenoid}.};
+\draw[-] (midWay)++(.15,0) --++(3.5,0) node[below right, yshift=8pt, text width=2.4in]{We use \texttt{Field} objects as in listing \ref{lst:biography}, and can also use some special types like \texttt{Sounds} to declare complex parameters};
+\draw[<-] (pic cs:units) ++(-0.1,-0.2) --++(0,-0.5) --++(6.8,0)node[below right, yshift=8pt, text width=2.4in]{\normalfont \texttt{units} work like numbers but avoid ambiguity, so eg. the \texttt{Solenoid} class below knows this is a volume, rather than a duration};
+\draw[<-] (pic cs:data) ++(0,0.1) to[left] ++(5.2,0) --++(0,-0.9) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{2) A \texttt{Trial\_Data} model} defines what data will be returned from the task. };
+\draw[<-] (pic cs:plot) ++(0,0.1) to[left] ++(8.3,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{3) A \texttt{PLOT} dictionary} maps the data output to graphical elements in the GUI. (In future versions this will be incorporated into the \texttt{Field}s of \texttt{TrialData})};
+\draw[<-] (pic cs:hardware) ++(0,0.1) to[left] ++(7.8,0)node[below right, yshift=8pt, text width=2.4in]{\textcolor{red}{4) A \texttt{HARDWARE} dictionary} that describes what hardware will be needed to run the task.};
+\draw[<-] (pic cs:hwdetail) ++(0,0.1) to[left] ++(5.9,0)node[below right, yshift=8pt, text width=2.4in]{The specific implementation of the hardware (eg. where it is connected, how to interact with it) is independent of the task. The task just knows about a \texttt{PORT} named \mintinline{python}{'C'} that is a \texttt{Solenoid}.};
 \end{tikzpicture}
 \end{listing}%
 %
@@ -110,18 +110,18 @@ The logic of tasks is described in one or a series of methods (stages). The orde
 \captionlistentry{}%
 \label{lst:methods}%
 \begin{tikzpicture}[overlay, remember picture]
-\draw[<-] (pic cs:init) ++(0,0.1) to[left] ++(3.5,0) --++(0,1.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{In Python, \mintinline{python}{def} defines new methods. The \mintinline{python}{__init__} method is called when a new object is initialized};
+\draw[<-] (pic cs:init) ++(0,0.1) to[left] ++(3.2,0) --++(0,1.5) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{In Python, \mintinline{python}{def} defines new methods. The \mintinline{python}{__init__} method is called when a new object is initialized};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:mgrs)+(0,22pt)$) -- ($(pic cs:mgrs)-(0,3pt)$) coordinate[midway](midWay);
-\draw[-] (midWay)++(.15,0) --++(2.05,0) --++(0,0.6) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{\hyperref[sec:managers]{Managers} control stimulus and reward delivery, so users can, for example, continually synthesize new stimuli or implement adaptive rewards};
+\draw[-] (midWay)++(.15,0) --++(1.75,0) --++(0,0.6) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{\hyperref[sec:managers]{Managers} control stimulus and reward delivery, so users can, for example, continually synthesize new stimuli or implement adaptive rewards};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:stages)+(0,8pt)$) -- ($(pic cs:stages)-(0,18pt)$) coordinate[midway](midWay);
-\draw[-] (midWay)++(.15,0) --++(1.5,0) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{Stages are combined into an object that (in this case) continually cycles through them when its \mintinline{python}{next()} method is called.};
-\draw[<-] (pic cs:start) ++(0,0.1) --++(6.35,0) --++(0,0) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{This starts the task by retrieving the first stage and then calling it.};
-\draw[<-] (pic cs:stim_mgr_2) ++(0,0.1) to[left] ++(2.85,0)node[below right, yshift=8pt, text width=2.4in]{The stimulus manager returns which port will be the target and the sound to be played.};
+\draw[-] (midWay)++(.15,0) --++(1.2,0) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{Stages are combined into an object that (in this case) continually cycles through them when its \mintinline{python}{next()} method is called.};
+\draw[<-] (pic cs:start) ++(0,0.1) --++(6.05,0) --++(0,0) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{This starts the task by retrieving the first stage and then calling it.};
+\draw[<-] (pic cs:stim_mgr_2) ++(0,0.1) to[left] ++(2.45,0)node[below right, yshift=8pt, text width=2.4in]{The stimulus manager returns which port will be the target and the sound to be played.};
 \draw[decorate, decoration={brace,amplitude=5pt}] ($(pic cs:triggerset)+(0,22pt)$) -- ($(pic cs:triggerset)-(0,20pt)$) coordinate[midway](midWay);
-\draw[-] (midWay)++(.15,0) --++(3.3,0) --++(0,0.4) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{A sequence of triggers is set: if the target port is poked, a reward will be delivered and the next stage will be called. A \mintinline{python}{lambda} function indicates not to call the method \textit{now}, but only when triggered.};
-\draw[<-] (pic cs:data1) ++(0,0.1) to[left] ++(2.75,0) --++(0,-0.25) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The task has a networking object that asynchronously streams data back to the user-facing terminal};
-\draw[<-] (pic cs:args) ++(0,0.1) to[left] ++(4.75,0)node[below right, yshift=8pt, text width=2.4in]{In this example, the response port is passed from the trigger handling function. If it matches the stored target variable, the animal answered correctly.};
-\draw[<-] (pic cs:callagain) ++(0,0.1) to[left] ++(6.25,0) --++(0,0.5) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{Finally, the task is repeated by calling the next stage.};
+\draw[-] (midWay)++(.15,0) --++(3.0,0) --++(0,0.4) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{A sequence of triggers is set: if the target port is poked, a reward will be delivered and the next stage will be called. A \mintinline{python}{lambda} function indicates not to call the method \textit{now}, but only when triggered.};
+\draw[<-] (pic cs:data1) ++(0,0.1) to[left] ++(2.45,0) --++(0,-0.25) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{The task has a networking object that asynchronously streams data back to the user-facing terminal};
+\draw[<-] (pic cs:args) ++(0,0.1) to[left] ++(4.35,0)node[below right, yshift=8pt, text width=2.4in]{In this example, the response port is passed from the trigger handling function. If it matches the stored target variable, the animal answered correctly.};
+\draw[<-] (pic cs:callagain) ++(0,0.1) to[left] ++(5.95,0) --++(0,0.5) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{Finally, the task is repeated by calling the next stage.};
 \end{tikzpicture}%
 \end{listing}%
 %
@@ -159,7 +159,7 @@ The 2AFC task described above could be easily implemented in a finite-state mach
 As an example, consider a maze-based task. In this task, the animal has to learn a particular route through a maze---it is not enough to reach the endpoint, but the animal has to follow a specific path to reach it (Figure \ref{fig:maze}). The arena is equipped with an actimeter that detects when the animal enters each area.
 
 \begin{marginfigure}[0.65cm]
-\includegraphics[]{autopilot/autopilot/src/figures/side_18_maze.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/side_18_maze.pdf}
 \caption{The subject must reach point \texttt{i} but only via the correct (green) path.}
 \label{fig:maze}
 \end{marginfigure}
@@ -207,8 +207,8 @@ class Maze(Task):
 \captionlistentry{}%
 \label{lst:maze}%
 \begin{tikzpicture}[overlay, remember picture]
-\draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(2.6,0) --++(0,1) --++(0.2,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
-\draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(4.25,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
+\draw[<-] (pic cs:callback) ++(0,0.1) to[left] ++(2.3,0) --++(0,1) --++(0.1,0)node[below right, yshift=8pt, text width=2.4in]{The actimeter is given a reference to the Maze task's \mintinline{python}{finished()} method, which it calls when the target position is reached};
+\draw[<-] (pic cs:equality) ++(0,0.1) to[left] ++(3.85,0)node[below right, yshift=8pt, text width=2.4in]{The sequence of \texttt{positions} is compared to the \texttt{target\_path} with \texttt{==}. If they match, the subject is rewarded!} ;
 \end{tikzpicture}
 \end{listing}
 
@@ -218,7 +218,7 @@ Even if we dramatically simplify the task by 1) assuming the animal never turns 
 
 While finite-state machines are relatively easy to implement and work well for simple tasks, they quickly become an impediment to even moderately complex tasks. Even for 2AFC tasks, many desirable features are difficult to implement with a finite state machine, such as: (1) graduation to a more difficult task depending on performance history, (2) adjusting reward volume based on learning rate, (3) selecting or synthesizing upcoming stimuli based on patterns of errors\citep{bakAdaptiveOptimalTraining2016}, etc. 
 
-Some of these problems are avoidable by using extended versions of finite state machines that allow for extra-state logic, but require additional complexity in the code running the state machines to accomodate, and with enough exceptions the clean systematicity that is the primary benefit of finite state machines is lost. Autopilot attempts to avoid these problems by providing \textit{tools} to program tasks and describe them without \textit{requiring a specified format}, balancing the increased complexity by scaffolding the broader ecosystem of the experiment like its output data, hardware control, etc. When possible, we have tried to avoid forcing people to change the way they think about their work to fit our "little universe"\sidenote[][-6.5cm]{We take inspiration from Aaron Swartz' description of another engineering project, the Semantic Web, that became too precious about its formalisms:\\"Instead of the “let’s just build something that works” attitude that made the Web (and the Internet) such a roaring success [...] they formed committees to form working groups to write drafts of ontologies that carefully listed (in 100-page Word documents) all possible things in the universe and the various properties they could have, and they spent hours in Talmudic debates over whether a washing machine was a kitchen appliance or a household cleaning device. [...] And instead of spending time building things, they’ve convinced people interested in these ideas that the first thing we need to do is write \textit{standards.} (To engineers, this is absurd from the start—standards are things you write \textit{after} you’ve got something working, not before!)"\citep{swartzAaronSwartzProgrammable2013}} and instead try to provide a set of tools that let researchers decide how they want to use them.
+Some of these problems are avoidable by using extended versions of finite state machines that allow for extra-state logic, but require additional complexity in the code running the state machines to accomodate, and with enough exceptions the clean systematicity that is the primary benefit of finite state machines is lost. Autopilot attempts to avoid these problems by providing \textit{tools} to program tasks and describe them without \textit{requiring a specified format}, balancing the increased complexity by scaffolding the broader ecosystem of the experiment like its output data, hardware control, etc. When possible, we have tried to avoid forcing people to change the way they think about their work to fit our "little universe"\sidenote{We take inspiration from Aaron Swartz' description of another engineering project, the Semantic Web, that became too precious about its formalisms:\\"Instead of the “let’s just build something that works” attitude that made the Web (and the Internet) such a roaring success [...] they formed committees to form working groups to write drafts of ontologies that carefully listed (in 100-page Word documents) all possible things in the universe and the various properties they could have, and they spent hours in Talmudic debates over whether a washing machine was a kitchen appliance or a household cleaning device. [...] And instead of spending time building things, they’ve convinced people interested in these ideas that the first thing we need to do is write \textit{standards.} (To engineers, this is absurd from the start—standards are things you write \textit{after} you’ve got something working, not before!)"\citep{swartzAaronSwartzProgrammable2013}} and instead try to provide a set of tools that let researchers decide how they want to use them.
 
 \begin{figure*}[hb!]
 \caption{State transition tree for a simplified maze task.}

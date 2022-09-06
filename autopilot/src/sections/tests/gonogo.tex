@@ -22,8 +22,8 @@
 
 We designed a visual go/no-go task as a proof of concept for distributing task elements across multiple Pis, and also for the presentation of visual stimuli (Figure \ref{fig:gonogo}, Table \ref{tab:gonogomat}). While the rest of the tests presented have been re-run, in the time since the intitial publication of the preprint we have not done substantial work on Autopilot's visual stimulus module, and so this section is presented as previously written using the v0.1.0 initial release.
 
-\begin{marginfigure}[-0cm]
-\includegraphics[]{autopilot/autopilot/src/figures/test_5_gonogo.pdf}
+\begin{marginfigure}[-6cm]
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/test_5_gonogo.pdf}
 \caption{Hardware distribution for the distributed go/no-go task. Red lines indicate physical connections between hardware components. The lick sensor, solenoid valve, and LED are physically bundled into one component represented as the mouse's microphone.}
 \label{fig:gonogo}
 \end{marginfigure}
@@ -35,7 +35,7 @@ One pilot controlled the operation of the task, including the coordination of a 
 We measured trigger (TTL pulse from the copilot) to visual stimulus onset latency using the measurement cursors of our oscilloscope as before. To detect the onset of the visual stimulus, we used a high-speed optical power meter attached to the top-left corner of our display monitor. The stimulus was a drifting Gabor grating drawn to fill half the horizontal and vertical width of the screen (\texttt{960 x 540px}), with a spatial frequency of \texttt{4cyc/960px} and temporal (drift) frequency of \texttt{1Hz}.
 
 \begin{marginfigure}[-0cm]
-\includegraphics[]{autopilot/autopilot/src/figures/test_6_visual_lags.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/test_6_visual_lags.pdf}
 \caption{Stacked dots are a histogram of individual observations (n=50) underneath the probability density (black line), red lines indicate quartiles.}
 \label{fig:vidlat}
 \end{marginfigure}
@@ -44,10 +44,8 @@ We observed a bimodal distribution of latencies (Quartiles: \texttt{28, 30, 36ms
 
 We further tested the Pi's framerate by using Psychopy's \href{https://github.com/psychopy/psychopy/blob/3.1/psychopy/demos/coder/timing/timeByFrames.py}{\texttt{timeByFrames}} test---a script that draws stimuli without any Autopilot components running---to see if the framerate limits were imposed by the hardware of the Raspberry Pi or overhead from Autopilot (Table \ref{tab:fpstests}). We tested a series of Gabor filters and \href{https://www.psychopy.org/api/visual/dotstim.html#psychopy.visual.DotStim}{random dot stimuli} (dots travel in random directions with equal velocity, default parameters) at different screen resolutions and stimulus complexities. The Raspberry Pi was capable of moderately high framerates (\texttt{>60 FPS}) for smaller, lower resolution stimuli, but struggled (\texttt{<30 FPS}) for full HD, fullscreen stimuli.
 
-\clearpage
-
 \begin{marginfigure}[0.5cm]
-\includegraphics[]{autopilot/autopilot/src/figures/test_7_fps.pdf}
+\includegraphics[width=\linewidth]{autopilot/autopilot/src/figures/test_7_fps.pdf}
 \caption{Probability density of framerates for 960 x 540px grating rendered at 1080p. Red lines indicate quartiles}
 \label{fig:framerate}
 \end{marginfigure}
