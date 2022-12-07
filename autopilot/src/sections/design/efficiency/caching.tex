@@ -1,0 +1,11 @@
+\subsection{Caching}
+
+Finite-state machines are only aware of the current state and the events that transition it to future states. They are thus incapable of exploiting the often predictable structure of behavioral tasks to precompute future states and precache stimuli. Further, to change task parameters between trials (eg. changing the rewarded side in a two-alternative forced-choice task), state machines need to be fully reconstructed and reuploaded to the device that runs them each time.
+
+Autopilot precomputes and caches as much as possible. Rather than wait "inside" a state, Autopilot prepares each of the next possible events and saves them for immediate execution when the appropriate trigger is received. Static stimuli are prepared once at the beginning of a behavioral session and stored in memory. Before their presentation, they are buffered to minimize latency.
+
+By providing full low-level documentation, we let researchers choose the balance between ease of use and performance themselves: it's possible to just call a sound's \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.play}{play()}} method, explicitly buffer it with its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.buffer}{buffer()}} method, or generate samples on the fly with its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/stim/sound/base.html\#autopilot.stim.sound.base.Jack_Sound.play_continuous}{play\_continuous()}} method. Similarly, messages can be sent with a networking node's \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/node.html\#autopilot.networking.node.Net_Node.send}{send()}} method, or prepared beforehand by explicitly making a \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/message.html\#autopilot.networking.message.Message}{Message}} and calling its \texttt{\href{https://docs.auto-pi-lot.com/en/latest/networking/message.html\#autopilot.networking.message.Message.serialize}{serialize()}} method.
+
+\vspace{16pt}
+
+Autopilot's efficient design lets it access the best of both worlds---the speed and responsiveness of compiled code on dedicated microprocessors and the accessibility and flexibility of interpreted code.

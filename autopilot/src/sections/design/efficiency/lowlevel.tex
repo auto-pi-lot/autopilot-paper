@@ -1,0 +1,33 @@
+\subsection{Leveraging Low-Level Libraries}
+\label{sec:lowlevel}
+
+\begin{margintable}[1.85cm]
+\caption{A few libraries Autopilot uses}
+\label{tab:libraries}
+\noindent\begin{tabularx}{\linewidth}{rX}
+\toprule
+ \textbf{\href{http://jackaudio.org/}{jack}} & realtime audio \\
+ \textbf{\href{http://abyz.me.uk/rpi/pigpio/index.html}{pigpio}} & GPIO control \\
+ \textbf{\href{http://zeromq.org/}{ZeroMQ}} & networking \\
+ \textbf{\href{https://www.qt.io/}{Qt}} & GUI \\
+ \bottomrule
+\end{tabularx}
+\end{margintable}
+
+Autopilot uses Python as a "glue" language, where it wraps and coordinates faster low-level compiled code\citep{vanrossumGlueItAll1998}.  
+Performance-critical components of Autopilot are thin wrappers around fast C libraries (Table \ref{tab:libraries}). As Autopilot's API matures, we intend to replace any performance-limiting Python code like its sound server and networking operations with compiled code exposed to python with tools like the C Foreign Function Interface (\href{https://cffi.readthedocs.io/en/latest/index.html}{CFFI}).
+
+Since Autopilot coordinates its low-level components in parallel rather putting everything inside one "main loop," Autopilot actually has \textit{better} temporal resolution than  single-threaded systems like Bpod or pyControl, despite the realtime nature of their dedicated processors (Table \ref{tab:precision}).
+
+\begin{margintable}
+\caption{Using pigpio as a dedicated I/O process gives autopilot greater measurement precision}
+\label{tab:precision}
+\noindent\begin{tabularx}{\linewidth}{rR}\toprule
+& Precision \\
+\midrule
+Autopilot (\href{http://abyz.me.uk/rpi/pigpio/pigpiod.html}{pigpio}) & $5\mu s$ \\
+\href{https://github.com/sanworks/Bpod_StateMachine_Firmware/blob/059d1e9195f5bb7d0d5cd7b33f56342eb5a3a55c/Dev/StateMachineFirmware/StateMachineFirmware.ino\#L196}{Bpod} & $100\mu s$ \\
+\href{https://github.com/pyControl/code/blob/28cf5ea28ca2764aeea829eba148adfa5239254a/pyControl/framework.py\#L228}{pyControl} & $1000\mu s$ \\
+\bottomrule
+\end{tabularx}
+\end{margintable}
